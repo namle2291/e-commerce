@@ -210,6 +210,21 @@ class userController {
             next(error);
         }
     }
+    async getAll(req, res, next) {
+        try {
+            const users = await User.find().select('-password -role -refreshToken -passwordResetToken');
+
+            if (!users) throw new Error("Not data!");
+
+            res.json({
+                success: true,
+                data: users
+            })
+
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new userController;
