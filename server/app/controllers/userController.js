@@ -80,6 +80,36 @@ class userController {
             next(error);
         }
     }
+    async logout(req, res, next) {
+        try {
+            // Lấy refresh token trong cookie 
+            const cookie = req.cookies;
+            // Kiếm tra có refresh token hay không
+            if (!cookie || !cookie.refresh_token) throw new Error("No refresh token in cookies");
+            // Kiểm tra refresh token của user trong DB
+            const user = await User.findOneAndUpdate({
+                refreshToken: cookie.refresh_token
+            }, {
+                refreshToken: ""
+            }, {
+                new: true
+            });
+
+            if (!user) throw new Error("Invalid refresh token");
+            // Nếu refresh token hợp lệ thì xóa khỏi cookie
+            res.clearCookie("refresh_token", {
+                httpOnly: true,
+                secure: true
+            });
+
+            res.json({
+                success: true,
+                mesage: "Logout success!"
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
     async getCurrentUser(req, res, next) {
         const {
             _id
@@ -99,17 +129,17 @@ class userController {
             if (!cookie || !cookie.refresh_token) throw new Error("Not found refresh token in cookies");
             // Kiếm tra refresh token có hợp lệ
             const rs = jwt.verify(cookie.refresh_token, process.env.TOKEN_SECRET);
-
+            // Kiểm tra refresh token trong DB có hợp lệ
             const user = await User.findOne({
                 _id: rs._id,
                 refreshToken: cookie.refresh_token
             });
 
             return res.json({
-                status: user ? true : false,
+                success: user ? true : false,
                 newRefreshToken: user ? generateAccessToken(user._id, user.role) : "Refresh token not matched"
             });
-            
+
         } catch (error) {
             next(error);
         }
