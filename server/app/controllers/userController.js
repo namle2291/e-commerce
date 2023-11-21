@@ -1,9 +1,9 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
-
+const sendMail = require("../../utils/sendMail");
 const {
     generateAccessToken,
-    generatePrefreshToken
+    generatePrefreshToken,
 } = require("../middlewares/jwt");
 
 class userController {
@@ -139,6 +139,72 @@ class userController {
                 success: user ? true : false,
                 newRefreshToken: user ? generateAccessToken(user._id, user.role) : "Refresh token not matched"
             });
+
+        } catch (error) {
+            next(error);
+        }
+    }
+    async forgotPassword(req, res, next) {
+        try {
+            // Lấy email từ request
+            const email = req.body.email;
+            // Validate email
+            if (!email) throw new Error("Missing email!!!");
+            // Kiểm tra user có tồn tại
+            const user = await User.findOne({
+                email
+            });
+            // Không tìm thấy user
+            if (!user) throw new Error("User not found!!!");
+
+            // Nếu tìm thấy sẽ tạo token PasswordChange và lưu vào DB
+            user.passwordChangeToken();
+            user.save();
+
+            // Tạo thẻ chứa nội dung trong mail
+            const html = `<p>Vui lòng click vào đường link sau đây để thay đổi 
+            mật khẩu của bạn. Lưu ý: đường link sẽ hết hạn sau 15 phút 
+            <a href='${process.env.API_URI}/users/reset-password?token=${user.passwordResetToken}'>Click me</a> </p>`
+            // Tạo payload
+            const payload = {
+                email: user.email,
+                html
+            }
+            // Gọi hàm sendMail và gửi payload
+            sendMail(payload);
+
+            res.json({
+                test: user.passwordResetToken
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+    async resetPassword(req, res, next) {
+        try {
+            const {
+                password,
+                token
+            } = req.body;
+
+            if (!password || !token) throw new Error("Missing inputs!");
+
+            const user = await User.findOne({
+                passwordResetToken: token
+            });
+
+            if (!user) throw new Error("Invalid reset token!");
+
+            user.password = password;
+            user.passwordChangeAt = Date.now();
+            user.passwordResetToken = undefined;
+            user.passwordResetExprises = undefined;
+            user.save();
+
+            res.json({
+                success: true,
+                message: "Password updated"
+            })
 
         } catch (error) {
             next(error);

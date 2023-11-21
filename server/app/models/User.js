@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const saltRounds = 10;
 const Schema = mongoose.Schema;
 
@@ -52,6 +53,9 @@ const userSchema = new Schema({
     passwordChangeAt: {
         type: String
     },
+    passwordResetToken: {
+        type: String
+    },
     passwordResetExprises: {
         type: String
     }
@@ -76,6 +80,14 @@ userSchema.methods = {
     isCorrectPassword: async function (password) {
         const res = await bcrypt.compare(password, this.password);
         return res;
+    },
+    passwordChangeToken: function () {
+        // Tạo random
+        const randomBytes = crypto.randomBytes(32).toString("hex");
+        this.passwordResetToken = crypto.createHash("sha256").update(randomBytes).digest("hex");
+        // Cập nhật thời gian hiệu lực 15 phút
+        this.passwordResetExprises = Date.now() * 15 * 60 * 1000;
+        return this.passwordResetToken;
     }
 }
 
