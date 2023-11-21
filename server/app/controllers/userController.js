@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const jwt = require('jsonwebtoken');
+
 const {
     generateAccessToken,
     generatePrefreshToken
@@ -55,16 +57,16 @@ class userController {
                 // Tạo access token
                 const access_token = generateAccessToken(response._id, response.role);
                 // Tạo prefresh token
-                const prefresh_token = generatePrefreshToken(response._id);
+                const refresh_token = generatePrefreshToken(response._id);
                 // Lưu prefresh token vào database
                 await User.findByIdAndUpdate(response._id, {
-                    refreshToken: prefresh_token
+                    refreshToken: refresh_token
                 }, {
                     new: true
                 })
-                res.cookie("prefresh_token", prefresh_token, {
+                // Lưu refresh token vào cookie
+                res.cookie("refresh_token", refresh_token, {
                     httpOnly: true,
-                    maxAge: 7 * 24 * 60 * 60 *1000
                 });
                 res.json({
                     success: true,
@@ -78,13 +80,39 @@ class userController {
             next(error);
         }
     }
-    async getCurrentUser(req,res,next){
-        const {uid} = req.user;
-        const user = User.findById(uid);
+    async getCurrentUser(req, res, next) {
+        const {
+            _id
+        } = req.user;
+        const user = await User.findById(_id).select("-password -role -refreshToken");
         res.json({
-            success: true,
-            user
+            success: user ? true : false,
+            result: user ? user : "User not found!!!"
         });
+    }
+    // Refresh token
+    async refreshToken(req, res, next) {
+        try {
+            // Lấy refresh token từ cookie
+            const cookie = req.cookies;
+            // Check refresh token có tồn tại
+            if (!cookie || !cookie.refresh_token) throw new Error("Not found refresh token in cookies");
+            // Kiếm tra refresh token có hợp lệ
+            const rs = jwt.verify(cookie.refresh_token, process.env.TOKEN_SECRET);
+
+            const user = await User.findOne({
+                _id: rs._id,
+                refreshToken: cookie.refresh_token
+            });
+
+            return res.json({
+                status: user ? true : false,
+                newRefreshToken: user ? generateAccessToken(user._id, user.role) : "Refresh token not matched"
+            });
+            
+        } catch (error) {
+            next(error);
+        }
     }
 }
 
