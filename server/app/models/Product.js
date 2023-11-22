@@ -1,68 +1,73 @@
-const mongoose = require('mongoose'); // Erase if already required
+const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
-var productSchema = new mongoose.Schema({
+var productSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      trim: true,
     },
     slug: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
     },
     price: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     description: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     category: {
-        type: mongoose.Types.ObjectId,
-        ref: "Category"
+      type: mongoose.Types.ObjectId,
+      ref: "Category",
     },
     brand: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     quantity: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     sold: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     images: {
-        type: Array,
+      type: Array,
     },
     color: {
-        type: String,
-        enum: ["Black", "Red", "Green"]
+      type: String,
+      enum: ["Black", "Red", "Green"],
     },
-    raitings: [{
+    raitings: [
+      {
         star: {
-            type: Number
+          type: Number,
         },
         postedBy: {
-            type: mongoose.Types.ObjectId,
-            ref: "User"
+          type: mongoose.Types.ObjectId,
+          ref: "User",
         },
         comment: {
-            type: String
-        }
-    }, ],
+          type: String,
+        },
+      },
+    ],
     totalRaitings: {
-        type: Number,
-        default: 0
-    }
-}, {
-    timestamps: true
-});
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 //Export the model
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model("Product", productSchema);

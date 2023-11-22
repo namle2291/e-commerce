@@ -1,94 +1,102 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const saltRounds = 10;
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     email: {
-        type: String,
-        require: true,
-        unique: true
+      type: String,
+      require: true,
+      unique: true,
     },
     last_name: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     first_name: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     mobile: {
-        type: String,
-        require: true,
-        unique: true
+      type: String,
+      require: true,
+      unique: true,
     },
     password: {
-        type: String,
-        require: true
+      type: String,
+      require: true,
     },
     role: {
-        type: String,
-        default: "user"
+      type: String,
+      default: "user",
     },
     cart: {
-        type: Array,
-        default: []
+      type: Array,
+      default: [],
     },
-    wishlist: [{
+    wishlist: [
+      {
         type: mongoose.Types.ObjectId,
-        ref: "Products"
-    }],
+        ref: "Products",
+      },
+    ],
     address: {
-        type: mongoose.Types.ObjectId,
-        ref: "Address"
+      type: mongoose.Types.ObjectId,
+      ref: "Address",
     },
     isBlocked: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     refreshToken: {
-        type: String
+      type: String,
     },
     passwordChangeAt: {
-        type: String
+      type: String,
     },
     passwordResetToken: {
-        type: String
+      type: String,
     },
     passwordResetExprises: {
-        type: String
-    }
-}, {
-    timestamps: true
-});
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 // Prev save
 userSchema.pre("save", async function (next) {
-    try {
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hash = await bcrypt.hash(this.password, salt);
-        this.password = hash;
-        next();
-    } catch (error) {
-        next(error);
-    }
-})
+  try {
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(this.password, salt);
+    this.password = hash;
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Define methods
 userSchema.methods = {
-    isCorrectPassword: async function (password) {
-        const res = await bcrypt.compare(password, this.password);
-        return res;
-    },
-    createpasswordChangeToken: function () {
-        // Tạo random
-        const randomBytes = crypto.randomBytes(32).toString("hex");
-        this.passwordResetToken = crypto.createHash("sha256").update(randomBytes).digest("hex");
-        // Cập nhật thời gian hiệu lực 15 phút
-        this.passwordResetExprises = Date.now() * 15 * 60 * 1000;
-        return this.passwordResetToken;
-    }
-}
+  isCorrectPassword: async function (password) {
+    const res = await bcrypt.compare(password, this.password);
+    return res;
+  },
+  createpasswordChangeToken: function () {
+    // Tạo random
+    const randomBytes = crypto.randomBytes(32).toString("hex");
+    this.passwordResetToken = crypto
+      .createHash("sha256")
+      .update(randomBytes)
+      .digest("hex");
+    // Cập nhật thời gian hiệu lực 15 phút
+    this.passwordResetExprises = Date.now() * 15 * 60 * 1000;
+    return this.passwordResetToken;
+  },
+};
 
 module.exports = mongoose.model("User", userSchema);
