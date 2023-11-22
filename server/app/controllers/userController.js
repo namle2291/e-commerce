@@ -126,10 +126,12 @@ class userController {
     async updateCurrentUser(req,res,next){
         try {
             const {_id} = req.user;
+            // Lấy trường role ra khỏi request
+            const {role, ...userData} = req.body;
 
-            if(Object.keys(req.body).length <= 0) throw new Error("Missing inputs");
+            if(Object.keys(userData).length <= 0) throw new Error("Missing inputs");
 
-            const user = await User.findByIdAndUpdate(_id, req.body, {new: true}).select("-password -role -refreshToken");
+            const user = await User.findByIdAndUpdate(_id, userData, {new: true}).select("-password -role -refreshToken");
 
             res.json({
                 success: user ? true : false,
