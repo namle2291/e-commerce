@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const sendMail = require("../../utils/sendMail");
+
 const {
     generateAccessToken,
     generatePrefreshToken,
@@ -110,6 +111,7 @@ class userController {
             next(error);
         }
     }
+    // Lấy thông tin user hiện tại
     async getCurrentUser(req, res, next) {
         const {
             _id
@@ -119,6 +121,59 @@ class userController {
             success: user ? true : false,
             result: user ? user : "User not found!!!"
         });
+    }
+    // Cập nhật user hiện tại
+    async updateCurrentUser(req,res,next){
+        try {
+            const {_id} = req.user;
+
+            if(Object.keys(req.body).length <= 0) throw new Error("Missing inputs");
+
+            const user = await User.findByIdAndUpdate(_id, req.body, {new: true}).select("-password -role -refreshToken");
+
+            res.json({
+                success: user ? true : false,
+                user
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+    // Cập nhật user bởi admin
+    async updateUserByAdmin(req,res,next){
+        try {
+            const {uid} = req.params;
+
+            if(!uid) throw new Error("Not found user id");
+
+            if(Object.keys(req.body).length <= 0) throw new Error("Missing inputs");
+
+            const user = await User.findByIdAndUpdate(uid, req.body, {new: true});
+
+            res.json({
+                success: user ? true : false,
+                user
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+    // Delete user bởi admin
+    async deleteUserByAdmin(req,res,next){
+        try {
+            const {uid} = req.params;
+
+            if(!uid) throw new Error("Not found user id");
+
+            const user = await User.findByIdAndDelete(uid);
+
+            res.json({
+                success: user ? true : false,
+                user
+            })
+        } catch (error) {
+            next(error);
+        }
     }
     // Refresh token
     async refreshToken(req, res, next) {
@@ -158,7 +213,7 @@ class userController {
             if (!user) throw new Error("User not found!!!");
 
             // Nếu tìm thấy sẽ tạo token PasswordChange và lưu vào DB
-            user.passwordChangeToken();
+            user.createpasswordChangeToken();
             user.save();
 
             // Tạo thẻ chứa nội dung trong mail

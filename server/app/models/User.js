@@ -81,7 +81,7 @@ userSchema.methods = {
         const res = await bcrypt.compare(password, this.password);
         return res;
     },
-    passwordChangeToken: function () {
+    createpasswordChangeToken: function () {
         // Tạo random
         const randomBytes = crypto.randomBytes(32).toString("hex");
         this.passwordResetToken = crypto.createHash("sha256").update(randomBytes).digest("hex");
