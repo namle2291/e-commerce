@@ -153,10 +153,6 @@ class productController {
           { _id: pid, "raitings.postedBy": _id },
           { $set: { "raitings.$.star": star, "raitings.$.comment": comment } }
         );
-        res.json({
-          success: true,
-          mes: "Da update",
-        });
       } else {
         // Nếu chưa thì tạo mới
         const response = await Product.findByIdAndUpdate(
@@ -164,12 +160,21 @@ class productController {
           { $push: { raitings: { star, comment, postedBy: _id } } },
           { new: true }
         );
-        res.json({
-          success: true,
-          product: response,
-          mes: "Da them raiting",
-        });
       }
+
+      // Cập nhật xếp hạng trung bình
+      const updatedProduct = await Product.findById(pid);
+      const totalRaiting = updatedProduct.raitings.length;
+      // Tính tổng star
+      const sumRaitings = updatedProduct.raitings.reduce((sum, el) => sum + el.star, 0);
+      // Lấy tổng star chia cho số lượng star
+      updatedProduct.totalRaitings = sumRaitings / totalRaiting;
+      updatedProduct.save();
+
+      res.json({
+        success: true,
+        product: updatedProduct,
+      });
     } catch (error) {
       next(error);
     }
