@@ -166,7 +166,10 @@ class productController {
       const updatedProduct = await Product.findById(pid);
       const totalRaiting = updatedProduct.raitings.length;
       // Tính tổng star
-      const sumRaitings = updatedProduct.raitings.reduce((sum, el) => sum + el.star, 0);
+      const sumRaitings = updatedProduct.raitings.reduce(
+        (sum, el) => sum + el.star,
+        0
+      );
       // Lấy tổng star chia cho số lượng star
       updatedProduct.totalRaitings = sumRaitings / totalRaiting;
       updatedProduct.save();
@@ -174,6 +177,28 @@ class productController {
       res.json({
         success: true,
         product: updatedProduct,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async uploadImage(req, res, next) {
+    try {
+      const { pid } = req.params;
+
+      if (!req.files) throw new Error("File not found!");
+
+      const product = await Product.findByIdAndUpdate(
+        pid,
+        {
+          $push: { images: { $each: req.files.map((el) => el.path) } },
+        },
+        { new: true }
+      );
+
+      res.json({
+        success: true,
+        product,
       });
     } catch (error) {
       next(error);
