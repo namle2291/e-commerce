@@ -32,10 +32,13 @@ const userSchema = new Schema(
       type: String,
       default: "user",
     },
-    cart: {
-      type: Array,
-      default: [],
-    },
+    cart: [
+      {
+        product: { type: mongoose.Types.ObjectId, ref: "Product" },
+        color: { type: String },
+        quantity: { type: Number },
+      },
+    ],
     wishlist: [
       {
         type: mongoose.Types.ObjectId,
@@ -43,8 +46,7 @@ const userSchema = new Schema(
       },
     ],
     address: {
-      type: mongoose.Types.ObjectId,
-      ref: "Address",
+      type: Array,
     },
     isBlocked: {
       type: Boolean,
