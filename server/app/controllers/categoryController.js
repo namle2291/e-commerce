@@ -1,5 +1,7 @@
 const Category = require("../models/Category");
 
+const categoriesData = require("../../data/categories");
+
 class categoryController {
   async getAll(req, res, next) {
     try {
@@ -60,6 +62,15 @@ class categoryController {
       next(error);
     }
   }
+  async insertData(req, res, next) {
+    try {
+      categoriesData.map(async (el) => {
+        await Category.create({ title: el.name });
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
-module.exports = new categoryController;
+module.exports = new categoryController();
