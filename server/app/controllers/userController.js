@@ -59,7 +59,7 @@ class userController {
 
       if (response && (await response.isCorrectPassword(password))) {
         // Lấy ra một số trường cần thiết
-        const { password, role, ...userData } = response.toObject();
+        const { password, role,passwordChangeAt,isBlocked,updatedAt, ...userData } = response.toObject();
         // Tạo access token
         const access_token = generateAccessToken(response._id, response.role);
         // Tạo prefresh token
