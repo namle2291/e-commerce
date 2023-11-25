@@ -6,7 +6,7 @@ import AdminLayout from "./components/layouts/AdminLayout/AdminLayout";
 
 function App() {
   return (
-    <div className="App font-popin h-[1000px]">
+    <div className="font-popin h-[1000px] border">
       <Router>
         <Routes>
           <Route path="/*" element={<DefaultLayout />} />
