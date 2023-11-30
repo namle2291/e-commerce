@@ -9,7 +9,7 @@ function Navbar() {
         <ul className="flex">
           {navbars &&
             navbars.map((el, index) => (
-              <li className="uppercase text-[14px] pr-[30px]">
+              <li key={index} className="uppercase text-[14px] pr-[30px]">
                 <NavLink
                   to={el.path}
                   className={({ isActive }) =>

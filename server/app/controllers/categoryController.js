@@ -5,7 +5,7 @@ const categoriesData = require("../../data/categories");
 class categoryController {
   async getAll(req, res, next) {
     try {
-      const categories = await Category.find();
+      const categories = await Category.find().select("_id title");
       res.json({
         success: true,
         data: categories,
