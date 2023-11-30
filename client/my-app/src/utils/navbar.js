@@ -6,13 +6,13 @@ export const navbars = [
   },
   {
     id: 2,
-    path: "/blog",
-    name: "Blog",
+    path: "/products",
+    name: "Products",
   },
   {
     id: 3,
-    path: "/about",
-    name: "About",
+    path: "/blogs",
+    name: "Blogs",
   },
   {
     id: 4,
