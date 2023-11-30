@@ -36,27 +36,26 @@ export default function Header() {
           <div className="flex items-center pl-[20px] min-h-[40px] w-[157px] border-l">
             <ul className="flex items-center justify-between h-full w-full">
               <li className="h-full">
-                <a href="/">
-                  <span>
-                    <i
-                      className="fa fa-heart-o text-[20px] text-main_color"
-                      aria-hidden="true"
-                    ></i>
-                  </span>
-                </a>
-              </li>
-              <li className="ml-[20px] pt-[10px] pl-[20px] min-h-[40px] border-l flex-1">
                 <a href="/" className="">
                   <span className="mr-[8px]">
                     <i
-                      className="fa fa-shopping-bag text-[20px]  text-main_color"
+                      className="fa fa-shopping-bag text-[20px] text-main_color"
                       aria-hidden="true"
                     ></i>
                   </span>
-                  <span className="">
+                  <span>
                     <span className="text-[14px]">1</span>
                     <span className="ml-1 text-[14px]">item</span>
                   </span>
+                </a>
+              </li>
+              <li className="ml-[20px] min-h-[40px] border-l pl-[20px] flex-1 h-full flex items-center">
+                <a href="/">
+                  <img
+                    width={35}
+                    src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                    alt=""
+                  />
                 </a>
               </li>
             </ul>
