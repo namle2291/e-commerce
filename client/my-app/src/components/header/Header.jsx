@@ -1,14 +1,13 @@
 import React from "react";
 
+import logo from "../../assets/img/logo.png";
+
 export default function Header() {
   return (
     <div className="wrapper">
       <div className="py-[35px] flex">
         <div className="w-[25%]">
-          <img
-            src="	https://digital-world-2.myshopify.com/cdn/shop/files/logo_digital_new_250x.png?v=1613166683"
-            alt=""
-          />
+          <img src={logo} alt="" />
         </div>
         <div className="w-[75%] pl-[25px] flex items-center justify-end">
           <div className="px-[20px] min-h-[40px]">

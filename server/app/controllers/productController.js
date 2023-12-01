@@ -35,11 +35,13 @@ class productController {
       // Phân trang
       // 1 2 3 4 5
       // (2 - 1) * 2
-      let page = +req.query.page || 1; // thêm dấu + convert sang number
-      let limit = +req.query.limit || 2; // thêm dấu + convert sang number
-      let skip = (page - 1) * limit;
+      if (req.query.page && req.query.limit) {
+        let page = +req.query.page || 1; // thêm dấu + convert sang number
+        let limit = +req.query.limit || 2; // thêm dấu + convert sang number
+        let skip = (page - 1) * limit;
 
-      query.skip(skip).limit(limit);
+        query.skip(skip).limit(limit);
+      }
 
       const products = await query;
 
