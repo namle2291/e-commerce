@@ -10,7 +10,7 @@ export const renderStar = (number) => {
       </span>
     );
   }
-  for (let i = 5; i >= number; i--) {
+  for (let i = 5; i > number; i--) {
     stars.push(
       <span key={i}>
         <IoStarOutline />

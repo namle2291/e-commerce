@@ -21,7 +21,7 @@ const tabs = [
 var settings = {
   dots: false,
   infinite: false,
-  speed: 500,
+  speed: 1000,
   slidesToShow: 3,
   slidesToScroll: 1,
   autoplay: true,
@@ -46,7 +46,7 @@ export default function BestSeller() {
   }, []);
 
   return (
-    <div className="">
+    <div className="overflow-hidden">
       <ul className="flex mb-[20px] pb-[15px] border-b-2 border-red-600">
         {tabs &&
           tabs.map((item, index) => (
@@ -62,7 +62,7 @@ export default function BestSeller() {
             </li>
           ))}
       </ul>
-      <div className="ml-[-20px] overflow-hidden">
+      <div className="ml-[-20px]">
         <Slider {...settings}>
           {tabActive === 1 &&
             bestSeller?.map((item, index) => (
