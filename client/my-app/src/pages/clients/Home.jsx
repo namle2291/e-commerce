@@ -1,9 +1,9 @@
 import React from "react";
-import Banner from "../../components/banner/Banner";
-import SideBar from "../../components/sidebar/SideBar";
-import BestSeller from "../../components/bestSeller/BestSeller";
-import DailyDeal from "../../components/dailyDeal/DailyDeal";
-import FeaturedProduct from "../../components/featuredProduct/FeaturedProduct";
+import Banner from "../../components/Banner/Banner";
+import SideBar from "../../components/SideBar/SideBar";
+import BestSeller from "../../components/BestSeller/BestSeller";
+import DailyDeal from "../../components/DailyDeal/DailyDeal";
+import FeaturedProduct from "../../components/FeaturedProduct/FeaturedProduct";
 
 function Home() {
   return (

@@ -26,7 +26,7 @@ function SideBar() {
           categories.map((item, index) => (
             <li
               key={index}
-              className="uppercase pt-[15px] pr-[20px] pb-[14px] pl-[20px] "
+              className="pt-[15px] pr-[20px] pb-[14px] pl-[20px] "
             >
               <NavLink to={"/"}>{item.title}</NavLink>
             </li>

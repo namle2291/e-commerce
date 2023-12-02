@@ -1,10 +1,12 @@
 import React from "react";
-import Header from "../../header/Header";
-import Navbar from "../../navbar/Navbar";
+import Header from "../../Header/Header";
+import Navbar from "../../NavBar/Navbar";
+import TopHeader from "../../TopHeader/TopHeader";
 
 function DefaultLayout({ children }) {
   return (
-    <div className="">
+    <div>
+      <TopHeader />
       <Header />
       <Navbar />
       <div className="wrapper">{children}</div>

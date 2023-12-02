@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import Product from "../product/Product";
+import Product from "../Product/Product";
 import { httpRequest } from "../../axios/custom-axios";
 
 const tabs = [
@@ -31,16 +31,30 @@ export default function BestSeller() {
   const [tabActive, setTabActive] = useState(1);
   const [bestSeller, setBestSeller] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
+  const [tablets, setTablets] = useState([]);
 
   useEffect(() => {
     const response = Promise.all([
-      httpRequest.get("/products", { params: { sort: "-sold" } }),
-      httpRequest.get("/products", { params: { sort: "createdAt" } }),
+      httpRequest.get("/products", {
+        params: { page: 1, limit: 10, totalRaitings: 5, sort: "-sold" },
+      }),
+      httpRequest.get("/products", {
+        params: { page: 1, limit: 10, totalRaitings: 5, sort: "-createdAt" },
+      }),
+      httpRequest.get("/products", {
+        params: {
+          page: 1,
+          limit: 10,
+          totalRaitings: 5,
+          category: "656a9e866f1a6cf01739c48c",
+        },
+      }),
     ]);
     response.then((res) => {
       if (res) {
         setBestSeller(res[0]);
         setNewArrivals(res[1]);
+        setTablets(res[2]);
       }
     });
   }, []);
@@ -77,7 +91,7 @@ export default function BestSeller() {
               </div>
             ))}
           {tabActive === 3 &&
-            newArrivals?.map((item, index) => (
+            tablets?.map((item, index) => (
               <div key={index} className="pl-[20px]">
                 <Product data={item} isNew={true} />
               </div>
