@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
+const Category = require("../models/Category");
 const slugify = require("slugify");
+const productData = require("../../data/data2");
 
 class productController {
   async getAll(req, res, next) {
@@ -201,6 +203,53 @@ class productController {
       res.json({
         success: true,
         product,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async insertData(req, res, next) {
+    try {
+      productData.map(async (el) => {
+        const catName = el["category"][1];
+
+        let pd = {};
+
+        pd.title = el["name"];
+        pd.slug =
+          slugify(el["name"], {
+            locale: "vi",
+          }) +
+          "-" +
+          Math.ceil(Math.random() * 100);
+        pd.price = el["price"].split(",")[0].split(".").join("");
+        pd.thumb = el["thumb"];
+        pd.images = el["images"];
+        pd.description = el["description"];
+        pd.brand = el["name"].split(" ")[0];
+        pd.totalRaitings = Math.ceil(Math.random() * 5);
+        pd.quantity = Math.ceil(Math.random() * 200);
+        pd.sold = Math.ceil(Math.random() * 100);
+        pd.raitings = {
+          star: Math.ceil(Math.random() * 5),
+          postedBy: new mongoose.Types.ObjectId("655d6215c1cbfd8e16d1321e"),
+          comment: "San pham tot",
+        };
+
+        const colorArr = el["variants"].find((el) => el["label"] === "Color");
+        if (colorArr) {
+          pd.color = colorArr["variants"][0];
+        } else {
+          pd.color = undefined;
+        }
+
+        const categoryRes = await Category.findOne({ title: catName });
+
+        if (categoryRes) {
+          pd.category = new mongoose.Types.ObjectId(categoryRes._id);
+        }
+        await Product.create(pd);
+        console.log("Đã thêm sản phẩm: " + el["name"]);
       });
     } catch (error) {
       next(error);

@@ -7,6 +7,7 @@ var categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    brand: { type: Array },
   },
   { timestamps: true }
 );

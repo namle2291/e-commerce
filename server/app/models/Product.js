@@ -11,7 +11,7 @@ var productSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
       lowercase: true,
     },
     price: {
@@ -19,7 +19,7 @@ var productSchema = new mongoose.Schema(
       required: true,
     },
     description: {
-      type: String,
+      type: Array,
       required: true,
     },
     category: {
@@ -41,9 +41,9 @@ var productSchema = new mongoose.Schema(
     images: {
       type: Array,
     },
+    thumb: { type: String },
     color: {
       type: String,
-      enum: ["Black", "Red", "Green"],
     },
     raitings: [
       {

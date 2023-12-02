@@ -1,6 +1,6 @@
 const Category = require("../models/Category");
 
-const categoriesData = require("../../data/categories");
+const categoryData = require("../../data/category");
 
 class categoryController {
   async getAll(req, res, next) {
@@ -64,8 +64,8 @@ class categoryController {
   }
   async insertData(req, res, next) {
     try {
-      categoriesData.map(async (el) => {
-        await Category.create({ title: el.name });
+      categoryData.map(async (el) => {
+        await Category.create({ title: el.cate, brand: el.brand });
       });
     } catch (error) {
       next(error);

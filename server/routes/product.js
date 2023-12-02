@@ -15,6 +15,8 @@ router.put(
   productController.uploadImage
 );
 
+router.get("/insert", productController.insertData);
+
 router.get("/:pid", verifyAccessToken, productController.show);
 router.put("/:pid", verifyAccessToken, productController.update);
 router.delete("/:pid", verifyAccessToken, isAdmin, productController.delete);

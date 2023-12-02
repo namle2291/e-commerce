@@ -32,24 +32,24 @@ export default function DailyDeal() {
   }, []);
 
   useEffect(() => {
-    timer.current = setInterval(() => {
-      let now = new Date().getTime();
-      let remaining = dateEnd - now;
+    // timer.current = setInterval(() => {
+    //   let now = new Date().getTime();
+    //   let remaining = dateEnd - now;
 
-      let hours = Math.floor(
-        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+    //   let hours = Math.floor(
+    //     (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    //   );
 
-      let minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-      let seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-      setHours(hours);
-      setMinutes(minutes);
-      setSeconds(seconds);
-    }, 1000);
+    //   let minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    //   let seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    //   setHours(hours);
+    //   setMinutes(minutes);
+    //   setSeconds(seconds);
+    // }, 1000);
 
-    return () => {
-      clearInterval(timer.current);
-    };
+    // return () => {
+    //   clearInterval(timer.current);
+    // };
   }, []);
 
   return (
