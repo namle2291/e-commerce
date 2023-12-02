@@ -5,11 +5,22 @@ const categoryData = require("../../data/category");
 class categoryController {
   async getAll(req, res, next) {
     try {
-      const categories = await Category.find().select("_id title");
+      const query = Category.find().select("_id title brand");
+
+      if (req.query.page && req.query.limit) {
+        let page = +req.query.page || 1; // thêm dấu + convert sang number
+        let limit = +req.query.limit || 2; // thêm dấu + convert sang number
+        let skip = (page - 1) * limit;
+        query.skip(skip).limit(limit);
+      }
+
+      const categories = await query;
+
       res.json({
         success: true,
         data: categories,
       });
+
     } catch (error) {
       next(error);
     }

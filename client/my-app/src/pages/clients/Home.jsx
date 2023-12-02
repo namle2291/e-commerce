@@ -4,6 +4,8 @@ import SideBar from "../../components/SideBar/SideBar";
 import BestSeller from "../../components/BestSeller/BestSeller";
 import DailyDeal from "../../components/DailyDeal/DailyDeal";
 import FeaturedProduct from "../../components/FeaturedProduct/FeaturedProduct";
+import NewArrival from "../../components/NewArrival/NewArrival";
+import HotCollection from "../../components/HotCollection/HotCollection";
 
 function Home() {
   return (
@@ -50,6 +52,12 @@ function Home() {
             alt=""
           />
         </div>
+      </div>
+      <div className="mb-[20px]">
+        <NewArrival />
+      </div>
+      <div className="mb-[20px]">
+        <HotCollection />
       </div>
     </div>
   );

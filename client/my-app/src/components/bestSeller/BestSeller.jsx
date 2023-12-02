@@ -20,7 +20,7 @@ const tabs = [
 
 var settings = {
   dots: false,
-  infinite: false,
+  infinite: true,
   speed: 1000,
   slidesToShow: 3,
   slidesToScroll: 1,
@@ -45,7 +45,7 @@ export default function BestSeller() {
         params: {
           page: 1,
           limit: 10,
-          totalRaitings: 5,
+          // totalRaitings: 5,
           category: "656a9e866f1a6cf01739c48c",
         },
       }),
@@ -60,7 +60,7 @@ export default function BestSeller() {
   }, []);
 
   return (
-    <div className="overflow-hidden">
+    <div>
       <ul className="flex mb-[20px] pb-[15px] border-b-2 border-red-600">
         {tabs &&
           tabs.map((item, index) => (
@@ -76,23 +76,23 @@ export default function BestSeller() {
             </li>
           ))}
       </ul>
-      <div className="ml-[-20px]">
+      <div className="overflow-hidden">
         <Slider {...settings}>
           {tabActive === 1 &&
             bestSeller?.map((item, index) => (
-              <div key={index} className="pl-[20px]">
+              <div key={index}>
                 <Product data={item} />
               </div>
             ))}
           {tabActive === 2 &&
             newArrivals?.map((item, index) => (
-              <div key={index} className="pl-[20px]">
+              <div key={index}>
                 <Product data={item} isNew={true} />
               </div>
             ))}
           {tabActive === 3 &&
             tablets?.map((item, index) => (
-              <div key={index} className="pl-[20px]">
+              <div key={index}>
                 <Product data={item} isNew={true} />
               </div>
             ))}

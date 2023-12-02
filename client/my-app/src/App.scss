@@ -1,12 +1,12 @@
 button.slick-next {
   &::before {
-    width: 80px;
-    height: 80px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-left: -80px;
+    align-items: center;
+    width: 60px;
+    height: 60px;
     background: #eee;
+    margin-left: -63px;
     content: "\276F";
     color: gray;
     font-size: 30px;
@@ -16,16 +16,23 @@ button.slick-next {
 button.slick-prev {
   z-index: 1;
   &::before {
-    margin-left: 40px;
-    width: 80px;
-    height: 80px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    margin-left: 25px;
+    width: 60px;
+    height: 60px;
     background: #eee;
     content: "\276E";
     color: gray;
     font-size: 30px;
     z-index: 1;
   }
+}
+
+.slick-list {
+  margin-left: -15px !important;
+}
+.slick-slide > div {
+  padding: 0 15px;
 }
