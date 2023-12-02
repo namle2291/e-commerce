@@ -1,6 +1,5 @@
 // layouts
 import DefaultLayout from "../components/layouts/DefaultLayout/DefaultLayout";
-import OnlyHeader from "../components/layouts/OnlyHeader/OnlyHeader";
 // pages
 import Home from "../pages/clients/Home";
 import Product from "../pages/clients/Product";
@@ -15,17 +14,17 @@ const publicRouter = [
   },
   {
     path: "/products",
-    layout: OnlyHeader,
+    layout: DefaultLayout,
     element: Product,
   },
   {
     path: "/blogs",
-    layout: OnlyHeader,
+    layout: DefaultLayout,
     element: Blog,
   },
   {
     path: "*",
-    layout: OnlyHeader,
+    layout: DefaultLayout,
     element: NotFound,
   },
 ];

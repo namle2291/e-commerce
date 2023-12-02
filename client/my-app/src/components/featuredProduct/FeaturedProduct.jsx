@@ -9,7 +9,7 @@ export default function FeaturedProduct() {
   useEffect(() => {
     httpRequest
       .get("/products", {
-        params: { limit: 9 },
+        params: { page: 1, limit: 9 },
       })
       .then((res) => {
         setFeaturedProduct(res);
@@ -32,8 +32,8 @@ export default function FeaturedProduct() {
             <div key={index} className="border p-[15px] flex items-center">
               <div className="w-[81px] h-[81px] mr-[20px]">
                 <img
-                  src="https://digital-world-2.myshopify.com/cdn/shop/products/z4_370x.jpg?v=1491404851"
-                  alt=""
+                  src={item.thumb}
+                  alt={item.title}
                   className="w-full h-full object-cover"
                 />
               </div>

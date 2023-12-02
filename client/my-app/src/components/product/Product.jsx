@@ -22,8 +22,8 @@ export default function Product({ data, isNew = false }) {
         />
         <Link to={""}>
           <img
-            src="https://digital-world-2.myshopify.com/cdn/shop/products/Untitled-1_31cc1c0e-ac34-4c8e-946a-a5e30acf6b1a_345x550.jpg?v=1491404855"
-            alt=""
+            src={data.thumb}
+            alt={data.title}
             className="w-full h-full object-cover"
           />
         </Link>
