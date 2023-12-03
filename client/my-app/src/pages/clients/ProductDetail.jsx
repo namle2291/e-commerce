@@ -12,6 +12,7 @@ import { MdLocalShipping } from "react-icons/md";
 import { FaGift } from "react-icons/fa6";
 import { BiSolidShare } from "react-icons/bi";
 import { GiRotaryPhone } from "react-icons/gi";
+import RelatedProduct from "../../components/RelatedProduct/RelatedProduct";
 
 const tabs = [
   {
@@ -92,12 +93,13 @@ function ProductDetail() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [pid]);
 
   return (
     <>
       {product && (
         <div>
+          {/* Product images */}
           <div className="py-[15px] mb-[20px]">
             <h3 className="font-semibold mb-[10px]">{product.title}</h3>
             <nav className="text-[14px] flex items-center gap-1 text-gray-500">
@@ -108,6 +110,7 @@ function ProductDetail() {
               <span>{product.title}</span>
             </nav>
           </div>
+          {/* Product info */}
           <div className="flex">
             <div className="flex flex-col">
               <div
@@ -220,13 +223,17 @@ function ProductDetail() {
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-2 text-[13px] uppercase hover:text-main_color">
-            <span>
-              <ArrowLongLeftIcon />
-            </span>{" "}
-            <span>Back to {product.category.title}</span>
+          {/* Back */}
+          <div className="text-[13px] uppercase hover:text-main_color">
+            <Link to={""} className="flex justify-center items-center gap-2">
+              <span>
+                <ArrowLongLeftIcon />
+              </span>{" "}
+              <span>Back to {product.category.title}</span>
+            </Link>
           </div>
           <div className="border my-[30px]">
+            {/* Tabs */}
             <div className="flex gap-1">
               {tabs.map((item) => (
                 <span
@@ -242,6 +249,7 @@ function ProductDetail() {
                 </span>
               ))}
             </div>
+            {/* Reviewers */}
             <div className="p-[20px]">
               <h2 className="font-semibold">CUSTOMER REVIEWS</h2>
               <div className="mt-[20px]">
@@ -265,6 +273,8 @@ function ProductDetail() {
               </div>
             </div>
           </div>
+          {/* Related Product */}
+          <RelatedProduct />
         </div>
       )}
     </>
