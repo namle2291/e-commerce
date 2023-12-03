@@ -9,10 +9,13 @@ import AdminLayout from "./components/layouts/AdminLayout/AdminLayout";
 
 import { publicRouter } from "./routes/routes";
 import { Fragment } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <div className="font-popin">
+      <ToastContainer />
       <Router>
         <Routes>
           {publicRouter &&

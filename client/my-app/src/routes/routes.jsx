@@ -6,12 +6,18 @@ import Product from "../pages/clients/Product";
 import Blog from "../pages/clients/Blog";
 import NotFound from "../pages/notfound/NotFound";
 import ProductDetail from "../pages/clients/ProductDetail";
+import Login from "../pages/clients/Login";
 
 const publicRouter = [
   {
     path: "/",
     layout: DefaultLayout,
     element: Home,
+  },
+  {
+    path: "/login",
+    layout: null,
+    element: Login,
   },
   {
     path: "/products",

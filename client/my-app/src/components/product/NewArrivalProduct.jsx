@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
 import new_label from "../../assets/img/new.png";
 import trending_label from "../../assets/img/trending.png";
 import { formatPrice } from "../../utils/formatPrice";

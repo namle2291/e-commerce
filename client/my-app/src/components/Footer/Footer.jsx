@@ -19,7 +19,7 @@ export default function Footer() {
             />
             <div className="absolute right-0 top-0 bottom-0 flex items-center text-white px-[25px]">
               <span>
-                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <i className="fa fa-envelope" aria-hidden="true"></i>
               </span>
             </div>
           </div>
