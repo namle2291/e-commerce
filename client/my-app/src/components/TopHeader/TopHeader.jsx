@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function TopHeader() {
   return (
@@ -16,7 +17,9 @@ export default function TopHeader() {
         </div>
         <div>
           <ul className="flex items-center">
-            <li className="px-[10px]">Account</li>
+            <li className="px-[10px]">
+              <Link to={"/login"}>Sign In or Create Account</Link>
+            </li>
             <li className="px-[10px] border-l border-l-[rgba(255,255,255,.4)]">
               <i className="fa fa-facebook" aria-hidden="true"></i>
             </li>

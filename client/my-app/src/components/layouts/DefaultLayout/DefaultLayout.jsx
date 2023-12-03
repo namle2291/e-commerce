@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../Header/Header";
 import Navbar from "../../NavBar/Navbar";
 import TopHeader from "../../TopHeader/TopHeader";
+import Footer from "../../Footer/Footer";
 
 function DefaultLayout({ children }) {
   return (
@@ -10,6 +11,7 @@ function DefaultLayout({ children }) {
       <Header />
       <Navbar />
       <div className="wrapper">{children}</div>
+      <Footer />
     </div>
   );
 }
