@@ -128,7 +128,9 @@ class productController {
 
       const product = await Product.findOne({
         _id: pid,
-      });
+      })
+        .populate("category", "title")
+        .populate("raitings.postedBy", "first_name last_name");
 
       res.json({
         success: true,

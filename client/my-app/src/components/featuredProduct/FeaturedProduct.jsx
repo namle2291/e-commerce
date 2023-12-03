@@ -13,7 +13,7 @@ export default function FeaturedProduct() {
         params: { page: 1, limit: 9 },
       })
       .then((res) => {
-        setFeaturedProduct(res);
+        setFeaturedProduct(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -31,7 +31,10 @@ export default function FeaturedProduct() {
         {featuredProducts &&
           featuredProducts.map((item, index) => (
             <div key={index} className="border p-[15px] flex items-center">
-              <Link className="w-[81px] h-[81px] mr-[20px]">
+              <Link
+                to={`/product/${item._id}`}
+                className="w-[81px] h-[81px] mr-[20px]"
+              >
                 <img
                   src={item.thumb}
                   alt={item.title}
@@ -39,7 +42,10 @@ export default function FeaturedProduct() {
                 />
               </Link>
               <div>
-                <Link className="hover:text-main_color">
+                <Link
+                  to={`/product/${item._id}`}
+                  className="hover:text-main_color"
+                >
                   <span>{item.title}</span>
                 </Link>
                 <Star totalRaitings={item.totalRaitings} />

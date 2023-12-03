@@ -9,7 +9,7 @@ function SideBar() {
     httpRequest
       .get("/categories")
       .then((res) => {
-        setCategories(res);
+        setCategories(res.data);
       })
       .catch((err) => {
         console.log(err);

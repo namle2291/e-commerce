@@ -4,11 +4,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        popin: ['Poppins']
+        popin: "Poppins",
+        open_sans: "Open Sans",
       },
       colors: {
-        main_color: "var(--main_color)"
-      }
+        main_color: "var(--main_color)",
+      },
     },
   },
   plugins: [],

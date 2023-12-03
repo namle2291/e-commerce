@@ -17,7 +17,7 @@ export default function NewArrival() {
         },
       })
       .then((res) => {
-        setNewArrivals(res);
+        setNewArrivals(res.data);
       })
       .catch((err) => {
         console.log(err);

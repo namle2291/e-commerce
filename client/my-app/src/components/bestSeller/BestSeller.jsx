@@ -46,15 +46,15 @@ export default function BestSeller() {
           page: 1,
           limit: 10,
           // totalRaitings: 5,
-          category: "656a9e866f1a6cf01739c48c",
+          category: "656be9f43a736fa60d231797",
         },
       }),
     ]);
     response.then((res) => {
       if (res) {
-        setBestSeller(res[0]);
-        setNewArrivals(res[1]);
-        setTablets(res[2]);
+        setBestSeller(res[0].data);
+        setNewArrivals(res[1].data);
+        setTablets(res[2].data);
       }
     });
   }, []);

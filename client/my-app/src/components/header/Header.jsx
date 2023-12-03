@@ -1,13 +1,16 @@
 import React from "react";
 
 import logo from "../../assets/img/logo.png";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <div className="wrapper">
       <div className="py-[35px] flex">
         <div className="w-[25%]">
-          <img src={logo} alt="" />
+          <Link to={"/"}>
+            <img src={logo} alt="logo" />
+          </Link>
         </div>
         <div className="w-[75%] pl-[25px] flex items-center justify-end">
           <div className="px-[20px] min-h-[40px]">

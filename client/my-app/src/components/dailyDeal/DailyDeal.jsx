@@ -25,7 +25,7 @@ export default function DailyDeal() {
         },
       })
       .then((res) => {
-        setProduct(res[0]);
+        setProduct(res.data[0]);
       })
       .catch((err) => {
         console.log(err);

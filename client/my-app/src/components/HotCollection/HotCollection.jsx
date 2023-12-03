@@ -11,7 +11,7 @@ export default function HotCollection() {
         params: { page: 1, limit: 6 },
       })
       .then((res) => {
-        setCollections(res);
+        setCollections(res.data);
       })
       .catch((err) => {
         console.log(err);

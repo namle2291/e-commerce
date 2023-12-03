@@ -13,7 +13,7 @@ export default function Product({ data, isNew = false }) {
       <div className="p-[15px]">
         <div className="relative w-[243px] h-[243px] mb-[20px] overflow-hidden">
           <div className="absolute bottom-[-40px] w-full group-hover:bottom-0 duration-300">
-            <SelectOption />
+            <SelectOption pid={data._id} />
           </div>
           <img
             src={isNew ? new_label : trending_label}
@@ -21,7 +21,7 @@ export default function Product({ data, isNew = false }) {
             alt=""
             className="absolute right-[9px]"
           />
-          <Link to={""}>
+          <Link to={`/product/${data._id}`}>
             <img
               src={data.thumb}
               alt={data.title}
@@ -30,7 +30,7 @@ export default function Product({ data, isNew = false }) {
           </Link>
         </div>
         <div className="flex flex-col gap-2">
-          <Link to={""}>
+          <Link to={`/product/${data._id}`}>
             <span className="line-clamp-1 hover:text-main_color">
               {data.title}
             </span>

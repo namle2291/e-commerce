@@ -30,7 +30,7 @@ export default function NewArrivalProduct({ data, isNew = false }) {
             </ul>
           </div>
           <div className="w-full duration-300">
-            <SelectOption justify="center" />
+            <SelectOption pid={data._id} justify="center" />
           </div>
         </div>
       </div>
@@ -42,20 +42,16 @@ export default function NewArrivalProduct({ data, isNew = false }) {
             alt=""
             className="absolute right-[9px]"
           />
-          <Link to={""}>
-            <img
-              src={data.thumb}
-              alt={data.title}
-              className="w-full h-full object-cover"
-            />
-          </Link>
+          <img
+            src={data.thumb}
+            alt={data.title}
+            className="w-full h-full object-cover"
+          />
         </div>
         <div className="flex flex-col gap-2">
-          <Link to={""}>
-            <span className="line-clamp-1 hover:text-main_color">
-              {data.title}
-            </span>
-          </Link>
+          <span className="line-clamp-1 hover:text-main_color">
+            {data.title}
+          </span>
           <Star totalRaitings={data.totalRaitings} />
           <span className="mb-[10px]">{formatPrice(data.price)} VND</span>
         </div>
