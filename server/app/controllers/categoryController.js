@@ -5,7 +5,7 @@ const categoryData = require("../../data/category");
 class categoryController {
   async getAll(req, res, next) {
     try {
-      const query = Category.find().select("_id title brand");
+      const query = Category.find().select("_id title brand thumb");
 
       if (req.query.page && req.query.limit) {
         let page = +req.query.page || 1; // thêm dấu + convert sang number
@@ -20,7 +20,6 @@ class categoryController {
         success: true,
         data: categories,
       });
-
     } catch (error) {
       next(error);
     }
@@ -76,7 +75,15 @@ class categoryController {
   async insertData(req, res, next) {
     try {
       categoryData.map(async (el) => {
-        await Category.create({ title: el.cate, brand: el.brand });
+        await Category.create({
+          title: el.cate,
+          brand: el.brand,
+          thumb: el.thumb,
+        });
+      });
+      res.json({
+        success: true,
+        mes: "Done...",
       });
     } catch (error) {
       next(error);

@@ -17,7 +17,7 @@ router.put(
 
 router.get("/insert", productController.insertData);
 
-router.get("/:pid", verifyAccessToken, productController.show);
+router.get("/:pid", productController.show);
 router.put("/:pid", verifyAccessToken, productController.update);
 router.delete("/:pid", verifyAccessToken, isAdmin, productController.delete);
 router.post("/", verifyAccessToken, isAdmin, productController.create);

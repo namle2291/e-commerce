@@ -7,6 +7,9 @@ var categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    thumb: {
+      type: String,
+    },
     brand: { type: Array },
   },
   { timestamps: true }

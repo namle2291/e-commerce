@@ -3,6 +3,7 @@ const Product = require("../models/Product");
 const Category = require("../models/Category");
 const slugify = require("slugify");
 const productData = require("../../data/data2");
+const randomComment = require("../../utils/randomComment");
 
 class productController {
   async getAll(req, res, next) {
@@ -230,11 +231,7 @@ class productController {
         pd.totalRaitings = Math.ceil(Math.random() * 5);
         pd.quantity = Math.ceil(Math.random() * 200);
         pd.sold = Math.ceil(Math.random() * 100);
-        pd.raitings = {
-          star: Math.ceil(Math.random() * 5),
-          postedBy: new mongoose.Types.ObjectId("655d6215c1cbfd8e16d1321e"),
-          comment: "San pham tot",
-        };
+        pd.raitings = await randomComment(Math.ceil(Math.random() * 6));
 
         const colorArr = el["variants"].find((el) => el["label"] === "Color");
         if (colorArr) {
@@ -250,6 +247,10 @@ class productController {
         }
         await Product.create(pd);
         console.log("Đã thêm sản phẩm: " + el["name"]);
+      });
+      res.json({
+        success: true,
+        mes: "Done...",
       });
     } catch (error) {
       next(error);

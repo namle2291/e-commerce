@@ -6,11 +6,7 @@ export default function Collection({ data }) {
   return (
     <div className="flex items-start p-[15px]">
       <div className="w-[143px] h-[143px]">
-        <img
-          src="https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg"
-          alt=""
-          className="w-full h-full object-cover"
-        />
+        <img src={data.thumb} alt="" className="w-full h-full object-contain" />
       </div>
       <div className="pl-[20px]">
         <div className="mb-[10px] uppercase font-semibold text-[14px]">
