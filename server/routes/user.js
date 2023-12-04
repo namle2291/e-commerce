@@ -5,6 +5,7 @@ const verifyAccessToken = require("../app/middlewares/verifyAccessToken");
 const isAdmin = require("../app/middlewares/isAdmin");
 // Register and login
 router.post("/register", userController.register);
+router.post("/verifyemail", userController.verifyEmail);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 // get current and update
@@ -21,6 +22,5 @@ router.get("/", verifyAccessToken, userController.getAll);
 // Update user by admin
 router.put("/:uid", verifyAccessToken,isAdmin, userController.updateUserByAdmin);
 router.delete("/:uid", verifyAccessToken,isAdmin, userController.deleteUserByAdmin);
-
 // Exports
 module.exports = router;

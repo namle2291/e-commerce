@@ -4,6 +4,8 @@ import { httpRequest } from "../../axios/custom-axios";
 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../app/reducers/userReducer";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,6 +16,15 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLogged } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = () => {
     const payload = { email, password };
@@ -22,6 +33,13 @@ function Login() {
       httpRequest
         .post("/users/login", payload)
         .then((res) => {
+          dispatch(
+            login({
+              userInfo: res.userData,
+              token: res.access_token,
+              isLogged: true,
+            })
+          );
           navigate("/");
         })
         .catch((err) => {
@@ -35,9 +53,13 @@ function Login() {
       payload.mobile = mobile;
 
       httpRequest
-        .post("/users/register", payload)
+        .post("/users/register", payload, {
+          withCredentials: true,
+        })
         .then((res) => {
-          navigate("/");
+          if (res) {
+            navigate("/verifyemail");
+          }
         })
         .catch((err) => {
           toast.error(err.message, {

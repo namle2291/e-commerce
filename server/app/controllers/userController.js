@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Product = require("../models/Product");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../../utils/sendMail");
+var randomstring = require("randomstring");
 
 const {
   generateAccessToken,
@@ -33,14 +34,71 @@ class userController {
         throw new Error("Missing inputs!!!");
       }
 
-      const user = await User.create(req.body);
+      const user = await User.findOne({ email });
+
+      if (user) throw new Error("User existed!");
+
+      const code = randomstring.generate({
+        length: 6,
+        charset: "numeric",
+      });
+
+      const html = `<div>Xin chào ${last_name},</div>
+        <div><strong>${code}</strong> là mã xác thực của bạn.</div>
+      `;
+
+      const payload = {
+        email,
+        html,
+        subject: "Xác minh email",
+      };
+
+      sendMail(payload);
+
+      res.cookie(
+        "userRegister",
+        { ...req.body, code },
+        {
+          maxAge: 15 * 60 * 1000,
+          httpOnly: false,
+        }
+      );
 
       res.status(200).json({
-        status: user ? true : false,
+        success: true,
+        message: "Verify Email",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async verifyEmail(req, res, next) {
+    try {
+      const { verifyCode } = req.body;
+
+      if (!verifyCode) {
+        throw new Error("Invalid Code!!!");
+      }
+
+      const { code, ...userData } = req.cookies.userRegister;
+
+      if (code !== verifyCode) {
+        throw new Error("Invalid Code!!!");
+      }
+
+      const user = await User.create(userData);
+
+      if(user){
+        res.clearCookie("userRegister");
+      }
+
+      res.json({
+        success: user ? true : false,
         message: user
           ? "Register success, please login!!!"
           : "Something wrong!!!",
       });
+
     } catch (error) {
       next(error);
     }
@@ -59,7 +117,14 @@ class userController {
 
       if (response && (await response.isCorrectPassword(password))) {
         // Lấy ra một số trường cần thiết
-        const { password, role,passwordChangeAt,isBlocked,updatedAt, ...userData } = response.toObject();
+        const {
+          password,
+          role,
+          passwordChangeAt,
+          isBlocked,
+          updatedAt,
+          ...userData
+        } = response.toObject();
         // Tạo access token
         const access_token = generateAccessToken(response._id, response.role);
         // Tạo prefresh token
@@ -268,6 +333,7 @@ class userController {
       const payload = {
         email: user.email,
         html,
+        subject: "Cập nhật mật khẩu",
       };
       // Gọi hàm sendMail và gửi payload
       sendMail(payload);

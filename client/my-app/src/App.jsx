@@ -12,39 +12,47 @@ import { Fragment } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { persistor, store } from "./app/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
 function App() {
   return (
-    <div className="font-popin">
-      <ToastContainer />
-      <Router>
-        <Routes>
-          {publicRouter &&
-            publicRouter.map((item, index) => {
-              let Element = item.element;
-              let Layout = item.layout;
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <div className="font-popin">
+          <ToastContainer />
+          <Router>
+            <Routes>
+              {publicRouter &&
+                publicRouter.map((item, index) => {
+                  let Element = item.element;
+                  let Layout = item.layout;
 
-              if (Layout) {
-                Layout = item.layout;
-              } else {
-                Layout = Fragment;
-              }
-
-              return (
-                <Route
-                  path={item.path}
-                  key={index}
-                  element={
-                    <Layout>
-                      <Element />
-                    </Layout>
+                  if (Layout) {
+                    Layout = item.layout;
+                  } else {
+                    Layout = Fragment;
                   }
-                />
-              );
-            })}
-          <Route path="/admin/*" element={<AdminLayout />} />
-        </Routes>
-      </Router>
-    </div>
+
+                  return (
+                    <Route
+                      path={item.path}
+                      key={index}
+                      element={
+                        <Layout>
+                          <Element />
+                        </Layout>
+                      }
+                    />
+                  );
+                })}
+              <Route path="/admin/*" element={<AdminLayout />} />
+            </Routes>
+          </Router>
+        </div>
+      </PersistGate>
+    </Provider>
   );
 }
 
