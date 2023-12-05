@@ -51,14 +51,14 @@ export default function Header() {
                   </span>
                 </a>
               </li>
-              <li className="ml-[20px] min-h-[40px] border-l pl-[20px] flex-1 h-full flex items-center">
-                <a href="/">
+              <li className="ml-[20px] border-l flex-1 h-full flex justify-center items-center">
+                <Link to="/account">
                   <img
-                    width={35}
+                    className="w-[35px] rounded-full"
                     src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
                     alt=""
                   />
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

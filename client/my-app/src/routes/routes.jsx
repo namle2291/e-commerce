@@ -8,6 +8,7 @@ import NotFound from "../pages/notfound/NotFound";
 import ProductDetail from "../pages/clients/ProductDetail";
 import Login from "../pages/clients/Login";
 import VerifyEmail from "../pages/clients/VerifyEmail";
+import Account from "../pages/clients/Account";
 
 const publicRouter = [
   {
@@ -24,6 +25,11 @@ const publicRouter = [
     path: "/verifyemail",
     layout: null,
     element: VerifyEmail,
+  },
+  {
+    path: "/account",
+    layout: DefaultLayout,
+    element: Account,
   },
   {
     path: "/products",

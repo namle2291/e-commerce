@@ -1,9 +1,19 @@
-import React from "react";
+import React, { memo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrent, logout } from "../../app/reducers/userReducer";
+import LoadingCircle from "../Loading/LoadingCircle";
 
-export default function TopHeader() {
-  const { isLogged, userInfo } = useSelector((state) => state.user);
+function TopHeader() {
+  const { isLogged, userInfo, isLoading } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (isLogged) {
+  //     dispatch(getCurrent());
+  //   }
+  // }, []);
 
   return (
     <div className="py-[10px] bg-main_color text-white">
@@ -20,31 +30,33 @@ export default function TopHeader() {
         </div>
         <div>
           <ul className="flex items-center">
-            <li className="px-[10px]">
-              {!isLogged ? (
+            {isLogged ? (
+              <>
+                <li className="px-[10px]">
+                  <span>
+                    {"Welcome! " +
+                      userInfo?.first_name +
+                      " " +
+                      userInfo?.last_name}
+                  </span>
+                </li>
+                <li
+                  className="px-[10px] border-l border-l-[rgba(255,255,255,.4)] cursor-pointer"
+                  onClick={() => dispatch(logout())}
+                >
+                  Logout
+                </li>
+              </>
+            ) : (
+              <li className="px-[10px]">
                 <Link to={"/login"}>Sign In or Create Account</Link>
-              ) : (
-                <span>{userInfo.first_name + " " + userInfo.last_name}</span>
-              )}
-            </li>
-            <li className="px-[10px] border-l border-l-[rgba(255,255,255,.4)]">
-              <i className="fa fa-facebook" aria-hidden="true"></i>
-            </li>
-            <li className="px-[10px] border-l border-l-[rgba(255,255,255,.4)]">
-              <i className="fa fa-twitter" aria-hidden="true"></i>
-            </li>
-            <li className="px-[10px] border-l border-l-[rgba(255,255,255,.4)]">
-              <i className="fa fa-instagram" aria-hidden="true"></i>
-            </li>
-            <li className="px-[10px] border-l border-l-[rgba(255,255,255,.4)]">
-              <i className="fa fa-google" aria-hidden="true"></i>
-            </li>
-            <li className="px-[10px] border-l border-l-[rgba(255,255,255,.4)]">
-              <i className="fa fa-pinterest" aria-hidden="true"></i>
-            </li>
+              </li>
+            )}
           </ul>
         </div>
       </div>
     </div>
   );
 }
+
+export default memo(TopHeader);

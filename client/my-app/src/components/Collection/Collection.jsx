@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { RightIcon } from "../Icons/Icon";
 
-export default function Collection({ data }) {
+function Collection({ data }) {
   return (
     <div className="flex items-start p-[15px]">
       <div className="w-[143px] h-[143px]">
@@ -28,3 +28,4 @@ export default function Collection({ data }) {
     </div>
   );
 }
+export default memo(Collection);

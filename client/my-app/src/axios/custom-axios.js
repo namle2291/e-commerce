@@ -6,6 +6,13 @@ export const httpRequest = axios.create({
 
 httpRequest.interceptors.request.use(
   function (config) {
+    const token = JSON.parse(localStorage.getItem("persist:user")).token;
+    if (token) {
+      config.headers = {
+        Authorization: `Bearer ${token.slice(1, -1)}`,
+      };
+    }
+    console.log(token);
     return config;
   },
   function (error) {

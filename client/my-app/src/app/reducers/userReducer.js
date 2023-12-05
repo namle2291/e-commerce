@@ -1,9 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { httpRequest } from "../../axios/custom-axios";
+
+export const getCurrent = createAsyncThunk("user/getCurrent", async () => {
+  const response = await httpRequest.get("/users/current");
+  return response;
+});
 
 const initialState = {
-  userInfo: {},
-  token: "",
+  userInfo: null,
+  token: null,
   isLogged: false,
+  isLoading: false,
 };
 
 export const userSlice = createSlice({
@@ -15,9 +22,26 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.isLogged = action.payload.isLogged;
     },
+    logout(state, action) {
+      state.userInfo = null;
+      state.token = null;
+      state.isLogged = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getCurrent.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getCurrent.rejected, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getCurrent.fulfilled, (state, action) => {
+      state.userInfo = action.payload.result;
+      state.isLoading = false;
+    });
   },
 });
 
-export const { login } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;
