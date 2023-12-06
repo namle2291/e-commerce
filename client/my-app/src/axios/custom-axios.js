@@ -11,8 +11,8 @@ httpRequest.interceptors.request.use(
     };
     return config;
   },
-  (err) => {
-    return err;
+  (error) => {
+    return error;
   }
 );
 

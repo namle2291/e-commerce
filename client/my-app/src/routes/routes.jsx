@@ -9,12 +9,18 @@ import ProductDetail from "../pages/clients/ProductDetail";
 import Login from "../pages/clients/Login";
 import VerifyEmail from "../pages/clients/VerifyEmail";
 import Account from "../pages/clients/Account";
+import ResetPassword from "../pages/clients/ResetPassword";
 
 const publicRouter = [
   {
     path: "/",
     layout: DefaultLayout,
     element: Home,
+  },
+  {
+    path: "*",
+    layout: DefaultLayout,
+    element: NotFound,
   },
   {
     path: "/login",
@@ -25,6 +31,11 @@ const publicRouter = [
     path: "/verifyemail",
     layout: null,
     element: VerifyEmail,
+  },
+  {
+    path: "/reset-password/:token",
+    layout: null,
+    element: ResetPassword,
   },
   {
     path: "/account",
@@ -42,20 +53,15 @@ const publicRouter = [
     element: ProductDetail,
   },
   {
-    path: "/:category",
-    layout: DefaultLayout,
-    element: Products,
-  },
-  {
     path: "/blogs",
     layout: DefaultLayout,
     element: Blog,
   },
-  {
-    path: "*",
-    layout: DefaultLayout,
-    element: NotFound,
-  },
+  // {
+  //   path: "/:category",
+  //   layout: DefaultLayout,
+  //   element: Products,
+  // },
 ];
 
 export { publicRouter };

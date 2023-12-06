@@ -96,7 +96,7 @@ userSchema.methods = {
       .update(randomBytes)
       .digest("hex");
     // Cập nhật thời gian hiệu lực 15 phút
-    this.passwordResetExprises = Date.now() * 15 * 60 * 1000;
+    this.passwordResetExprises = Date.now() + 15 * 60 * 1000;
     return this.passwordResetToken;
   },
 };

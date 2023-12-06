@@ -192,7 +192,7 @@ class userController {
   // Lấy thông tin user hiện tại
   async getCurrentUser(req, res, next) {
     const { _id } = req.user;
-    
+
     const user = await User.findById(_id).select(
       "-password -role -refreshToken"
     );
@@ -329,7 +329,7 @@ class userController {
       // Tạo thẻ chứa nội dung trong mail
       const html = `<p>Vui lòng click vào đường link sau đây để thay đổi 
             mật khẩu của bạn. Lưu ý: đường link sẽ hết hạn sau 15 phút 
-            <a href='${process.env.API_URI}/users/reset-password?token=${user.passwordResetToken}'>Click me</a> </p>`;
+            <a href='${process.env.CLIENT_URL}/reset-password/${user.passwordResetToken}'>Click me</a> </p>`;
       // Tạo payload
       const payload = {
         email: user.email,
@@ -340,7 +340,8 @@ class userController {
       sendMail(payload);
 
       res.json({
-        test: user.passwordResetToken,
+        success: true,
+        message: "Please check your mail!",
       });
     } catch (error) {
       next(error);
@@ -357,6 +358,9 @@ class userController {
       });
 
       if (!user) throw new Error("Invalid reset token!");
+
+      if (user.passwordResetExprises < Date.now())
+        throw new Error("Token expired!");
 
       user.password = password;
       user.passwordChangeAt = Date.now();
