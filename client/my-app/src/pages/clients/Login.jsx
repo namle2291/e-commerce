@@ -33,14 +33,16 @@ function Login() {
       httpRequest
         .post("/users/login", payload)
         .then((res) => {
-          dispatch(
-            login({
-              userInfo: res.userData,
-              token: res.access_token,
-              isLogged: true,
-            })
-          );
-          navigate("/");
+          if (res.success) {
+            dispatch(
+              login({
+                userInfo: res.userData,
+                token: res.access_token,
+                isLogged: true,
+              })
+            );
+            navigate("/");
+          }
         })
         .catch((err) => {
           toast.error(err.message, {
@@ -156,6 +158,9 @@ function Login() {
           >
             SIGN {!isLogin ? "IN" : "UP"}
           </span>
+        </div>
+        <div className="text-center text-sm mt-[20px]">
+          <Link to={"/"} className="text-blue-500">Go home</Link>
         </div>
       </div>
     </div>

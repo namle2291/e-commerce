@@ -11,6 +11,7 @@ const initialState = {
   token: null,
   isLogged: false,
   isLoading: false,
+  message: "",
 };
 
 export const userSlice = createSlice({
@@ -27,21 +28,33 @@ export const userSlice = createSlice({
       state.token = null;
       state.isLogged = false;
     },
+    clearMessage(state) {
+      state.userInfo = null;
+      state.token = null;
+      state.isLogged = false;
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(getCurrent.pending, (state, action) => {
+    builder.addCase(getCurrent.pending, (state) => {
       state.isLoading = true;
-    });
-    builder.addCase(getCurrent.rejected, (state, action) => {
-      state.isLoading = false;
     });
     builder.addCase(getCurrent.fulfilled, (state, action) => {
       state.userInfo = action.payload.result;
       state.isLoading = false;
     });
+    builder.addCase(getCurrent.rejected, (state, action) => {
+      state.isLoading = false;
+      if (action.error.message === "jwt expired") {
+        state.userInfo = null;
+        state.token = null;
+        state.isLogged = false;
+        state.message = "Phiên đăng nhập đã hết hạn";
+      }
+    });
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, clearMessage } = userSlice.actions;
 
 export default userSlice.reducer;

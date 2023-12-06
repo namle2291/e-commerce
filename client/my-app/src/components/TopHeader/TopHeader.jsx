@@ -1,19 +1,45 @@
-import React, { memo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { memo, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrent, logout } from "../../app/reducers/userReducer";
-import LoadingCircle from "../Loading/LoadingCircle";
+import {
+  clearMessage,
+  getCurrent,
+  logout,
+} from "../../app/reducers/userReducer";
+import Swal from "sweetalert2";
 
 function TopHeader() {
-  const { isLogged, userInfo, isLoading } = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const timer = useRef();
 
-  // useEffect(() => {
-  //   if (isLogged) {
-  //     dispatch(getCurrent());
-  //   }
-  // }, []);
+  const { isLogged, token, userInfo, message } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    if (message) {
+      Swal.fire({
+        text: message,
+        icon: "info",
+        confirmButtonText: "Đăng nhập lại",
+      }).then(() => {
+        navigate("/login");
+        dispatch(clearMessage());
+      });
+    }
+  }, [message]);
+
+  useEffect(() => {
+    timer.current = setTimeout(() => {
+      if (token) {
+        dispatch(getCurrent());
+      }
+    }, 300);
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, [token]);
 
   return (
     <div className="py-[10px] bg-main_color text-white">
@@ -30,7 +56,7 @@ function TopHeader() {
         </div>
         <div>
           <ul className="flex items-center">
-            {isLogged ? (
+            {isLogged && userInfo ? (
               <>
                 <li className="px-[10px]">
                   <span>

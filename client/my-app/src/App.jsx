@@ -10,6 +10,7 @@ import AdminLayout from "./components/layouts/AdminLayout/AdminLayout";
 import { publicRouter } from "./routes/routes";
 import { Fragment } from "react";
 import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import { persistor, store } from "./app/store";

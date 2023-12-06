@@ -24,11 +24,13 @@ function SideBar() {
         </li>
         {categories &&
           categories.map((item, index) => (
-            <li
-              key={index}
-              className="pt-[15px] pr-[20px] pb-[14px] pl-[20px] "
-            >
-              <NavLink to={"/"}>{item.title}</NavLink>
+            <li key={index} className="pt-[15px] pr-[20px] pb-[14px] pl-[20px]">
+              <NavLink
+                to={`/${item.title.toLowerCase()}`}
+                className="hover:text-main_color"
+              >
+                {item.title}
+              </NavLink>
             </li>
           ))}
       </ul>

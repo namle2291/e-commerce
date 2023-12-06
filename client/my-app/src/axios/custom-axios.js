@@ -5,18 +5,14 @@ export const httpRequest = axios.create({
 });
 
 httpRequest.interceptors.request.use(
-  function (config) {
-    const token = JSON.parse(localStorage.getItem("persist:user")).token;
-    if (token) {
-      config.headers = {
-        Authorization: `Bearer ${token.slice(1, -1)}`,
-      };
-    }
-    console.log(token);
+  (config) => {
+    config.headers = {
+      Authorization: `Bearer ${getAccessToken()}`,
+    };
     return config;
   },
-  function (error) {
-    return Promise.reject(error);
+  (err) => {
+    return err;
   }
 );
 
@@ -28,3 +24,12 @@ httpRequest.interceptors.response.use(
     return Promise.reject(error.response.data);
   }
 );
+
+function getAccessToken() {
+  const localStorageData = JSON.parse(localStorage.getItem("persist:user"));
+  if (localStorageData) {
+    const access_token = JSON.parse(localStorageData.token);
+    return access_token;
+  }
+  return null;
+}

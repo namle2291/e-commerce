@@ -10,7 +10,7 @@ function DefaultLayout({ children }) {
       <TopHeader />
       <Header />
       <Navbar />
-      <div className="wrapper">{children}</div>
+      <div>{children}</div>
       <Footer />
     </div>
   );

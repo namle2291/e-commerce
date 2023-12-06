@@ -2,7 +2,7 @@
 import DefaultLayout from "../components/layouts/DefaultLayout/DefaultLayout";
 // pages
 import Home from "../pages/clients/Home";
-import Product from "../pages/clients/Product";
+import Products from "../pages/clients/Products";
 import Blog from "../pages/clients/Blog";
 import NotFound from "../pages/notfound/NotFound";
 import ProductDetail from "../pages/clients/ProductDetail";
@@ -34,12 +34,17 @@ const publicRouter = [
   {
     path: "/products",
     layout: DefaultLayout,
-    element: Product,
+    element: Products,
   },
   {
     path: "/product/:pid",
     layout: DefaultLayout,
     element: ProductDetail,
+  },
+  {
+    path: "/:category",
+    layout: DefaultLayout,
+    element: Products,
   },
   {
     path: "/blogs",

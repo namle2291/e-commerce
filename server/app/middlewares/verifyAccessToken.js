@@ -7,17 +7,16 @@ async function verifyAccessToken(req, res, next) {
             const token = req.headers.authorization.split(" ")[1];
             jwt.verify(token, process.env.TOKEN_SECRET, function (err, decode) {
                 if (err) {
-                    return res.json({
+                    return res.status(500).json({
                         success: false,
-                        // Không tìm thấy access token
-                        mesage: "Invalid access token"
+                        message: err.message
                     });
                 }
                 req.user = decode;  
                 next();
             });
         } else {
-            return res.json({
+            return res.status(500).json({
                 success: false,
                 // Yêu cầu xác thực
                 mesage: "Require Authentication!!!"

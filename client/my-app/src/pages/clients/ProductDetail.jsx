@@ -13,6 +13,7 @@ import { FaGift } from "react-icons/fa6";
 import { BiSolidShare } from "react-icons/bi";
 import { GiRotaryPhone } from "react-icons/gi";
 import RelatedProduct from "../../components/RelatedProduct/RelatedProduct";
+import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 
 const tabs = [
   {
@@ -99,19 +100,14 @@ function ProductDetail() {
     <>
       {product && (
         <div>
-          {/* Product images */}
-          <div className="py-[15px] mb-[20px]">
-            <h3 className="font-semibold mb-[10px]">{product.title}</h3>
-            <nav className="text-[14px] flex items-center gap-1 text-gray-500">
-              <Link to={"/"}>Home</Link>
-              <span>{">"}</span>
-              <Link>{product.category.title}</Link>
-              <span>{">"}</span>
-              <span>{product.title}</span>
-            </nav>
+          <div className="bg-gray-200">
+            <Breadcrumb
+              product={product.title}
+              category={product.category.title}
+            />
           </div>
-          {/* Product info */}
-          <div className="flex">
+          <div className="flex wrapper">
+            {/* Product images */}
             <div className="flex flex-col">
               <div
                 ref={imageRef}
@@ -145,6 +141,7 @@ function ProductDetail() {
                 </div>
               )}
             </div>
+            {/* Product info */}
             <div className="flex justify-between flex-1 pl-[45px]">
               <div className="flex-1">
                 <div className="mb-[20px]">
@@ -224,7 +221,7 @@ function ProductDetail() {
             </div>
           </div>
           {/* Back */}
-          <div className="text-[13px] uppercase hover:text-main_color">
+          <div className="text-[13px] uppercase hover:text-main_color wrapper">
             <Link to={""} className="flex justify-center items-center gap-2">
               <span>
                 <ArrowLongLeftIcon />
@@ -232,7 +229,7 @@ function ProductDetail() {
               <span>Back to {product.category.title}</span>
             </Link>
           </div>
-          <div className="border my-[30px]">
+          <div className="border my-[30px] wrapper">
             {/* Tabs */}
             <div className="flex gap-1">
               {tabs.map((item) => (
@@ -274,7 +271,9 @@ function ProductDetail() {
             </div>
           </div>
           {/* Related Product */}
-          <RelatedProduct />
+          <div className="wrapper">
+            <RelatedProduct />
+          </div>
         </div>
       )}
     </>

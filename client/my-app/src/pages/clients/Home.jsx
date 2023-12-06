@@ -9,7 +9,7 @@ import HotCollection from "../../components/HotCollection/HotCollection";
 
 function Home() {
   return (
-    <div>
+    <div className="wrapper">
       <div className="flex my-[20px]">
         <div className="min-w-[293px] border">
           <SideBar />

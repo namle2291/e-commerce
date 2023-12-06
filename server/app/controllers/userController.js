@@ -88,7 +88,7 @@ class userController {
 
       const user = await User.create(userData);
 
-      if(user){
+      if (user) {
         res.clearCookie("userRegister");
       }
 
@@ -98,7 +98,6 @@ class userController {
           ? "Register success, please login!!!"
           : "Something wrong!!!",
       });
-
     } catch (error) {
       next(error);
     }
@@ -193,9 +192,11 @@ class userController {
   // Lấy thông tin user hiện tại
   async getCurrentUser(req, res, next) {
     const { _id } = req.user;
+    
     const user = await User.findById(_id).select(
       "-password -role -refreshToken"
     );
+
     res.json({
       success: user ? true : false,
       result: user ? user : "User not found!!!",
