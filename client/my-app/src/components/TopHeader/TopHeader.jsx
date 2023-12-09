@@ -39,7 +39,7 @@ function TopHeader() {
     return () => {
       clearTimeout(timer.current);
     };
-  }, [token]);
+  }, [dispatch, token]);
 
   return (
     <div className="py-[10px] bg-main_color text-white">

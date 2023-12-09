@@ -21,7 +21,22 @@ class productController {
         /\b(gte|gt|lte|lt)\b/g,
         (match) => `$${match}`
       );
-      let query = Product.find(JSON.parse(queryString));
+
+      let formatQueries = JSON.parse(queryString);
+      let colorQueriesObject = {};
+
+      if (queryObj?.color) {
+        delete formatQueries.color;
+        const colorArr = queryObj?.color.split(",");
+        const colorQuery = colorArr.map((el) => ({
+          color: { $regex: el, $options: "i" },
+        }));
+        colorQueriesObject = { $or: colorQuery };
+      }
+
+      const q = { ...colorQueriesObject, ...formatQueries };
+
+      let query = Product.find(q);
 
       // Sắp xếp
       if (req.query.sort) {
@@ -46,11 +61,9 @@ class productController {
         query.skip(skip).limit(limit);
       }
 
-      const products = await query;
+      const products = await query.populate("category");
 
-      const total = await Product.find(
-        JSON.parse(queryString)
-      ).countDocuments();
+      const total = await Product.find(q).countDocuments();
 
       res.json({
         success: products ? true : false,

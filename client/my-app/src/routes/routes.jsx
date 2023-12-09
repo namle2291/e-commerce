@@ -2,7 +2,6 @@
 import DefaultLayout from "../components/layouts/DefaultLayout/DefaultLayout";
 // pages
 import Home from "../pages/clients/Home";
-import Products from "../pages/clients/Products";
 import Blog from "../pages/clients/Blog";
 import NotFound from "../pages/notfound/NotFound";
 import ProductDetail from "../pages/clients/ProductDetail";
@@ -10,6 +9,7 @@ import Login from "../pages/clients/Login";
 import VerifyEmail from "../pages/clients/VerifyEmail";
 import Account from "../pages/clients/Account";
 import ResetPassword from "../pages/clients/ResetPassword";
+import ProductCategory from "../pages/clients/ProductCategory";
 
 const publicRouter = [
   {
@@ -42,26 +42,26 @@ const publicRouter = [
     layout: DefaultLayout,
     element: Account,
   },
-  {
-    path: "/products",
-    layout: DefaultLayout,
-    element: Products,
-  },
+  // {
+  //   path: "/products",
+  //   layout: DefaultLayout,
+  //   element: Products,
+  // },
   {
     path: "/product/:pid",
     layout: DefaultLayout,
     element: ProductDetail,
   },
   {
+    path: "/collections/:cid",
+    layout: DefaultLayout,
+    element: ProductCategory,
+  },
+  {
     path: "/blogs",
     layout: DefaultLayout,
     element: Blog,
   },
-  // {
-  //   path: "/:category",
-  //   layout: DefaultLayout,
-  //   element: Products,
-  // },
 ];
 
 export { publicRouter };

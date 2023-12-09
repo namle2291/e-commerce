@@ -1,0 +1,18 @@
+export const colors = [
+  "Black",
+  "Camellia Red",
+  "Carbon Gray",
+  "Ceramic",
+  "Deep pink",
+  "Forest blue",
+  "Glacier Silver",
+  "Gold",
+  "Gray",
+  "Mineral black",
+  "Platinum",
+  "Quite Black",
+  "Really Blue",
+  "Topaz Gold",
+  "Very Silver",
+  "White",
+];

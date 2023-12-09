@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../app/reducers/userReducer";
 import { IoHome } from "react-icons/io5";
+import Swal from "sweetalert2";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -79,7 +80,12 @@ function Login() {
       .post("/users/forgot-password", { email: emailForgotPass })
       .then((res) => {
         if (res.success) {
-          toast.success(res.message);
+          Swal.fire({
+            icon: "success",
+            text: res.message,
+          }).then(() => {
+            setIsForgotPassword(false);
+          });
         }
       })
       .catch((err) => {
