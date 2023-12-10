@@ -14,29 +14,7 @@ import { BiSolidShare } from "react-icons/bi";
 import { GiRotaryPhone } from "react-icons/gi";
 import RelatedProduct from "../../components/RelatedProduct/RelatedProduct";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-
-const tabs = [
-  {
-    id: 1,
-    title: "DESCRIPTION",
-  },
-  {
-    id: 2,
-    title: "WARRANTY",
-  },
-  {
-    id: 3,
-    title: "DELIVERY",
-  },
-  {
-    id: 4,
-    title: "PAYMENT",
-  },
-  {
-    id: 5,
-    title: "CUSTOMER REVIEW",
-  },
-];
+import ProductInfo from "../../components/ProductInfo/ProductInfo";
 
 const extrainfo = [
   {
@@ -69,7 +47,7 @@ const extrainfo = [
 function ProductDetail() {
   const [product, setProduct] = useState();
   const [productImage, setProductImage] = useState("");
-  const [activedTab, setActivedTab] = useState(1);
+
   const [quantity, setQuantity] = useState(1);
 
   const { pid } = useParams();
@@ -229,46 +207,8 @@ function ProductDetail() {
               <span>Back to {product.category.title}</span>
             </Link>
           </div>
-          <div className="border my-[30px] wrapper">
-            {/* Tabs */}
-            <div className="flex gap-1">
-              {tabs.map((item) => (
-                <span
-                  key={item.id}
-                  className={`cursor-pointer uppercase px-[20px] py-[9px] inline-block
-                  ${
-                    activedTab === item.id ? "bg-gray-100" : "bg-gray-200"
-                  } hover:bg-gray-100
-                  `}
-                  onClick={() => setActivedTab(item.id)}
-                >
-                  {item.title}
-                </span>
-              ))}
-            </div>
-            {/* Reviewers */}
-            <div className="p-[20px]">
-              <h2 className="font-semibold">CUSTOMER REVIEWS</h2>
-              <div className="mt-[20px]">
-                {product?.raitings?.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 mb-[20px]"
-                  >
-                    <div className="w-[40px] h-[40px] text-white bg-blue-500 rounded-full flex justify-center items-center">
-                      <span>{item.postedBy.first_name.slice(0, 1)}</span>
-                    </div>
-                    {/* <div>{item.createdAt}</div> */}
-                    <div key={index} className="flex flex-col">
-                      <Star totalRaitings={item.star} />
-                      <p className="text-gray-500 font-open_sans">
-                        {item.comment}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="my-[30px] wrapper">
+            <ProductInfo data={product} />
           </div>
           {/* Related Product */}
           <div className="wrapper">

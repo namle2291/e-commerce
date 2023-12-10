@@ -19,6 +19,11 @@ const userSchema = new Schema(
       type: String,
       require: true,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png",
+    },
     mobile: {
       type: String,
       require: true,
