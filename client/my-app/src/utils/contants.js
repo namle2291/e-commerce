@@ -55,3 +55,12 @@ export const productInfoTabs = [
     title: "CUSTOMER REVIEW",
   },
 ];
+
+export const bgColors = [
+  "red",
+  "green",
+  "blue",
+  "black",
+  "pink",
+  "yellow",
+];

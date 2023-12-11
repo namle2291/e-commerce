@@ -7,8 +7,9 @@ import Reviewer from "../Reviewers/Reviewer";
 
 function ProductInfo({ data }) {
   const [activedTab, setActivedTab] = useState(1);
+
   return (
-    <div className="">
+    <div>
       {/* Tabs */}
       <div className="flex gap-1">
         {productInfoTabs.map((item) => (
@@ -59,7 +60,7 @@ function ProductInfo({ data }) {
                   <div className="flex justify-center">
                     <Star totalRaitings={data.totalRaitings} fs={14} />
                   </div>
-                  <span>{data.raitings.length} review</span>
+                  <span>{data.raitings.length} reviews</span>
                 </div>
               </div>
               <div className="col-span-6">
@@ -67,16 +68,20 @@ function ProductInfo({ data }) {
                   <VoteBar
                     key={index}
                     index={item}
-                    percent={
-                      data.raitings.filter((el) => el.star === item).length /
-                      data.raitings.length
-                    }
+                    percent={Math.floor(
+                      (data?.raitings?.filter((el) => el.star === item).length /
+                        data?.raitings?.length) *
+                        100
+                    )}
                     total={
-                      data.raitings.filter((el) => el.star === item).length
+                      data?.raitings?.filter((el) => el.star === item).length
                     }
                   />
                 ))}
               </div>
+            </div>
+            <div className="text-center">
+              <button></button>
             </div>
             {/* Reviewers */}
             <Reviewer data={data.raitings} />

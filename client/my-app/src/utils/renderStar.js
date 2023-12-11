@@ -1,8 +1,9 @@
-import { IoStar, IoStarOutline } from "react-icons/io5";
+import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 
 export const renderStar = (number) => {
   if (!Number(number)) return;
   const stars = [];
+
   for (let i = 0; i < number; i++) {
     stars.push(
       <span key={i}>
@@ -10,6 +11,15 @@ export const renderStar = (number) => {
       </span>
     );
   }
+
+  if (number % 1 !== 0) {
+    stars[Math.floor(number)] = (
+      <span key={number}>
+        <IoStarHalf />
+      </span>
+    );
+  }
+
   for (let i = 5; i > number; i--) {
     stars.push(
       <span key={i}>

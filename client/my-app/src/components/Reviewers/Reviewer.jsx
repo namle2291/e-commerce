@@ -1,5 +1,6 @@
 import React from "react";
 import Star from "../Star/Star";
+import { randomColor } from "../../utils/randomColor";
 
 function Reviewer({ data }) {
   return (
@@ -8,7 +9,9 @@ function Reviewer({ data }) {
       <div className="mt-[20px]">
         {data?.map((item, index) => (
           <div key={index} className="flex items-center gap-2 mb-[20px]">
-            <div className="w-[40px] h-[40px] text-white bg-blue-500 rounded-full flex justify-center items-center">
+            <div
+              className={`w-[40px] h-[40px] text-white bg-pink-600 rounded-full flex justify-center items-center`}
+            >
               <span>{item.postedBy.first_name.slice(0, 1)}</span>
             </div>
             <div key={index} className="flex flex-col">
