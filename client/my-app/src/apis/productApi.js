@@ -13,3 +13,9 @@ export const getHighPriceProduct = (params) =>
     method: "get",
     params,
   });
+export const raitingProduct = (payload) =>
+  httpRequest({
+    url: "/products/raiting",
+    method: "put",
+    data: payload,
+  });

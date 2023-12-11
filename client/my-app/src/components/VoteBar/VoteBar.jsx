@@ -15,7 +15,7 @@ function VoteBar({ index, total, percent }) {
         <IoStar />
       </span>
       <div className="relative h-[5px] bg-gray-300 mx-[10px] flex-1">
-        <div ref={percentRef} className={`absolute h-full bg-red-600`}></div>
+        <div ref={percentRef} className={`absolute h-full bg-main_color`}></div>
       </div>
       <span className="w-[20px] inline-block text-center">{total}</span>
     </div>

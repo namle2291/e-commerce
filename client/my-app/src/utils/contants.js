@@ -56,11 +56,27 @@ export const productInfoTabs = [
   },
 ];
 
-export const bgColors = [
-  "red",
-  "green",
-  "blue",
-  "black",
-  "pink",
-  "yellow",
+export const bgColors = ["red", "green", "blue", "black", "pink", "yellow"];
+
+export const votes = [
+  {
+    id: 1,
+    title: "Very bad",
+  },
+  {
+    id: 2,
+    title: "Bad",
+  },
+  {
+    id: 3,
+    title: "Normal",
+  },
+  {
+    id: 4,
+    title: "Good",
+  },
+  {
+    id: 5,
+    title: "Very good",
+  },
 ];

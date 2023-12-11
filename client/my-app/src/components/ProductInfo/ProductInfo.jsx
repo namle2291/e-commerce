@@ -4,9 +4,11 @@ import { productInfoTabs } from "../../utils/contants";
 import Star from "../Star/Star";
 import VoteBar from "../VoteBar/VoteBar";
 import Reviewer from "../Reviewers/Reviewer";
+import VoteModal from "../VoteModal/VoteModal";
 
 function ProductInfo({ data }) {
   const [activedTab, setActivedTab] = useState(1);
+  const [showVote, setShowVote] = useState(false);
 
   return (
     <div>
@@ -50,8 +52,8 @@ function ProductInfo({ data }) {
         {activedTab === 5 && (
           <>
             <div className="grid grid-cols-12">
-              <div className="col-span-4 mx-auto">
-                <div className="w-[150px] h-[150px] flex justify-center flex-col text-center">
+              <div className="col-span-6 border border-red-600 m-4 rounded-sm flex flex-col justify-center">
+                <div className="flex justify-center flex-col text-center">
                   <span className="text-[40px]">
                     {Number.isInteger(data.totalRaitings)
                       ? data.totalRaitings + ".0"
@@ -80,8 +82,18 @@ function ProductInfo({ data }) {
                 ))}
               </div>
             </div>
-            <div className="text-center">
-              <button></button>
+            <div className="text-center mt-3">
+              <h2>Do you review this product?</h2>
+              <button
+                className={`px-3 py-2 bg-main_color rounded-sm mt-3 text-white`}
+                onClick={() => setShowVote(true)}
+              >
+                Vote now!
+              </button>
+
+              {showVote && (
+                <VoteModal product={data} showModal={setShowVote} />
+              )}
             </div>
             {/* Reviewers */}
             <Reviewer data={data.raitings} />

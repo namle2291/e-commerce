@@ -159,7 +159,7 @@ class productController {
 
       const { star, comment, pid } = req.body;
 
-      if (!star || !pid) throw new Error("Missing inputs!");
+      if (!star || !pid || !comment) throw new Error("Missing inputs!");
 
       const product = await Product.findById(pid);
       // Kiểm tra người dùng đã đánh giá hay chưa
