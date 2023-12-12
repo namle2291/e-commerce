@@ -1,3 +1,12 @@
+import {
+  AiOutlineDashboard,
+  AiOutlineShop,
+  AiOutlineShopping,
+  AiOutlineShoppingCart,
+  AiOutlineUnorderedList,
+  AiOutlineUser,
+} from "react-icons/ai";
+
 export const colors = [
   "Black",
   "Camellia Red",
@@ -78,5 +87,74 @@ export const votes = [
   {
     id: 5,
     title: "Very good",
+  },
+];
+
+export const adminSidebars = [
+  {
+    id: 1,
+    title: "Dasboard",
+    path: "/admin/dashboard",
+    icon: <AiOutlineDashboard />,
+  },
+  {
+    id: 2,
+    title: "Category Manage",
+    path: "/admin/categories",
+    icon: <AiOutlineUnorderedList />,
+  },
+  {
+    id: 3,
+    title: "Product Manage",
+    path: "/admin/products",
+    icon: <AiOutlineShop />,
+    childs: [
+      {
+        id: 1,
+        title: "Add Product",
+        path: "/admin/products/add",
+      },
+      {
+        id: 2,
+        title: "List Product",
+        path: "/admin/products/list",
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Order Manage",
+    path: "/admin/orders",
+    icon: <AiOutlineShoppingCart />,
+    childs: [
+      {
+        id: 1,
+        title: "Add Order",
+        path: "/admin/orders/add",
+      },
+      {
+        id: 2,
+        title: "List Order",
+        path: "/admin/orders/list",
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "User Manage",
+    path: "/admin/users",
+    icon: <AiOutlineUser />,
+    childs: [
+      {
+        id: 1,
+        title: "Add User",
+        path: "/admin/users/add",
+      },
+      {
+        id: 2,
+        title: "List User",
+        path: "/admin/users/list",
+      },
+    ],
   },
 ];

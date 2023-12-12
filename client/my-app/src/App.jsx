@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import AdminLayout from "./components/layouts/AdminLayout/AdminLayout";
 
-import { publicRouter } from "./routes/routes";
+import { privateRouter, publicRouter } from "./routes/routes";
 import { Fragment } from "react";
 import { ToastContainer } from "react-toastify";
 
@@ -48,7 +48,7 @@ function App() {
                     />
                   );
                 })}
-              <Route path="/admin/*" element={<AdminLayout />} />
+              <Route path="admin/*" element={<AdminLayout />} />
             </Routes>
           </Router>
         </div>

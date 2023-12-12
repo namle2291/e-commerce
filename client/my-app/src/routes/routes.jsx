@@ -1,5 +1,6 @@
 // layouts
 import DefaultLayout from "../components/layouts/DefaultLayout/DefaultLayout";
+import AdminLayout from "../components/layouts/AdminLayout/AdminLayout";
 // pages
 import Home from "../pages/clients/Home";
 import Blog from "../pages/clients/Blog";
@@ -10,6 +11,12 @@ import VerifyEmail from "../pages/clients/VerifyEmail";
 import Account from "../pages/clients/Account";
 import ResetPassword from "../pages/clients/ResetPassword";
 import ProductCategory from "../pages/clients/ProductCategory";
+import CategoryManager from "../pages/admin/CategoryManager";
+import ProductManager from "../pages/admin/ProductManager";
+import OrderManager from "../pages/admin/OrderManager";
+import UserManager from "../pages/admin/UserManager";
+
+import Dashboard from "../pages/admin/Dashboard";
 
 const publicRouter = [
   {
@@ -64,4 +71,35 @@ const publicRouter = [
   },
 ];
 
-export { publicRouter };
+const privateRouter = [
+  {
+    path: "/dashboard",
+    element: Dashboard,
+  },
+  {
+    path: "/categories",
+    element: CategoryManager,
+  },
+  {
+    path: "/products",
+    element: ProductManager,
+  },
+  {
+    path: "/products/add",
+    element: ProductManager,
+  },
+  {
+    path: "/orders",
+    element: OrderManager,
+  },
+  {
+    path: "/users",
+    element: UserManager,
+  },
+  {
+    path: "*",
+    element: NotFound,
+  },
+];
+
+export { publicRouter, privateRouter };

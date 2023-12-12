@@ -22,7 +22,7 @@ function TopHeader() {
       Swal.fire({
         text: message,
         icon: "info",
-        confirmButtonText: "Đăng nhập lại",
+        confirmButtonText: "Login",
       }).then(() => {
         navigate("/login");
         dispatch(clearMessage());

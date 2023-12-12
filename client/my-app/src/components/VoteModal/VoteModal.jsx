@@ -30,7 +30,7 @@ function VoteModal({ product, showModal }) {
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,.3)] z-50">
-      <div className="absolute inset-center w-[650px] bg-white rounded-md p-[30px] flex flex-col gap-3">
+      <div className="animate-scale-up-center absolute inset-center w-[650px] bg-white rounded-md p-[30px] flex flex-col gap-3">
         <img className="m-auto" src={logo} alt={product.title} />
         <span
           className="absolute right-4 top-3 cursor-pointer text-lg"

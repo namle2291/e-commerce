@@ -49,7 +49,7 @@ export const userSlice = createSlice({
         state.userInfo = null;
         state.token = null;
         state.isLogged = false;
-        state.message = "Phiên đăng nhập đã hết hạn";
+        state.message = "Login session has expired";
       }
     });
   },
