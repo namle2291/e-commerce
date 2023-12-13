@@ -18,7 +18,7 @@ router.get("/refresh-token", userController.refreshToken);
 router.post("/forgot-password", userController.forgotPassword);
 router.put("/reset-password", userController.resetPassword);
 // Get all user
-router.get("/", verifyAccessToken, userController.getAll);
+router.get("/", userController.getAll);
 // Update user by admin
 router.put("/:uid", verifyAccessToken,isAdmin, userController.updateUserByAdmin);
 router.delete("/:uid", verifyAccessToken,isAdmin, userController.deleteUserByAdmin);

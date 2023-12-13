@@ -12,15 +12,42 @@ const {
 class userController {
   async getAll(req, res, next) {
     try {
-      const users = await User.find().select(
-        "-password -role -refreshToken -passwordResetToken"
+      const queryObj = { ...req.query };
+      const excludedFields = ["page", "sort", "limit", "fields"];
+      excludedFields.forEach((el) => delete queryObj[el]);
+
+      const queryString = JSON.stringify(queryObj);
+      const formatQueryString = JSON.parse(queryString);
+
+      if (req.query.q) {
+        delete formatQueryString.q;
+        formatQueryString["$or"] = [
+          { first_name: { $regex: req.query.q, $options: "i" } },
+          { last_name: { $regex: req.query.q, $options: "i" } },
+          { email: { $regex: req.query.q, $options: "i" } },
+        ];
+      }
+
+      let query = User.find(formatQueryString).select(
+        "-password -refreshToken -passwordResetToken"
       );
 
-      if (!users) throw new Error("Not data!");
+      
+      if (req.query.page) {
+        let page = req.query.page || 1;
+        let limit = req.query.limit || 2;
+        page = (page - 1) * limit;
+        query = query.skip(page).limit(limit);
+      }
+      
+      const users = await query;
+      
+      const total = await User.find(formatQueryString).countDocuments();
 
       res.json({
         success: true,
-        data: users,
+        total,
+        users,
       });
     } catch (error) {
       next(error);
@@ -193,9 +220,7 @@ class userController {
   async getCurrentUser(req, res, next) {
     const { _id } = req.user;
 
-    const user = await User.findById(_id).select(
-      "-password -role -refreshToken"
-    );
+    const user = await User.findById(_id).select("-password -refreshToken");
 
     res.json({
       success: user ? true : false,

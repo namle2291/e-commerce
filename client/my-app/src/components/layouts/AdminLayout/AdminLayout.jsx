@@ -1,40 +1,31 @@
-import React, { Fragment, useEffect, useLayoutEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { privateRouter } from "../../../routes/routes";
-import AdminSideBar from "../../SideBar/AdminSideBar";
-import AdminHeader from "../../Header/AdminHeader";
-import { useSelector } from "react-redux";
+import React, { Fragment } from 'react'
+import { privateRouter } from '../../../routes/routes'
+import AdminSideBar from '../../SideBar/AdminSideBar'
+import AdminHeader from '../../Header/AdminHeader'
+import { Route, Routes } from 'react-router-dom'
 
 export default function AdminLayout() {
-  const { isLogged, userInfo } = useSelector((state) => state.user);
-
-  if (!isLogged) {
-    return <Navigate to={"/"} />;
-  }
-
   return (
-    <div className="flex bg-zinc-900 min-h-screen relative text-white">
-      <div className="fixed top-0 bottom-0 w-[327px] bg-zinc-800 border-r border-zinc-700">
+    <div className="flex bg-slate-50 min-h-screen relative">
+      <div className="fixed top-0 bottom-0 w-[327px] bg-slate-100">
         <AdminSideBar />
       </div>
-      <div className="w-[327px]"></div>
-      <div className="h-[1000px] flex-1">
-        <div className="sticky top-0">
+      <div className="w-[327px] shadow-lg"></div>
+      <div className="flex-1">
+        <div className="sticky top-0 shadow-md">
           <AdminHeader />
         </div>
         <div className="p-4">
           <Routes>
             {privateRouter &&
               privateRouter.map((item, index) => {
-                let Element = item.element;
-                let Layout = item.layout;
-
+                let Element = item.element
+                let Layout = item.layout
                 if (Layout) {
-                  Layout = item.layout;
+                  Layout = item.layout
                 } else {
-                  Layout = Fragment;
+                  Layout = Fragment
                 }
-
                 return (
                   <Route
                     path={item.path}
@@ -45,11 +36,11 @@ export default function AdminLayout() {
                       </Layout>
                     }
                   />
-                );
+                )
               })}
           </Routes>
         </div>
       </div>
     </div>
-  );
+  )
 }
