@@ -8,7 +8,7 @@ function UserManager() {
   const [data, setData] = useState({})
   const [key, setKey] = useState('')
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(2)
+  const [limit, setLimit] = useState(5)
 
   const fetchUsers = async (params) => {
     const response = await getUsers(params)
@@ -17,8 +17,8 @@ function UserManager() {
     }
   }
 
-  const handlePageChange = useCallback((e) => {
-    setPage(e)
+  const handlePageChange = useCallback((index) => {
+    setPage(index)
   }, [])
 
   const keyDebounce = useDebounce(key, 500)
@@ -104,13 +104,17 @@ function UserManager() {
       {!data && data?.users.length === 0 && (
         <p className="text-center py-4">No data found...</p>
       )}
-      <div className='mt-[20px] flex justify-start'>
-        {/* <Paginate
-          page={page}
-          total={data?.total}
-          limit={limit}
-          PageChange={handlePageChange}
-        /> */}
+      <div className="mt-[20px] flex justify-start">
+        {Math.ceil(data?.total / limit) > 1 && (
+          <>
+            <Paginate
+              currentPage={page}
+              pageCount={Math.ceil(data?.total / limit)}
+              limit={limit}
+              PageChange={handlePageChange}
+            />
+          </>
+        )}
       </div>
     </div>
   )
