@@ -37,11 +37,11 @@ class userController {
         let page = req.query.page || 1;
         let limit = req.query.limit || 2;
         page = (page - 1) * limit;
-        query = query.skip(page).limit(limit);
+        query = query.skip(+page).limit(+limit);
       }
       
       const users = await query;
-      
+
       const total = await User.find(formatQueryString).countDocuments();
 
       res.json({

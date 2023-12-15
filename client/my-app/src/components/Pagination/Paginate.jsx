@@ -19,6 +19,7 @@ function Paginate({ currentPage = 1, pageCount, PageChange }) {
             .fill(null)
             .map((el, idx) => (
               <button
+                key={idx}
                 className={clsx(
                   'border w-[30px] h-[30px]',
                   currentPage === idx + 1 && 'bg-blue-400 text-white'

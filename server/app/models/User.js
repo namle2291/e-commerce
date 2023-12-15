@@ -34,7 +34,7 @@ const userSchema = new Schema(
       require: true,
     },
     role: {
-      type: String,
+      type: Number,
       enum: [229, 612],
       default: 612,
     },
