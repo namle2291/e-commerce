@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { getUsers, updateUser } from '../../apis/userApi'
+import { deleteUser, getUsers, updateUser } from '../../apis/userApi'
 import moment from 'moment'
 import { useDebounce } from '@uidotdev/usehooks'
 import Paginate from '../../components/Pagination/Paginate'
@@ -13,7 +13,7 @@ import {
    FaRegTrashAlt,
 } from 'react-icons/fa'
 import clsx from 'clsx'
-import SelectForm from '../../components/Input/SelectForm'
+import { toast } from 'react-toastify'
 import { roleOptions, statusOptions } from '../../utils/contants'
 
 function UserManager() {
@@ -64,6 +64,19 @@ function UserManager() {
       if (response.success) {
          setEdit({})
          fetchUsers(params)
+         toast.success(response.message, {
+            position: 'bottom-right',
+         })
+      }
+   }
+
+   const handleDelete = async (id) => {
+      const response = await deleteUser(id)
+      if (response.success) {
+         fetchUsers(params)
+         toast.success(response.message, {
+            position: 'bottom-right',
+         })
       }
    }
 
@@ -95,7 +108,7 @@ function UserManager() {
             </div>
          </div>
          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-3">
+            <div className="relative shadow-md mt-3">
                <table className="w-full text-sm text-left rtl:text-right">
                   <thead className="bg-slate-800 text-white">
                      <tr>
@@ -134,8 +147,9 @@ function UserManager() {
                            <tr
                               key={index}
                               className={clsx(
-                                 'border-b',
-                                 edit?._id === el._id && 'bg-sky-100',
+                                 // 'border-b',
+                                 edit?._id === el._id &&
+                                    'border-2 border-blue-600',
                                  'transition-all align-middle'
                               )}
                            >
@@ -278,7 +292,10 @@ function UserManager() {
                                        >
                                           <FaEdit />
                                        </span>
-                                       <span className="cursor-pointer">
+                                       <span
+                                          className="cursor-pointer"
+                                          onClick={() => handleDelete(el._id)}
+                                       >
                                           <FaRegTrashAlt />
                                        </span>
                                     </>

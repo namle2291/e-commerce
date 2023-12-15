@@ -12,5 +12,12 @@ const updateUser = async (id, payload) => {
    })
    return response
 }
+const deleteUser = async (id) => {
+   const response = await httpRequest({
+      url: '/users/' + id,
+      method: 'delete',
+   })
+   return response
+}
 
-export { getUsers, updateUser }
+export { getUsers, updateUser, deleteUser }

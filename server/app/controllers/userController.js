@@ -32,14 +32,13 @@ class userController {
         "-password -refreshToken -passwordResetToken"
       );
 
-      
       if (req.query.page) {
         let page = req.query.page || 1;
         let limit = req.query.limit || 2;
         page = (page - 1) * limit;
         query = query.skip(+page).limit(+limit);
       }
-      
+
       const users = await query;
 
       const total = await User.find(formatQueryString).countDocuments();
@@ -286,6 +285,7 @@ class userController {
       res.json({
         success: user ? true : false,
         user,
+        message: user ? `User with email ${user.email} updated` : "Update fail",
       });
     } catch (error) {
       next(error);
@@ -303,6 +303,7 @@ class userController {
       res.json({
         success: user ? true : false,
         user,
+        message: user ? `User with email ${user.email} deleted` : "Delete fail",
       });
     } catch (error) {
       next(error);
