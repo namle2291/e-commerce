@@ -1,10 +1,11 @@
-import React from "react";
-import { renderStar } from "../../utils/renderStar";
+import React from 'react';
+import { renderStar } from '../../utils/renderStar';
+import { Rate } from 'antd';
 
 export default function Star({ totalRaitings, fs = 13 }) {
-  return (
-    <span className={`text-yellow-500 flex mb-[10px] mt-[6px] text-[${fs}px]`}>
-      {renderStar(totalRaitings)}
-    </span>
-  );
+   return (
+      <div>
+         <Rate className='text-[14px]' disabled defaultValue={totalRaitings} />
+      </div>
+   );
 }

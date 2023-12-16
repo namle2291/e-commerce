@@ -1,30 +1,31 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { deleteUser, getUsers, updateUser } from '../../apis/userApi'
-import moment from 'moment'
-import { useDebounce } from '@uidotdev/usehooks'
-import Paginate from '../../components/Pagination/Paginate'
-import { useForm } from 'react-hook-form'
-import InputForm from '../../components/Input/InputForm'
-import Button from '../../components/Button/Button'
+import React, { memo, useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { deleteUser, getUsers, updateUser } from '../../apis/userApi';
+import moment from 'moment';
+import { useDebounce } from '@uidotdev/usehooks';
+import Paginate from '../../components/Pagination/Paginate';
+import { useForm } from 'react-hook-form';
+import InputForm from '../../components/Input/InputForm';
+import Button from '../../components/Button/Button';
+import Swal from 'sweetalert2';
 import {
    FaEdit,
    FaRegSave,
    FaRegTimesCircle,
    FaRegTrashAlt,
-} from 'react-icons/fa'
-import clsx from 'clsx'
-import { toast } from 'react-toastify'
-import { roleOptions, statusOptions } from '../../utils/contants'
+} from 'react-icons/fa';
+import clsx from 'clsx';
+import { toast } from 'react-toastify';
+import { roleOptions, statusOptions } from '../../utils/contants';
 
 function UserManager() {
-   const [edit, setEdit] = useState(null)
-   const [data, setData] = useState({})
-   const [key, setKey] = useState('')
-   const [params, setParams] = useState({
-      page: 1,
-      limit: 2,
-      q: null,
-   })
+   const [edit, setEdit] = useState(null);
+   const [data, setData] = useState({});
+   const [key, setKey] = useState('');
+   const [page, setPage] = useState(1);
+   const [limit, setLimit] = useState(2);
+   const [update, setUpdate] = useState(false);
+   const { userInfo } = useSelector((state) => state.user);
 
    const {
       register,
@@ -33,52 +34,63 @@ function UserManager() {
       formState: { errors },
    } = useForm({
       mode: 'onChange',
-   })
+   });
 
-   const keyDebounce = useDebounce(key, 500)
+   const render = useCallback(() => {
+      setUpdate(!update);
+   }, [update]);
+
+   const keyDebounce = useDebounce(key, 500);
 
    useEffect(() => {
+      let param = { page, limit };
       if (!keyDebounce.startsWith(' ') && keyDebounce.length !== 0) {
-         setParams((prev) => ({ ...prev, q: keyDebounce }))
+         param.q = keyDebounce;
       }
-      fetchUsers(params)
-   }, [keyDebounce, params])
+      fetchUsers(param);
+   }, [keyDebounce, page, limit, update]);
 
    const fetchUsers = async (params) => {
-      const response = await getUsers(params)
+      const response = await getUsers(params);
       if (response.success) {
-         setData(response)
+         setData(response);
       }
-   }
+   };
 
    const handlePageChange = useCallback((index) => {
-      setParams((prev) => ({ ...prev, page: index }))
-   }, [])
+      setPage(index);
+   }, []);
 
    const handleCancelUpdate = () => {
-      setEdit(null)
-   }
+      setEdit(null);
+   };
 
    const onSubmit = async (data) => {
-      const response = await updateUser(edit._id, data)
+      const response = await updateUser(edit._id, data);
       if (response.success) {
-         setEdit({})
-         fetchUsers(params)
+         setEdit(null);
+         setUpdate(false);
          toast.success(response.message, {
             position: 'bottom-right',
-         })
+         });
       }
-   }
+   };
 
    const handleDelete = async (id) => {
-      const response = await deleteUser(id)
-      if (response.success) {
-         fetchUsers(params)
-         toast.success(response.message, {
-            position: 'bottom-right',
-         })
-      }
-   }
+      Swal.fire({ title: 'Are you sure?', showCancelButton: true }).then(
+         async (result) => {
+            if (result.isConfirmed) {
+               const response = await deleteUser(id);
+               if (response.success) {
+                  fetchUsers();
+                  toast.success(response.message, {
+                     position: 'bottom-right',
+                  });
+               }
+            }
+         }
+      );
+   };
 
    return (
       <div>
@@ -87,9 +99,7 @@ function UserManager() {
                <span>Show</span>
                <select
                   className="border px-2"
-                  onChange={(e) =>
-                     setParams((prev) => ({ ...prev, limit: e.target.value }))
-                  }
+                  onChange={(e) => setLimit(e.target.value)}
                >
                   <option>2</option>
                   <option>5</option>
@@ -286,18 +296,23 @@ function UserManager() {
                                        <span
                                           className="cursor-pointer"
                                           onClick={() => {
-                                             setEdit(el)
-                                             reset({})
+                                             setUpdate(true);
+                                             setEdit(el);
+                                             reset({});
                                           }}
                                        >
                                           <FaEdit />
                                        </span>
-                                       <span
-                                          className="cursor-pointer"
-                                          onClick={() => handleDelete(el._id)}
-                                       >
-                                          <FaRegTrashAlt />
-                                       </span>
+                                       {userInfo && userInfo._id !== el._id && (
+                                          <span
+                                             className="cursor-pointer"
+                                             onClick={() =>
+                                                handleDelete(el._id)
+                                             }
+                                          >
+                                             <FaRegTrashAlt />
+                                          </span>
+                                       )}
                                     </>
                                  )}
                               </td>
@@ -311,19 +326,19 @@ function UserManager() {
             <p className="text-center py-4">No data found...</p>
          )}
          <div className="mt-[20px] flex justify-start">
-            {Math.ceil(data?.total / params.limit) > 1 && (
+            {Math.ceil(data?.total / limit) > 1 && (
                <>
                   <Paginate
-                     currentPage={params.page}
-                     pageCount={Math.ceil(data?.total / params.limit)}
-                     limit={params.limit}
+                     currentPage={page}
+                     pageCount={Math.ceil(data?.total / limit)}
+                     limit={limit}
                      PageChange={handlePageChange}
                   />
                </>
             )}
          </div>
       </div>
-   )
+   );
 }
 
-export default memo(UserManager)
+export default memo(UserManager);
