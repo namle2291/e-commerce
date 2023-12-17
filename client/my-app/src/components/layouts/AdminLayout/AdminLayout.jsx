@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
-import { privateRouter } from '../../../routes/routes'
-import AdminSideBar from '../../SideBar/AdminSideBar'
-import AdminHeader from '../../Header/AdminHeader'
-import { Route, Routes } from 'react-router-dom'
+import React, { Fragment } from 'react';
+import { privateRouter } from '../../../routes/routes';
+import AdminSideBar from '../../SideBar/AdminSideBar';
+import AdminHeader from '../../Header/AdminHeader';
+import { Route, Routes } from 'react-router-dom';
 
 export default function AdminLayout() {
    return (
@@ -12,19 +12,19 @@ export default function AdminLayout() {
          </div>
          <div className="lg:min-w-[327px] min-w-[300px] shadow-lg"></div>
          <div className="flex-1">
-            <div className="sticky top-0 shadow-md">
+            <div className="sticky top-0 shadow-md z-50">
                <AdminHeader />
             </div>
             <div className="p-4">
                <Routes>
                   {privateRouter &&
                      privateRouter.map((item, index) => {
-                        let Element = item.element
-                        let Layout = item.layout
+                        let Element = item.element;
+                        let Layout = item.layout;
                         if (Layout) {
-                           Layout = item.layout
+                           Layout = item.layout;
                         } else {
-                           Layout = Fragment
+                           Layout = Fragment;
                         }
                         return (
                            <Route
@@ -36,11 +36,11 @@ export default function AdminLayout() {
                                  </Layout>
                               }
                            />
-                        )
+                        );
                      })}
                </Routes>
             </div>
          </div>
       </div>
-   )
+   );
 }

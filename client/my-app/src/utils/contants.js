@@ -126,7 +126,7 @@ export const adminSidebars = [
          {
             id: 2,
             title: 'List Product',
-            path: '/admin/products/list',
+            path: '/admin/products',
          },
       ],
    },

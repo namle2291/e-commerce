@@ -17,6 +17,7 @@ import {
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
 import { roleOptions, statusOptions } from '../../utils/contants';
+import { Tooltip } from 'antd';
 
 function UserManager() {
    const [edit, setEdit] = useState(null);
@@ -283,35 +284,56 @@ function UserManager() {
                                        <Button
                                           type="submit"
                                           className="text-green-600"
-                                          content={<FaRegSave />}
+                                          content={
+                                             <Tooltip
+                                                title="Save"
+                                                color="green"
+                                             >
+                                                <FaRegSave />
+                                             </Tooltip>
+                                          }
                                        />
                                        <Button
                                           className="text-red-600"
                                           handleClick={handleCancelUpdate}
-                                          content={<FaRegTimesCircle />}
+                                          content={
+                                             <Tooltip
+                                                title="Cancel"
+                                                color="red"
+                                             >
+                                                <FaRegTimesCircle />
+                                             </Tooltip>
+                                          }
                                        />
                                     </>
                                  ) : (
                                     <>
-                                       <span
-                                          className="cursor-pointer"
-                                          onClick={() => {
-                                             setUpdate(true);
-                                             setEdit(el);
-                                             reset({});
-                                          }}
-                                       >
-                                          <FaEdit />
-                                       </span>
-                                       {userInfo && userInfo._id !== el._id && (
+                                       <Tooltip title="Edit" color="blue">
                                           <span
                                              className="cursor-pointer"
-                                             onClick={() =>
-                                                handleDelete(el._id)
-                                             }
+                                             onClick={() => {
+                                                setUpdate(true);
+                                                setEdit(el);
+                                                reset({});
+                                             }}
                                           >
-                                             <FaRegTrashAlt />
+                                             <FaEdit />
                                           </span>
+                                       </Tooltip>
+                                       {userInfo && userInfo._id !== el._id && (
+                                          <Tooltip
+                                             title="Delete"
+                                             color="red"
+                                          >
+                                             <span
+                                                className="cursor-pointer"
+                                                onClick={() =>
+                                                   handleDelete(el._id)
+                                                }
+                                             >
+                                                <FaRegTrashAlt />
+                                             </span>
+                                          </Tooltip>
                                        )}
                                     </>
                                  )}
