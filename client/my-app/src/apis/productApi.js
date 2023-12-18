@@ -6,11 +6,32 @@ export const getProductCategory = (params) =>
       method: 'get',
       params,
    });
+
 export const getProducts = (params) =>
    httpRequest({
       url: '/products',
       method: 'get',
       params,
+   });
+
+export const createProduct = (payload) =>
+   httpRequest({
+      url: '/products',
+      method: 'post',
+      data: payload,
+      headers: {
+         'Content-Type': 'multipart/form-data',
+      },
+   });
+   
+export const updateImagesProduct = (id,payload) =>
+   httpRequest({
+      url: '/products/' + id + '/upload-image',
+      method: 'put',
+      data: payload,
+      headers: {
+         'Content-Type': 'multipart/form-data',
+      },
    });
 
 export const getHighPriceProduct = (params) =>
@@ -19,6 +40,7 @@ export const getHighPriceProduct = (params) =>
       method: 'get',
       params,
    });
+
 export const raitingProduct = (payload) =>
    httpRequest({
       url: '/products/raiting',

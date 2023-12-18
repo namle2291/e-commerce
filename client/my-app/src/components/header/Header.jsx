@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import logo from '../../assets/img/logo.png'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import logo from '../../assets/img/logo.png';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
-   const { userInfo } = useSelector((state) => state.user)
+   const { userInfo } = useSelector((state) => state.user);
    return (
       <div className="wrapper">
          <div className="py-[35px] flex justify-between">
@@ -79,5 +79,5 @@ export default function Header() {
             </div>
          </div>
       </div>
-   )
+   );
 }

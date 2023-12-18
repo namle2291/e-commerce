@@ -88,7 +88,7 @@ function ProductDetail() {
                <div className="flex wrapper">
                   {/* Product images */}
                   <div className="flex flex-col">
-                     <div className="w-[460px] h-[460px] border mb-[30px] duration-200 overflow-hidden">
+                     <div className="w-[460px] h-[460px] border flex items-center mb-[30px] duration-200 overflow-hidden">
                         <Image.PreviewGroup>
                            <Image src={productImage} />
                         </Image.PreviewGroup>

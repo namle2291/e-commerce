@@ -79,14 +79,19 @@ class productController {
       if (Object.keys(req.body).length <= 0) throw new Error("Missing inputs!");
       // Tạo slug theo title
       const { title } = req.body;
+
       req.body.slug = slugify(title, {
         locale: "vi",
       });
 
-      const product = await Product.create(req.body);
+      const product = await Product.create({
+        ...req.body,
+        thumb: req.file.path,
+      });
 
       res.json({
         success: true,
+        message: `Product ${product.title} created!`,
         product,
       });
     } catch (error) {
@@ -206,7 +211,7 @@ class productController {
     try {
       const { pid } = req.params;
 
-      if (!req.files) throw new Error("File not found!");
+      if (req.files.length <= 0) throw new Error("Files not found!");
 
       const product = await Product.findByIdAndUpdate(
         pid,
@@ -217,8 +222,9 @@ class productController {
       );
 
       res.json({
-        success: true,
+        success: product ? true : false,
         product,
+        message: product ? "Update images success!" : "Update images fail!",
       });
     } catch (error) {
       next(error);

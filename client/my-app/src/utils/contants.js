@@ -120,7 +120,7 @@ export const adminSidebars = [
       childs: [
          {
             id: 1,
-            title: 'Add Product',
+            title: 'Create New Product',
             path: '/admin/products/add',
          },
          {

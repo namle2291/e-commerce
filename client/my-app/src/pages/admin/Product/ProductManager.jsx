@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
-import { getProducts } from '../../apis/productApi';
-import { Table } from 'antd';
-import { formatPrice } from '../../utils/formatPrice';
+import { getProducts } from '../../../apis/productApi';
+import { Popconfirm, Table } from 'antd';
+import { formatPrice } from '../../../utils/formatPrice';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import $ from 'jquery';
+import Paginate from '../../../components/Pagination/Paginate';
 
 function ProductManager() {
    const [data, setData] = useState({});
    const [checked, setChecked] = useState([]);
+   const [page, setPage] = useState(1);
 
    useEffect(() => {
       fetchProducts();
-   }, []);
+   }, [page]);
 
    const fetchProducts = async () => {
-      let params = { page: 1, limit: 10 };
+      let params = { page: page, limit: 10, sort: '-createdAt' };
       const response = await getProducts(params);
       if (response.success) {
          setData(response);
@@ -105,7 +107,21 @@ function ProductManager() {
       Actions: (
          <div className="flex gap-3 text-lg">
             <EditOutlined className="cursor-pointer" />
-            <DeleteOutlined className="cursor-pointer" />
+            <Popconfirm
+               placement="left"
+               title="Delete the product"
+               description="Are you sure to delete this product?"
+               onConfirm={() => {
+                  console.log('onConfirm');
+               }}
+               onCancel={() => {
+                  console.log('onCancel');
+               }}
+               okText="Yes"
+               cancelText="No"
+            >
+               <DeleteOutlined className="cursor-pointer" />
+            </Popconfirm>
          </div>
       ),
    }));
@@ -118,6 +134,15 @@ function ProductManager() {
             rowKey="#"
             columns={columns}
          />
+         <div className="flex justify-end">
+            <Paginate
+               currentPage={page}
+               pageCount={Math.ceil(data?.total / 10)}
+               PageChange={(index) => {
+                  setPage(index);
+               }}
+            />
+         </div>
       </div>
    );
 }

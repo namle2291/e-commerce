@@ -8,16 +8,16 @@ import { useForm } from 'react-hook-form';
 import InputForm from '../../components/Input/InputForm';
 import Button from '../../components/Button/Button';
 import Swal from 'sweetalert2';
-import {
-   FaEdit,
-   FaRegSave,
-   FaRegTimesCircle,
-   FaRegTrashAlt,
-} from 'react-icons/fa';
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
 import { roleOptions, statusOptions } from '../../utils/contants';
 import { Tooltip } from 'antd';
+import {
+   DeleteOutlined,
+   EditOutlined,
+   SaveOutlined,
+   StopOutlined,
+} from '@ant-design/icons';
 
 function UserManager() {
    const [edit, setEdit] = useState(null);
@@ -289,7 +289,7 @@ function UserManager() {
                                                 title="Save"
                                                 color="green"
                                              >
-                                                <FaRegSave />
+                                                <SaveOutlined />
                                              </Tooltip>
                                           }
                                        />
@@ -301,7 +301,7 @@ function UserManager() {
                                                 title="Cancel"
                                                 color="red"
                                              >
-                                                <FaRegTimesCircle />
+                                                <StopOutlined />
                                              </Tooltip>
                                           }
                                        />
@@ -317,21 +317,18 @@ function UserManager() {
                                                 reset({});
                                              }}
                                           >
-                                             <FaEdit />
+                                             <EditOutlined />
                                           </span>
                                        </Tooltip>
                                        {userInfo && userInfo._id !== el._id && (
-                                          <Tooltip
-                                             title="Delete"
-                                             color="red"
-                                          >
+                                          <Tooltip title="Delete" color="red">
                                              <span
                                                 className="cursor-pointer"
                                                 onClick={() =>
                                                    handleDelete(el._id)
                                                 }
                                              >
-                                                <FaRegTrashAlt />
+                                                <DeleteOutlined />
                                              </span>
                                           </Tooltip>
                                        )}

@@ -21,7 +21,7 @@ function Paginate({ currentPage = 1, pageCount, PageChange }) {
               <button
                 key={idx}
                 className={clsx(
-                  'border w-[30px] h-[30px]',
+                  'border w-[30px] h-[30px] text-gray-500',
                   currentPage === idx + 1 && 'bg-blue-400 text-white'
                 )}
                 onClick={() => PageChange(idx + 1)}
