@@ -14,6 +14,12 @@ export const getProducts = (params) =>
       params,
    });
 
+export const getProductDetail = (id) =>
+   httpRequest({
+      url: '/products/' + id,
+      method: 'get',
+   });
+
 export const createProduct = (payload) =>
    httpRequest({
       url: '/products',
@@ -23,8 +29,18 @@ export const createProduct = (payload) =>
          'Content-Type': 'multipart/form-data',
       },
    });
-   
-export const updateImagesProduct = (id,payload) =>
+
+export const updateProduct = (id, payload) =>
+   httpRequest({
+      url: '/products/' + id,
+      method: 'put',
+      data: payload,
+      headers: {
+         'Content-Type': 'multipart/form-data',
+      },
+   });
+
+export const updateImagesProduct = (id, payload) =>
    httpRequest({
       url: '/products/' + id + '/upload-image',
       method: 'put',

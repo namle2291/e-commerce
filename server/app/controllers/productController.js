@@ -110,13 +110,20 @@ class productController {
         locale: "vi",
       });
 
-      const product = await Product.findByIdAndUpdate(pid, req.body, {
+      const dataBody = req.body;
+
+      if (req.file) {
+        dataBody.thumb = req.file.path;
+      }
+
+      const product = await Product.findByIdAndUpdate(pid, dataBody, {
         new: true,
       });
 
       res.json({
-        success: true,
+        success: product ? true : false,
         product,
+        message: product ? `Product ${product.title} updated!` : "Update fail!",
       });
     } catch (error) {
       next(error);

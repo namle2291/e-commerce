@@ -3,6 +3,7 @@ import React from 'react';
 
 function InputField({
    field,
+   defaultValue,
    id,
    hidden,
    placeholder,
@@ -16,6 +17,7 @@ function InputField({
          <Input
             type={type}
             {...field}
+            defaultValue={defaultValue}
             hidden={hidden}
             size="large"
             placeholder={placeholder}

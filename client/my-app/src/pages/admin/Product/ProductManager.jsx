@@ -7,6 +7,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import $ from 'jquery';
 import Paginate from '../../../components/Pagination/Paginate';
+import { Link } from 'react-router-dom';
 
 function ProductManager() {
    const [data, setData] = useState({});
@@ -106,7 +107,9 @@ function ProductManager() {
       CreateAt: moment(el.createdAt).format('DD/MM/YYYY'),
       Actions: (
          <div className="flex gap-3 text-lg">
-            <EditOutlined className="cursor-pointer" />
+            <Link to={`/admin/products/${el._id}`}>
+               <EditOutlined className="cursor-pointer" />
+            </Link>
             <Popconfirm
                placement="left"
                title="Delete the product"

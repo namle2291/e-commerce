@@ -17,6 +17,7 @@ import OrderManager from '../pages/admin/OrderManager';
 import UserManager from '../pages/admin/UserManager';
 
 import Dashboard from '../pages/admin/Dashboard';
+import UpdateProduct from '../pages/admin/Product/UpdateProduct';
 
 const publicRouter = [
    {
@@ -87,6 +88,10 @@ const privateRouter = [
    {
       path: '/products/add',
       element: AddProduct,
+   },
+   {
+      path: '/products/:pid',
+      element: UpdateProduct,
    },
    {
       path: '/orders',
