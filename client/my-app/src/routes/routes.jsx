@@ -13,6 +13,7 @@ import ProductCategory from '../pages/clients/ProductCategory';
 import CategoryManager from '../pages/admin/CategoryManager';
 import ProductManager from '../pages/admin/Product/ProductManager';
 import AddProduct from '../pages/admin/Product/AddProduct';
+import ProductDeleted from '../pages/admin/Product/ProductDeleted';
 import OrderManager from '../pages/admin/OrderManager';
 import UserManager from '../pages/admin/UserManager';
 
@@ -82,6 +83,14 @@ const privateRouter = [
       element: CategoryManager,
    },
    {
+      path: '/orders',
+      element: OrderManager,
+   },
+   {
+      path: '/users',
+      element: UserManager,
+   },
+   {
       path: '/products',
       element: ProductManager,
    },
@@ -90,16 +99,12 @@ const privateRouter = [
       element: AddProduct,
    },
    {
+      path: '/products/trash',
+      element: ProductDeleted,
+   },
+   {
       path: '/products/:pid',
       element: UpdateProduct,
-   },
-   {
-      path: '/orders',
-      element: OrderManager,
-   },
-   {
-      path: '/users',
-      element: UserManager,
    },
    {
       path: '*',

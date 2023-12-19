@@ -1,4 +1,5 @@
 const mongoose = require("mongoose"); // Erase if already required
+var mongoose_delete = require("mongoose-delete");
 
 // Declare the Schema of the Mongo model
 var productSchema = new mongoose.Schema(
@@ -68,6 +69,11 @@ var productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.plugin(mongoose_delete, {
+  deletedAt: true,
+  overrideMethods: 'all',
+});
 
 //Export the model
 module.exports = mongoose.model("Product", productSchema);

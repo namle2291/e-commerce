@@ -40,6 +40,29 @@ export const updateProduct = (id, payload) =>
       },
    });
 
+export const deleteProduct = (id) =>
+   httpRequest({
+      url: '/products/' + id,
+      method: 'delete',
+   });
+export const destroyProduct = (id) =>
+   httpRequest({
+      url: '/products/' + id + '/destroy',
+      method: 'delete',
+   });
+
+export const restoreProduct = (id) =>
+   httpRequest({
+      url: '/products/' + id + '/restore',
+      method: 'get',
+   });
+
+export const getProductDeleted = () =>
+   httpRequest({
+      url: '/products/recycle-bin',
+      method: 'get',
+   });
+
 export const updateImagesProduct = (id, payload) =>
    httpRequest({
       url: '/products/' + id + '/upload-image',

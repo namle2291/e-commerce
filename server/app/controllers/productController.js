@@ -64,10 +64,12 @@ class productController {
       const products = await query.populate("category");
 
       const total = await Product.find(q).countDocuments();
+      const deleted = await Product.find(q).countDocuments({ deleted: true });
 
       res.json({
         success: products ? true : false,
         total,
+        deleted,
         data: products ? products : "Not data found!",
       });
     } catch (error) {
@@ -134,13 +136,66 @@ class productController {
       const { pid } = req.params;
       if (!pid) throw new Error("Missing product id!");
 
+      const product = await Product.findById(pid);
+
+      product.delete();
+
+      res.json({
+        success: true,
+        product,
+        message: product
+          ? `Product ${product.title} deleted`
+          : "Something went wrong!",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async destroy(req, res, next) {
+    try {
+      const { pid } = req.params;
+      if (!pid) throw new Error("Missing product id!");
+
       const product = await Product.findByIdAndDelete(pid);
 
       res.json({
         success: true,
+        product,
         message: product
-          ? `Product ${product.title} deleted`
+          ? `Product ${product.title} destroy`
           : "Something went wrong!",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async restoreProduct(req, res, next) {
+    try {
+      const { pid } = req.params;
+      if (!pid) throw new Error("Missing product id!");
+      
+      const product = await Product.findOneDeleted({_id: pid});
+
+      product.restore();
+      
+      res.json({
+        success: product ? true : false,
+        product,
+        message: product
+          ? `Product ${product.title} restored`
+          : "Something went wrong!",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async recycleBin(req, res, next) {
+    try {
+      const product = await Product.findDeleted({});
+
+      res.json({
+        success: true,
+        product,
       });
     } catch (error) {
       next(error);

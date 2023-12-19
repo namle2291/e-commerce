@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import { getProducts } from '../../../apis/productApi';
-import { Popconfirm, Table } from 'antd';
+import { deleteProduct, getProducts } from '../../../apis/productApi';
+import { Table } from 'antd';
 import { formatPrice } from '../../../utils/formatPrice';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import $ from 'jquery';
 import Paginate from '../../../components/Pagination/Paginate';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function ProductManager() {
    const [data, setData] = useState({});
@@ -53,6 +55,25 @@ function ProductManager() {
       } else {
          $('.check-input').prop('checked', false);
       }
+   };
+
+   const handleDelete = (id) => {
+      Swal.fire({
+         title: 'Are you sure?',
+         type: 'warning',
+         showCancelButton: true,
+      }).then((result) => {
+         if (result.isConfirmed) {
+            deleteProduct(id)
+               .then((res) => {
+                  fetchProducts();
+                  toast.success(res.message);
+               })
+               .catch((err) => {
+                  toast.warn(err.message);
+               });
+         }
+      });
    };
 
    const columns = [
@@ -106,31 +127,25 @@ function ProductManager() {
       Price: formatPrice(el.price),
       CreateAt: moment(el.createdAt).format('DD/MM/YYYY'),
       Actions: (
-         <div className="flex gap-3 text-lg">
+         <div className="flex gap-4 text-lg">
             <Link to={`/admin/products/${el._id}`}>
-               <EditOutlined className="cursor-pointer" />
+               <EditOutlined className="cursor-pointer text-blue-600" />
             </Link>
-            <Popconfirm
-               placement="left"
-               title="Delete the product"
-               description="Are you sure to delete this product?"
-               onConfirm={() => {
-                  console.log('onConfirm');
-               }}
-               onCancel={() => {
-                  console.log('onCancel');
-               }}
-               okText="Yes"
-               cancelText="No"
-            >
-               <DeleteOutlined className="cursor-pointer" />
-            </Popconfirm>
+            <DeleteOutlined
+               className="cursor-pointer text-red-600"
+               onClick={() => handleDelete(el._id)}
+            />
          </div>
       ),
    }));
 
    return (
       <div>
+         <div className="mb-4">
+            <Link to={'/admin/products/trash'}>
+               Recycle Bin ({data?.deleted})
+            </Link>
+         </div>
          <Table
             dataSource={dataSource}
             pagination={false}

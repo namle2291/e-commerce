@@ -7,7 +7,26 @@ const uploadCLD = require("../app/config/cloudinary.config");
 
 // Routes
 router.put("/raiting", verifyAccessToken, productController.raiting);
-
+// delete
+router.get(
+  "/recycle-bin",
+  verifyAccessToken,
+  isAdmin,
+  productController.recycleBin
+);
+// Restore
+router.get(
+  "/:pid/restore",
+  verifyAccessToken,
+  productController.restoreProduct
+);
+// Destroy
+router.delete(
+  "/:pid/destroy",
+  verifyAccessToken,
+  isAdmin,
+  productController.destroy
+);
 // update images
 router.put(
   "/:pid/upload-image",
@@ -27,7 +46,6 @@ router.put(
   verifyAccessToken,
   productController.update
 );
-// delete
 router.delete("/:pid", verifyAccessToken, isAdmin, productController.delete);
 // create
 router.post(
