@@ -1,10 +1,9 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 
 import { IoEyeOutline } from 'react-icons/io5';
 import { BsCart, BsCartCheck } from 'react-icons/bs';
 import { CiHeart } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 import { updateCart } from '../../apis/userApi';
 import { message } from 'antd';
 import { getCurrent } from '../../app/reducers/userReducer';
@@ -31,9 +30,9 @@ function SelectOption({ product, justify = 'center' }) {
          return;
       }
       messageApi.open({
-        type: 'warning',
-        content: 'Please login!',
-     });
+         type: 'warning',
+         content: 'Please login!',
+      });
    };
 
    return (
@@ -42,7 +41,7 @@ function SelectOption({ product, justify = 'center' }) {
          <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-slate-800 hover:text-white border cursor-pointer">
             <CiHeart className="text-[18px]" />
          </span>
-         {userInfo?.cart?.some((el) => el.product === product?._id) ? (
+         {userInfo?.cart?.some((el) => el.product._id === product?._id) ? (
             <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-green-500 text-white border cursor-pointer">
                <BsCartCheck />
             </span>

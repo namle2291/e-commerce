@@ -20,6 +20,14 @@ const updateCart = async (payload) => {
    });
    return response;
 };
+const removeCartItem = async (payload) => {
+   const response = await httpRequest({
+      url: '/users/cart/remove',
+      method: 'put',
+      data: payload,
+   });
+   return response;
+};
 const deleteUser = async (id) => {
    const response = await httpRequest({
       url: '/users/' + id,
@@ -28,4 +36,4 @@ const deleteUser = async (id) => {
    return response;
 };
 
-export { getUsers, updateUser, deleteUser, updateCart };
+export { getUsers, updateUser, deleteUser, updateCart, removeCartItem };

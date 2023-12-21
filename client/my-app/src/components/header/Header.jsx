@@ -42,7 +42,7 @@ export default function Header() {
                <div className="flex items-center pl-[20px] min-h-[40px] border-l">
                   <ul className="flex items-center justify-between h-full w-full">
                      <li className="h-full">
-                        <a href="/" className="">
+                        <Link to="/cart" className="">
                            <span className="mr-[8px]">
                               <i
                                  className="fa fa-shopping-bag text-[20px] text-main_color"
@@ -55,7 +55,7 @@ export default function Header() {
                               </span>
                               <span className="ml-1 text-[14px]">item</span>
                            </span>
-                        </a>
+                        </Link>
                      </li>
                      {userInfo && (
                         <li className="ml-[20px] border-l flex-1 h-full flex justify-center items-center">

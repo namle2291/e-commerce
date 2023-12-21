@@ -13,6 +13,7 @@ router.get("/current", verifyAccessToken, userController.getCurrentUser);
 router.put("/current", verifyAccessToken, userController.updateCurrentUser);
 router.put("/address", verifyAccessToken, userController.updateAddress);
 router.put("/cart", verifyAccessToken, userController.updateCart);
+router.put("/cart/remove", verifyAccessToken, userController.removeCart);
 // Reset password
 router.get("/refresh-token", userController.refreshToken);
 router.post("/forgot-password", userController.forgotPassword);

@@ -100,12 +100,32 @@ function ProductManager() {
          dataIndex: 'Title',
       },
       {
+         title: 'Brand',
+         dataIndex: 'Brand',
+      },
+      {
+         title: 'Category',
+         dataIndex: 'Category',
+      },
+      {
          title: 'Price',
          dataIndex: 'Price',
       },
       {
-         title: 'Create At',
-         dataIndex: 'CreateAt',
+         title: 'Quantity',
+         dataIndex: 'Quantity',
+      },
+      {
+         title: 'Sold',
+         dataIndex: 'Sold',
+      },
+      {
+         title: 'Raitings',
+         dataIndex: 'Raitings',
+      },
+      {
+         title: 'Update At',
+         dataIndex: 'UpdateAt',
       },
       {
          title: 'Actions',
@@ -124,8 +144,13 @@ function ProductManager() {
       '#': index + 1,
       Thumb: <img src={el.thumb} className="w-[80px]" alt="" />,
       Title: el.title,
+      Brand: el.brand,
+      Category: el.category.title,
       Price: formatPrice(el.price),
-      CreateAt: moment(el.createdAt).format('DD/MM/YYYY'),
+      Quantity: el.quantity,
+      Sold: el.sold,
+      Raitings: el.raitings.length,
+      UpdateAt: moment(el.updatedAt).format('DD/MM/YYYY'),
       Actions: (
          <div className="flex gap-4 text-lg">
             <Link to={`/admin/products/${el._id}`}>

@@ -19,6 +19,7 @@ import UserManager from '../pages/admin/UserManager';
 
 import Dashboard from '../pages/admin/Dashboard';
 import UpdateProduct from '../pages/admin/Product/UpdateProduct';
+import Cart from '../pages/clients/Cart';
 
 const publicRouter = [
    {
@@ -51,11 +52,11 @@ const publicRouter = [
       layout: DefaultLayout,
       element: Account,
    },
-   // {
-   //   path: "/products",
-   //   layout: DefaultLayout,
-   //   element: Products,
-   // },
+   {
+      path: '/cart',
+      layout: DefaultLayout,
+      element: Cart,
+   },
    {
       path: '/product/:pid',
       layout: DefaultLayout,

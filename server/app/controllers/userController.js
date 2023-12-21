@@ -219,7 +219,9 @@ class userController {
   async getCurrentUser(req, res, next) {
     const { _id } = req.user;
 
-    const user = await User.findById(_id).select("-password -refreshToken");
+    const user = await User.findById(_id)
+      .select("-password -refreshToken")
+      .populate("cart.product");
 
     res.json({
       success: user ? true : false,
@@ -408,7 +410,7 @@ class userController {
 
       const { pid, quantity = 1, color } = req.body;
       if (!pid || !color) throw new Error("Missing inputs!");
-      
+
       const user = await User.findById(_id);
       const productExist = user?.cart?.find(
         (el) => el.product.toString() === pid
@@ -459,6 +461,27 @@ class userController {
           cart: response.cart,
         });
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+  async removeCart(req, res, next) {
+    try {
+      const { _id } = req.user;
+      const { pid } = req.body;
+
+      if (!pid) throw new Error("Missing inputs!");
+
+      const user = await User.findByIdAndUpdate(_id, {
+        $pull: {
+          cart: { product: pid },
+        },
+      });
+
+      res.json({
+        success: user ? true : false,
+        message: user ? "Remove item success!" : "Remove item fail!",
+      });
     } catch (error) {
       next(error);
     }
