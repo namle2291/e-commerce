@@ -406,16 +406,14 @@ class userController {
     try {
       const { _id } = req.user;
 
-      const { pid, quantity, color } = req.body;
-      if (!pid || !quantity || !color) throw new Error("Missing inputs!");
-      // Tìm user
+      const { pid, quantity = 1, color } = req.body;
+      if (!pid || !color) throw new Error("Missing inputs!");
+      
       const user = await User.findById(_id);
-      // Check sản phẩm đã tồn tại trong cart hay chưa
       const productExist = user?.cart?.find(
         (el) => el.product.toString() === pid
       );
 
-      // Nếu sản phẩm không có trong cart thì thêm mới
       if (productExist) {
         const productColorExist = user?.cart?.find(
           (el) => el.product.toString() === pid && el.color.toString() === color
@@ -433,7 +431,7 @@ class userController {
           ).select("cart");
           res.json({
             success: true,
-            response,
+            cart: response.cart,
           });
         } else {
           // Kiểm tra id product hợp lệ trước khi thêm mới
@@ -445,7 +443,7 @@ class userController {
           ).select("cart");
           res.json({
             success: true,
-            response,
+            cart: response.cart,
           });
         }
       } else {
@@ -458,7 +456,7 @@ class userController {
         );
         res.json({
           success: true,
-          response,
+          cart: response.cart,
         });
       }
     } catch (error) {

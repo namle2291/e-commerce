@@ -50,7 +50,9 @@ export default function Header() {
                               ></i>
                            </span>
                            <span>
-                              <span className="text-[14px]">1</span>
+                              <span className="text-[14px]">
+                                 {userInfo?.cart?.length || 0}
+                              </span>
                               <span className="ml-1 text-[14px]">item</span>
                            </span>
                         </a>

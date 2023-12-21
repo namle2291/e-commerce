@@ -1,24 +1,63 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
-import { IoEyeOutline, IoHeartSharp, IoMenu } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { IoEyeOutline } from 'react-icons/io5';
+import { BsCart, BsCartCheck } from 'react-icons/bs';
+import { CiHeart } from 'react-icons/ci';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { updateCart } from '../../apis/userApi';
+import { message } from 'antd';
+import { getCurrent } from '../../app/reducers/userReducer';
 
-function SelectOption({ pid, justify = "center" }) {
-  return (
-    <div className={`flex justify-${justify} gap-3 w-full`}>
-      <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-black hover:text-white border cursor-pointer">
-        <IoHeartSharp className="text-[18px]" />
-      </span>
-      <Link
-        to={`/product/${pid}`}
-        className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-black hover:text-white border cursor-pointer"
-      >
-        <IoMenu className="text-[18px]" />
-      </Link>
-      <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-black hover:text-white border cursor-pointer">
-        <IoEyeOutline className="text-[18px]" />
-      </span>
-    </div>
-  );
+function SelectOption({ product, justify = 'center' }) {
+   const { userInfo } = useSelector((state) => state.user);
+   const [messageApi, contextHolder] = message.useMessage();
+
+   const dispatch = useDispatch();
+
+   const handleAddToCart = () => {
+      if (userInfo) {
+         updateCart({ pid: product?._id, color: product?.color || 'BLACK' })
+            .then((res) => {
+               messageApi.open({
+                  type: 'success',
+                  content: 'The product has been added to cart',
+               });
+               dispatch(getCurrent());
+            })
+            .catch((err) => {
+               console.log(err);
+            });
+         return;
+      }
+      messageApi.open({
+        type: 'warning',
+        content: 'Please login!',
+     });
+   };
+
+   return (
+      <div className={`flex justify-${justify} gap-3 w-full`}>
+         {contextHolder}
+         <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-slate-800 hover:text-white border cursor-pointer">
+            <CiHeart className="text-[18px]" />
+         </span>
+         {userInfo?.cart?.some((el) => el.product === product?._id) ? (
+            <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-green-500 text-white border cursor-pointer">
+               <BsCartCheck />
+            </span>
+         ) : (
+            <span
+               className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-slate-800 hover:text-white border cursor-pointer"
+               onClick={handleAddToCart}
+            >
+               <BsCart className="text-[18px]" />
+            </span>
+         )}
+         <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-slate-800 hover:text-white border cursor-pointer">
+            <IoEyeOutline className="text-[18px]" />
+         </span>
+      </div>
+   );
 }
 export default memo(SelectOption);
