@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCart } from '../../apis/userApi';
 import { message } from 'antd';
 import { getCurrent } from '../../app/reducers/userReducer';
+import { setProductInfo, showQuickView } from '../../app/reducers/appReducer';
 
 function SelectOption({ product, justify = 'center' }) {
    const { userInfo } = useSelector((state) => state.user);
@@ -35,6 +36,11 @@ function SelectOption({ product, justify = 'center' }) {
       });
    };
 
+   const handleQuickView = () => {
+      dispatch(showQuickView(true));
+      dispatch(setProductInfo(product));
+   };
+
    return (
       <div className={`flex justify-${justify} gap-3 w-full`}>
          {contextHolder}
@@ -53,7 +59,10 @@ function SelectOption({ product, justify = 'center' }) {
                <BsCart className="text-[18px]" />
             </span>
          )}
-         <span className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-slate-800 hover:text-white border cursor-pointer">
+         <span
+            className="w-[40px] h-[40px] rounded-full flex justify-center items-center bg-slate-50 hover:bg-slate-800 hover:text-white border cursor-pointer"
+            onClick={() => handleQuickView()}
+         >
             <IoEyeOutline className="text-[18px]" />
          </span>
       </div>

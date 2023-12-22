@@ -5,7 +5,6 @@ import { FaTimes } from "react-icons/fa";
 import { votes } from "../../utils/contants";
 import { raitingProduct } from "../../apis/productApi";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
 
 function VoteModal({ product, showModal }) {
   const [comment, setComment] = useState("");

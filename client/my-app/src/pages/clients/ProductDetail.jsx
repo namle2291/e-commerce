@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { memo, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { httpRequest } from '../../axios/custom-axios';
@@ -15,7 +15,11 @@ import { GiRotaryPhone } from 'react-icons/gi';
 import RelatedProduct from '../../components/RelatedProduct/RelatedProduct';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import ProductInfo from '../../components/ProductInfo/ProductInfo';
-import { Image } from 'antd';
+import { Image, message } from 'antd';
+import QuantityForm from '../../components/Product/QuantityForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCart } from '../../apis/userApi';
+import { getCurrent } from '../../app/reducers/userReducer';
 
 const extrainfo = [
    {
@@ -46,20 +50,16 @@ const extrainfo = [
 ];
 
 function ProductDetail() {
+   const { userInfo } = useSelector((state) => state.user);
+
    const [product, setProduct] = useState();
    const [productImage, setProductImage] = useState('');
-
    const [quantity, setQuantity] = useState(1);
+   const [messageApi, contextHolder] = message.useMessage();
+
+   const dispatch = useDispatch();
 
    const { pid } = useParams();
-   const imageRef = useRef();
-
-   useEffect(() => {
-      if (imageRef.current) {
-         imageRef.current.style.background = `url(${productImage}) center center no-repeat`;
-         imageRef.current.style.backgroundSize = 'contain';
-      }
-   }, [productImage]);
 
    useEffect(() => {
       httpRequest
@@ -75,8 +75,46 @@ function ProductDetail() {
          });
    }, [pid]);
 
+   const handleIncrease = useCallback((num) => {
+      setQuantity(num);
+   }, []);
+
+   const handleDecrease = useCallback((num) => {
+      setQuantity(num);
+   }, []);
+
+   const handleChangeQuantity = useCallback((num) => {
+      setQuantity(num);
+   }, []);
+
+   const handleAddToCart = () => {
+      if (userInfo) {
+         updateCart({
+            pid: product?._id,
+            quantity,
+            color: product?.color || 'BLACK',
+         })
+            .then((res) => {
+               messageApi.open({
+                  type: 'success',
+                  content: 'The product has been added to cart',
+               });
+               dispatch(getCurrent());
+            })
+            .catch((err) => {
+               console.log(err);
+            });
+         return;
+      }
+      messageApi.open({
+         type: 'warning',
+         content: 'Please login!',
+      });
+   };
+
    return (
       <>
+         {contextHolder}
          {product && (
             <div>
                <div className="bg-gray-200">
@@ -138,64 +176,38 @@ function ProductDetail() {
                               {product.raitings.length} review
                            </span>
                         </div>
-                        <form action="" method="post">
-                           <div className="mt-[20px] mb-[20px]">
-                              <ul className="list-disc pl-[20px]">
-                                 {product?.description?.map((item, index) => (
-                                    <li
-                                       key={index}
-                                       className="text-[14px] text-gray-500"
-                                    >
-                                       {item}
-                                    </li>
-                                 ))}
-                              </ul>
-                           </div>
-                           <div className="flex items-center gap-4 mb-[20px]">
-                              <label className="font-semibold"> Color</label>
-                              <span>{product.color}</span>
-                           </div>
-                           <div className="flex items-center gap-4 mb-[20px]">
-                              <label className="font-semibold"> Quantity</label>
-                              <div className="relative w-[100px]">
-                                 <button
-                                    type="button"
-                                    className="absolute border-r-2 h-full w-[25px] hover:bg-gray-300"
-                                    onClick={() => {
-                                       if (quantity > 1) {
-                                          setQuantity((prev) => prev - 1);
-                                       }
-                                    }}
+                        <div className="mt-[20px] mb-[20px]">
+                           <ul className="list-disc pl-[20px]">
+                              {product?.description?.map((item, index) => (
+                                 <li
+                                    key={index}
+                                    className="text-[14px] text-gray-500"
                                  >
-                                    -
-                                 </button>
-                                 <input
-                                    type="text"
-                                    min={1}
-                                    value={quantity}
-                                    max={product.quantity}
-                                    className="w-full py-[5px] px-[25px] text-center outline-none"
-                                    onChange={() => {}}
-                                 />
-                                 <button
-                                    type="button"
-                                    className="absolute border-l-2 right-0 h-full w-[25px] hover:bg-gray-300"
-                                    onClick={() => {
-                                       if (quantity < product.quantity) {
-                                          setQuantity((prev) => prev + 1);
-                                       }
-                                    }}
-                                 >
-                                    +
-                                 </button>
-                              </div>
-                           </div>
-                           <div>
-                              <button className="uppercase w-full bg-main_color text-white px-[15px] py-[10px]">
-                                 Add to cart
-                              </button>
-                           </div>
-                        </form>
+                                    {item}
+                                 </li>
+                              ))}
+                           </ul>
+                        </div>
+                        <div className="flex items-center gap-4 mb-[20px]">
+                           <label className="font-semibold"> Color</label>
+                           <span>{product.color}</span>
+                        </div>
+                        <QuantityForm
+                           min={1}
+                           quantity={quantity}
+                           max={product.quantity}
+                           increase={handleIncrease}
+                           decrease={handleDecrease}
+                           setQuantity={handleChangeQuantity}
+                        />
+                        <div>
+                           <button
+                              className="uppercase w-full bg-main_color text-white px-[15px] py-[10px]"
+                              onClick={handleAddToCart}
+                           >
+                              Add to cart
+                           </button>
+                        </div>
                      </div>
                      <div>
                         <ul>
