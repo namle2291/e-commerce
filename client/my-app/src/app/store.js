@@ -20,7 +20,7 @@ const commonConfig = {
 
 const userConfig = {
    ...commonConfig,
-   whitelist: ['token', 'isLogged'],
+   whitelist: ['token', 'isLogged', 'currentCart'],
 };
 
 const appConfig = {

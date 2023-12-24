@@ -29,6 +29,15 @@ export const createProduct = (payload) =>
          'Content-Type': 'multipart/form-data',
       },
    });
+export const createProductVariant = (payload) =>
+   httpRequest({
+      url: '/products/variant',
+      method: 'put',
+      data: payload,
+      headers: {
+         'Content-Type': 'multipart/form-data',
+      },
+   });
 
 export const updateProduct = (id, payload) =>
    httpRequest({

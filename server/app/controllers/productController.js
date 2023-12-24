@@ -100,6 +100,27 @@ class productController {
       next(error);
     }
   }
+  async createVariant(req, res, next) {
+    try {
+      if (Object.keys(req.body).length <= 0) throw new Error("Missing inputs!");
+      // Tạo slug theo title
+      const { pid, title, color, price } = req.body;
+
+      const thumb = req?.files?.thumb[0]?.path;
+      const images = req?.files?.images.map((el) => el.path);
+
+      const product = await Product.findByIdAndUpdate(pid, {
+        $push: { variants: { title, color, price, thumb, images } },
+      });
+
+      res.json({
+        success: product ? true : false,
+        message: product ? "Create variant success!" : "Create variant fail!",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   async update(req, res, next) {
     try {
       const { pid } = req.params;
@@ -173,11 +194,11 @@ class productController {
     try {
       const { pid } = req.params;
       if (!pid) throw new Error("Missing product id!");
-      
-      const product = await Product.findOneDeleted({_id: pid});
+
+      const product = await Product.findOneDeleted({ _id: pid });
 
       product.restore();
-      
+
       res.json({
         success: product ? true : false,
         product,

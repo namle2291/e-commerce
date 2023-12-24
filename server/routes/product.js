@@ -7,6 +7,15 @@ const uploadCLD = require("../app/config/cloudinary.config");
 
 // Routes
 router.put("/raiting", verifyAccessToken, productController.raiting);
+router.put(
+  "/variant",
+  verifyAccessToken,
+  uploadCLD.fields([
+    { name: "thumb", maxCount: 1 },
+    { name: "images", maxCount: 10 },
+  ]),
+  productController.createVariant
+);
 // delete
 router.get(
   "/recycle-bin",

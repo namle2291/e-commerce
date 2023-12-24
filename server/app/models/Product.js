@@ -64,6 +64,15 @@ var productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    variants: [
+      {
+        title: { type: String },
+        color: { type: String },
+        thumb: { type: String },
+        price: { type: Number },
+        images: { type: Array },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -72,7 +81,7 @@ var productSchema = new mongoose.Schema(
 
 productSchema.plugin(mongoose_delete, {
   deletedAt: true,
-  overrideMethods: 'all',
+  overrideMethods: "all",
 });
 
 //Export the model

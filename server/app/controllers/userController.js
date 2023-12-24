@@ -408,12 +408,15 @@ class userController {
     try {
       const { _id } = req.user;
 
-      const { pid, quantity = 1, color } = req.body;
-      if (!pid || !color) throw new Error("Missing inputs!");
+      const { pid, quantity = 1, color, price, thumb, title } = req.body;
+
+      if (!(pid && color && price && thumb && title))
+        throw new Error("Missing inputs!");
 
       const user = await User.findById(_id);
+
       const productExist = user?.cart?.find(
-        (el) => el.product.toString() === pid
+        (el) => el.product.toString() === pid && el.color.toString() === color
       );
 
       if (productExist) {
@@ -440,7 +443,11 @@ class userController {
           const product = await Product.findById(pid);
           const response = await User.findByIdAndUpdate(
             { _id, cart: { $elemMatch: { product: pid } } },
-            { $push: { cart: { product, quantity, color } } },
+            {
+              $push: {
+                cart: { product, quantity, color, price, thumb, title },
+              },
+            },
             { new: true }
           ).select("cart");
           res.json({
@@ -453,7 +460,9 @@ class userController {
         const product = await Product.findById(pid);
         const response = await User.findByIdAndUpdate(
           _id,
-          { $push: { cart: { product, quantity, color } } },
+          {
+            $push: { cart: { product, quantity, color, price, thumb, title } },
+          },
           { new: true }
         );
         res.json({
@@ -468,13 +477,13 @@ class userController {
   async removeCart(req, res, next) {
     try {
       const { _id } = req.user;
-      const { pid } = req.body;
+      const { pid, color } = req.body;
 
-      if (!pid) throw new Error("Missing inputs!");
+      if (!pid && !color) throw new Error("Missing inputs!");
 
       const user = await User.findByIdAndUpdate(_id, {
         $pull: {
-          cart: { product: pid },
+          cart: { product: pid, color },
         },
       });
 

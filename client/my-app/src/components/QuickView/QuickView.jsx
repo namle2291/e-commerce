@@ -43,6 +43,13 @@ function QuickView() {
 
    const handleAddToCart = () => {
       if (userInfo) {
+         if (quantity > productInfo.quantity) {
+            messageApi.open({
+               type: 'warning',
+               content: 'Quanity invalid!',
+            });
+            return;
+         }
          updateCart({
             pid: productInfo?._id,
             quantity,

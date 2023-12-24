@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { formatPrice } from '../../utils/formatPrice';
 import { removeCartItem } from '../../apis/userApi';
-import { getCurrent } from '../../app/reducers/userReducer';
+import { getCurrent, updateCart } from '../../app/reducers/userReducer';
 import { message } from 'antd';
+import CartItem from '../../components/Common/CartItem';
+import { formatPrice } from '../../utils/formatPrice';
 function Cart() {
+   const { currentCart } = useSelector((state) => state.user);
    const [messageApi, contextHolder] = message.useMessage();
-   const { userInfo } = useSelector((state) => state.user);
 
    const dispatch = useDispatch();
 
-   const handleRemove = (id) => {
-      removeCartItem({ pid: id })
+   const handleRemove = (id, color) => {
+      removeCartItem({ pid: id, color })
          .then((res) => {
             if (res.success) {
                dispatch(getCurrent());
@@ -26,6 +26,10 @@ function Cart() {
          .catch((err) => {});
    };
 
+   const handleUpdateCart = (quantity, pid, color) => {
+      dispatch(updateCart({ quantity, pid, color }));
+   };
+
    return (
       <div className="mb-5">
          {contextHolder}
@@ -33,7 +37,7 @@ function Cart() {
             <Breadcrumb category="YOUR CART" />
          </div>
          <div className="wrapper">
-            {userInfo?.cart.length > 0 ? (
+            {currentCart?.length > 0 ? (
                <>
                   <div className="border">
                      <div className="grid grid-cols-12 gap-4 py-4 border-b px-[20px]">
@@ -43,87 +47,35 @@ function Cart() {
                            <span>TOTAL</span>
                         </div>
                      </div>
-                     {userInfo?.cart?.map((el, index) => (
-                        <div
+                     {currentCart.map((el, index) => (
+                        <CartItem
+                           changeQuantity={handleUpdateCart}
+                           el={el}
                            key={index}
-                           className="grid grid-cols-12 gap-4 py-4 border-b px-[20px]"
-                        >
-                           <div className="col-span-7">
-                              <div className="flex items-center">
-                                 <div className="w-[150px] h-[150px]">
-                                    <img
-                                       src={el.product?.thumb}
-                                       className="object-contain w-full h-full"
-                                       alt={el.product?.title}
-                                    />
-                                 </div>
-                                 <div className="pl-[20px]">
-                                    <Link to={`/product/${el.product?._id}`}>
-                                       {el.product?.title}
-                                    </Link>
-                                    <p className="text-gray-500">
-                                       {el.product?.color}
-                                    </p>
-                                    <p
-                                       className="text-sm text-red-500 cursor-pointer"
-                                       onClick={() =>
-                                          handleRemove(el.product._id)
-                                       }
-                                    >
-                                       Remove
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div className="col-span-5 flex items-center justify-between">
-                              <div>
-                                 <div className="relative w-[100px]">
-                                    <button
-                                       type="button"
-                                       className="absolute border-r-2 h-full w-[25px] hover:bg-gray-300"
-                                       onClick={() => {
-                                          //   if (quantity > 1) {
-                                          //      setQuantity((prev) => prev - 1);
-                                          //   }
-                                       }}
-                                    >
-                                       -
-                                    </button>
-                                    <input
-                                       type="text"
-                                       min={1}
-                                       value={el.quantity}
-                                       max={el.product?.quantity}
-                                       className="w-full py-[5px] px-[25px] text-center outline-none"
-                                       onChange={() => {}}
-                                    />
-                                    <button
-                                       type="button"
-                                       className="absolute border-l-2 right-0 h-full w-[25px] hover:bg-gray-300"
-                                       onClick={() => {
-                                          //   if (quantity < el.product.quantity) {
-                                          //      setQuantity((prev) => prev + 1);
-                                          //   }
-                                       }}
-                                    >
-                                       +
-                                    </button>
-                                 </div>
-                              </div>
-                              <div>{formatPrice(el.product?.price)} VND</div>
-                           </div>
-                        </div>
+                           removeItem={handleRemove}
+                        />
                      ))}
                   </div>
                </>
             ) : (
                <>
-                  <p className='text-center text-gray-500'>No items in cart!</p>
+                  <p className="text-center text-gray-500">No items in cart!</p>
                </>
             )}
+            <div className="flex justify-end">
+               <span>Sub total:</span>
+               <span className="ml-2">
+                  {formatPrice(
+                     currentCart.reduce((sum, el) => {
+                        return +el.quantity * +el.price + sum;
+                     }, 0)
+                  )}
+                  VND
+               </span>
+            </div>
          </div>
       </div>
    );
 }
 
-export default Cart;
+export default memo(Cart);

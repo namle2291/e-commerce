@@ -56,6 +56,8 @@ function ProductDetail() {
    const [productImage, setProductImage] = useState('');
    const [quantity, setQuantity] = useState(1);
    const [messageApi, contextHolder] = message.useMessage();
+   const [colorActived, setColorActived] = useState(null);
+   const priceRef = useRef();
 
    const dispatch = useDispatch();
 
@@ -68,6 +70,10 @@ function ProductDetail() {
             if (res) {
                setProduct(res.product);
                setProductImage(res.product.thumb);
+               priceRef?.current?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center'
+               });
             }
          })
          .catch((err) => {
@@ -89,9 +95,19 @@ function ProductDetail() {
 
    const handleAddToCart = () => {
       if (userInfo) {
+         if (quantity > product.quantity) {
+            messageApi.open({
+               type: 'warning',
+               content: 'Quanity invalid!',
+            });
+            return;
+         }
          updateCart({
             pid: product?._id,
             quantity,
+            title: product.title,
+            price: product.price,
+            thumb: product.thumb,
             color: product?.color || 'BLACK',
          })
             .then((res) => {
@@ -110,6 +126,19 @@ function ProductDetail() {
          type: 'warning',
          content: 'Please login!',
       });
+   };
+
+   const handleChooseColor = (item) => {
+      setColorActived(item._id);
+      setProduct((prev) => ({
+         ...prev,
+         title: item.title,
+         price: item.price,
+         color: item.color,
+         thumb: item.thumb,
+         images: item.images,
+      }));
+      setProductImage(item.thumb);
    };
 
    return (
@@ -162,18 +191,18 @@ function ProductDetail() {
                   {/* Product info */}
                   <div className="flex justify-between flex-1 pl-[45px]">
                      <div className="flex-1">
-                        <div className="mb-[20px]">
+                        <div className="mb-[20px]" ref={priceRef}>
                            <span className="text-[30px] font-semibold">
-                              {formatPrice(product.price)} VND
+                              {formatPrice(product?.price)} VND
                            </span>
                         </div>
                         <div className="flex gap-2 items-center">
                            <Star
-                              totalRaitings={product.totalRaitings}
+                              totalRaitings={product?.totalRaitings}
                               fs={18}
                            />
                            <span className="text-[14px] text-gray-500">
-                              {product.raitings.length} review
+                              {product?.raitings.length} review
                            </span>
                         </div>
                         <div className="mt-[20px] mb-[20px]">
@@ -188,14 +217,29 @@ function ProductDetail() {
                               ))}
                            </ul>
                         </div>
-                        <div className="flex items-center gap-4 mb-[20px]">
-                           <label className="font-semibold"> Color</label>
-                           <span>{product.color}</span>
-                        </div>
+                        {product?.variants.length > 0 && (
+                           <div className="flex items-center gap-4 mb-[20px]">
+                              <label className="font-semibold"> Color</label>
+                              <div className="flex gap-2">
+                                 {product?.variants?.map((el) => (
+                                    <span
+                                       key={el._id}
+                                       className={`border px-3 py-2 cursor-pointer ${
+                                          el._id === colorActived &&
+                                          'border-red-600'
+                                       }`}
+                                       onClick={() => handleChooseColor(el)}
+                                    >
+                                       {el.color}
+                                    </span>
+                                 ))}
+                              </div>
+                           </div>
+                        )}
                         <QuantityForm
                            min={1}
                            quantity={quantity}
-                           max={product.quantity}
+                           max={product?.quantity}
                            increase={handleIncrease}
                            decrease={handleDecrease}
                            setQuantity={handleChangeQuantity}

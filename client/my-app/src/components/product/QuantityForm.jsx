@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 function QuantityForm({
    max,
@@ -7,12 +7,14 @@ function QuantityForm({
    setQuantity,
    increase,
    decrease,
+   showLabel = true,
 }) {
    return (
       <div className="flex items-center gap-4 mb-[20px]">
-         <label className="font-semibold"> Quantity</label>
+         {showLabel && <label className="font-semibold"> Quantity</label>}
          <div className="relative w-[100px]">
             <button
+               disabled={quantity === 1}
                type="button"
                className="absolute border-r-2 h-full w-[25px] hover:bg-gray-300"
                onClick={() => {
@@ -24,6 +26,7 @@ function QuantityForm({
                -
             </button>
             <input
+               required
                type="text"
                min={min}
                value={quantity}
@@ -32,6 +35,7 @@ function QuantityForm({
                onChange={(e) => setQuantity(e.target.value)}
             />
             <button
+               disabled={quantity === max}
                type="button"
                className="absolute border-l-2 right-0 h-full w-[25px] hover:bg-gray-300"
                onClick={() => {
@@ -47,4 +51,4 @@ function QuantityForm({
    );
 }
 
-export default QuantityForm;
+export default memo(QuantityForm);
