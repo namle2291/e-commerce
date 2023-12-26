@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const userController = require('../app/controllers/userController');
+const userController = require("../app/controllers/userController");
 // Middlewares
 const verifyAccessToken = require("../app/middlewares/verifyAccessToken");
 const isAdmin = require("../app/middlewares/isAdmin");
@@ -12,8 +12,9 @@ router.post("/logout", userController.logout);
 router.get("/current", verifyAccessToken, userController.getCurrentUser);
 router.put("/current", verifyAccessToken, userController.updateCurrentUser);
 router.put("/address", verifyAccessToken, userController.updateAddress);
-router.put("/cart", verifyAccessToken, userController.updateCart);
+router.put("/cart", verifyAccessToken, userController.addToCart);
 router.put("/cart/remove", verifyAccessToken, userController.removeCart);
+router.put("/cart/update", verifyAccessToken, userController.updateCart);
 // Reset password
 router.get("/refresh-token", userController.refreshToken);
 router.post("/forgot-password", userController.forgotPassword);
@@ -21,7 +22,17 @@ router.put("/reset-password", userController.resetPassword);
 // Get all user
 router.get("/", userController.getAll);
 // Update user by admin
-router.put("/:uid", verifyAccessToken,isAdmin, userController.updateUserByAdmin);
-router.delete("/:uid", verifyAccessToken,isAdmin, userController.deleteUserByAdmin);
+router.put(
+  "/:uid",
+  verifyAccessToken,
+  isAdmin,
+  userController.updateUserByAdmin
+);
+router.delete(
+  "/:uid",
+  verifyAccessToken,
+  isAdmin,
+  userController.deleteUserByAdmin
+);
 // Exports
 module.exports = router;

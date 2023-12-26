@@ -104,13 +104,13 @@ class productController {
     try {
       if (Object.keys(req.body).length <= 0) throw new Error("Missing inputs!");
       // Tạo slug theo title
-      const { pid, title, color, price } = req.body;
+      const { pid, title, color, price, quantity } = req.body;
 
       const thumb = req?.files?.thumb[0]?.path;
       const images = req?.files?.images.map((el) => el.path);
 
       const product = await Product.findByIdAndUpdate(pid, {
-        $push: { variants: { title, color, price, thumb, images } },
+        $push: { variants: { title, color, price, quantity, thumb, images } },
       });
 
       res.json({

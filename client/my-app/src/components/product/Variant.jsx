@@ -50,6 +50,7 @@ function Variant({ pid, onShow }) {
       const formData = new FormData();
       formData.append('pid', pid);
       formData.append('title', data.title);
+      formData.append('quantity', data.quantity);
       formData.append('color', data.color);
       formData.append('price', data.price);
       formData.append('thumb', imageFile);
@@ -84,6 +85,20 @@ function Variant({ pid, onShow }) {
                            id="title"
                            placeholder="Enter Title"
                            label="Title"
+                        />
+                     )}
+                  />
+                  <Controller
+                     name="quantity"
+                     control={control}
+                     rules={{ required: 'Required fill!' }}
+                     render={({ field }) => (
+                        <InputField
+                           errors={errors}
+                           field={field}
+                           id="quantity"
+                           placeholder="Enter Quantity"
+                           label="Quantity"
                         />
                      )}
                   />

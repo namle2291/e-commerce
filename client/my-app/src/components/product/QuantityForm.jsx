@@ -10,7 +10,7 @@ function QuantityForm({
    showLabel = true,
 }) {
    return (
-      <div className="flex items-center gap-4 mb-[20px]">
+      <div className="flex items-center gap-4">
          {showLabel && <label className="font-semibold"> Quantity</label>}
          <div className="relative w-[100px]">
             <button
@@ -27,7 +27,7 @@ function QuantityForm({
             </button>
             <input
                required
-               type="text"
+               type="number"
                min={min}
                value={quantity}
                max={max}

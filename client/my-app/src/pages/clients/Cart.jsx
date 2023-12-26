@@ -1,11 +1,13 @@
 import React, { memo, useCallback } from 'react';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeCartItem } from '../../apis/userApi';
+import { removeCartItem, updateCurrentCart } from '../../apis/userApi';
 import { getCurrent, updateCart } from '../../app/reducers/userReducer';
 import { message } from 'antd';
 import CartItem from '../../components/Common/CartItem';
 import { formatPrice } from '../../utils/formatPrice';
+import { toast } from 'react-toastify';
+
 function Cart() {
    const { currentCart } = useSelector((state) => state.user);
    const [messageApi, contextHolder] = message.useMessage();
@@ -23,12 +25,39 @@ function Cart() {
                });
             }
          })
-         .catch((err) => {});
+         .catch((err) => {
+            console.log(err);
+         });
    };
 
-   const handleUpdateCart = (quantity, pid, color) => {
-      dispatch(updateCart({ quantity, pid, color }));
+   const handleUpdateCart = () => {
+      const payload = currentCart.map((el) => ({
+         product: el.product._id,
+         color: el.color,
+         title: el.title,
+         thumb: el.thumb,
+         price: +el.price,
+         quantity: +el.quantity,
+         stock: +el.stock,
+      }));
+      updateCurrentCart(payload)
+         .then((res) => {
+            if (res.success) {
+               dispatch(getCurrent());
+               toast.success(res.message);
+            }
+         })
+         .catch((err) => {
+            console.log(err);
+         });
    };
+
+   const handleChangeQuantity = useCallback(
+      (quantity, pid, color) => {
+         dispatch(updateCart({ quantity, pid, color }));
+      },
+      [currentCart]
+   );
 
    return (
       <div className="mb-5">
@@ -43,18 +72,48 @@ function Cart() {
                      <div className="grid grid-cols-12 gap-4 py-4 border-b px-[20px]">
                         <div className="col-span-7"></div>
                         <div className="col-span-5 flex items-center justify-between">
-                           <span>QUANTITY</span>
-                           <span>TOTAL</span>
+                           <span className="font-semibold">QUANTITY</span>
+                           <span className="font-semibold">TOTAL</span>
                         </div>
                      </div>
                      {currentCart.map((el, index) => (
                         <CartItem
-                           changeQuantity={handleUpdateCart}
-                           el={el}
+                           changeQuantity={handleChangeQuantity}
+                           data={el}
                            key={index}
                            removeItem={handleRemove}
                         />
                      ))}
+                  </div>
+                  <div className="flex items-center justify-end mt-3">
+                     <span>Subtotal:</span>
+                     <span className="ml-2 text-lg font-semibold">
+                        {formatPrice(
+                           currentCart.reduce((sum, el) => {
+                              return el.quantity * el.price + sum;
+                           }, 0)
+                        )}
+                        {' VND'}
+                     </span>
+                  </div>
+                  <div className="mt-3">
+                     <p className="text-end text-gray-600">
+                        <i>
+                           Shipping, taxes, and discounts calculated at
+                           checkout.
+                        </i>
+                     </p>
+                     <div className="flex justify-end gap-2 mt-3">
+                        <button
+                           className="px-3 py-2 bg-black text-white"
+                           onClick={handleUpdateCart}
+                        >
+                           Update Cart
+                        </button>
+                        <button className="px-3 py-2 bg-red-600 text-white">
+                           Checkout
+                        </button>
+                     </div>
                   </div>
                </>
             ) : (
@@ -62,17 +121,6 @@ function Cart() {
                   <p className="text-center text-gray-500">No items in cart!</p>
                </>
             )}
-            <div className="flex justify-end">
-               <span>Sub total:</span>
-               <span className="ml-2">
-                  {formatPrice(
-                     currentCart.reduce((sum, el) => {
-                        return +el.quantity * +el.price + sum;
-                     }, 0)
-                  )}
-                  VND
-               </span>
-            </div>
          </div>
       </div>
    );

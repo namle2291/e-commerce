@@ -72,7 +72,7 @@ function ProductDetail() {
                setProductImage(res.product.thumb);
                priceRef?.current?.scrollIntoView({
                   behavior: 'smooth',
-                  block: 'center'
+                  block: 'center',
                });
             }
          })
@@ -106,6 +106,7 @@ function ProductDetail() {
             pid: product?._id,
             quantity,
             title: product.title,
+            stock: product.quantity,
             price: product.price,
             thumb: product.thumb,
             color: product?.color || 'BLACK',
@@ -134,6 +135,7 @@ function ProductDetail() {
          ...prev,
          title: item.title,
          price: item.price,
+         quantity: item.quantity,
          color: item.color,
          thumb: item.thumb,
          images: item.images,
@@ -244,7 +246,7 @@ function ProductDetail() {
                            decrease={handleDecrease}
                            setQuantity={handleChangeQuantity}
                         />
-                        <div>
+                        <div className='mt-4'>
                            <button
                               className="uppercase w-full bg-main_color text-white px-[15px] py-[10px]"
                               onClick={handleAddToCart}

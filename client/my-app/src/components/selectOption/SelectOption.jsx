@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 
 import { IoEyeOutline } from 'react-icons/io5';
 import { BsCart, BsCartCheck } from 'react-icons/bs';
@@ -17,7 +17,14 @@ function SelectOption({ product, justify = 'center' }) {
 
    const handleAddToCart = () => {
       if (userInfo) {
-         updateCart({ pid: product?._id, color: product?.color || 'BLACK' })
+         updateCart({
+            pid: product?._id,
+            color: product?.color || 'BLACK',
+            price: product?.price,
+            thumb: product?.thumb,
+            title: product?.title,
+            stock: product?.quantity,
+         })
             .then((res) => {
                messageApi.open({
                   type: 'success',

@@ -46,6 +46,7 @@ const userSchema = new Schema(
         thumb: { type: String },
         price: { type: Number },
         quantity: { type: Number },
+        stock: { type: Number },
       },
     ],
     wishlist: [

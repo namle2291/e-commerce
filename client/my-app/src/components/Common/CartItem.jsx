@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { formatPrice } from '../../utils/formatPrice';
 import QuantityForm from '../Product/QuantityForm';
 
-function CartItem({ el, removeItem, changeQuantity }) {
+function CartItem({ data, removeItem, changeQuantity }) {
    const [quantity, setQuantity] = useState(1);
 
    useEffect(() => {
-      changeQuantity && changeQuantity(quantity, el.product._id, el.color);
+      changeQuantity(quantity, data.product._id, data.color);
    }, [quantity]);
+
+   useEffect(() => {
+      if (data.quantity) setQuantity(data.quantity);
+   }, []);
+
 
    return (
       <div className="grid grid-cols-12 gap-4 py-4 border-b px-[20px]">
@@ -16,17 +21,17 @@ function CartItem({ el, removeItem, changeQuantity }) {
             <div className="flex items-center">
                <div className="w-[150px] h-[150px]">
                   <img
-                     src={el?.thumb}
+                     src={data?.thumb}
                      className="object-contain w-full h-full"
-                     alt={el?.title}
+                     alt={data?.title}
                   />
                </div>
                <div className="pl-[20px]">
-                  <Link to={`/product/${el.product?._id}`}>{el.title}</Link>
-                  <p className="text-gray-500">{el?.color}</p>
+                  <Link to={`/product/${data.product?._id}`}>{data.title}</Link>
+                  <p className="text-gray-500">{data?.color}</p>
                   <p
                      className="text-sm text-red-500 cursor-pointer"
-                     onClick={() => removeItem(el.product._id, el.color)}
+                     onClick={() => removeItem(data.product._id, data.color)}
                   >
                      Remove
                   </p>
@@ -36,15 +41,15 @@ function CartItem({ el, removeItem, changeQuantity }) {
          <div className="col-span-5 flex items-center justify-between">
             <div>
                <QuantityForm
-                  max={el.product.quantity}
+                  max={data.stock}
                   quantity={quantity}
                   setQuantity={setQuantity}
                   increase={(num) => setQuantity(num)}
                   decrease={(num) => setQuantity(num)}
-                  showLabel={false}
+                  showLabdata={false}
                />
             </div>
-            <div>{formatPrice(quantity * el?.price)} VND</div>
+            <div>{formatPrice(quantity * data?.price)} VND</div>
          </div>
       </div>
    );

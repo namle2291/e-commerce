@@ -70,6 +70,7 @@ var productSchema = new mongoose.Schema(
         color: { type: String },
         thumb: { type: String },
         price: { type: Number },
+        quantity: { type: Number },
         images: { type: Array },
       },
     ],

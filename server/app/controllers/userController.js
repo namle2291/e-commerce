@@ -404,11 +404,11 @@ class userController {
       next(error);
     }
   }
-  async updateCart(req, res, next) {
+  async addToCart(req, res, next) {
     try {
       const { _id } = req.user;
 
-      const { pid, quantity = 1, color, price, thumb, title } = req.body;
+      const { pid, quantity = 1, color, price, thumb, title, stock } = req.body;
 
       if (!(pid && color && price && thumb && title))
         throw new Error("Missing inputs!");
@@ -445,7 +445,7 @@ class userController {
             { _id, cart: { $elemMatch: { product: pid } } },
             {
               $push: {
-                cart: { product, quantity, color, price, thumb, title },
+                cart: { product, quantity, color, price, thumb, title, stock },
               },
             },
             { new: true }
@@ -461,7 +461,9 @@ class userController {
         const response = await User.findByIdAndUpdate(
           _id,
           {
-            $push: { cart: { product, quantity, color, price, thumb, title } },
+            $push: {
+              cart: { product, quantity, color, price, thumb, title, stock },
+            },
           },
           { new: true }
         );
@@ -470,6 +472,25 @@ class userController {
           cart: response.cart,
         });
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+  async updateCart(req, res, next) {
+    try {
+      const { _id } = req.user;
+
+      if (!req.body) throw new Error("Missing inputs!");
+
+      const user = await User.findByIdAndUpdate(_id, {
+        cart: req.body,
+      });
+
+      res.json({
+        success: user ? true : false,
+        message: user ? "Update cart success!" : "Update cart fail!",
+        cart: user ? user.cart : [],
+      });
     } catch (error) {
       next(error);
     }
