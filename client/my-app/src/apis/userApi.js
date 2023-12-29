@@ -4,6 +4,7 @@ const getUsers = async (params) => {
    const response = await httpRequest.get('/users', { params });
    return response;
 };
+
 const updateUser = async (id, payload) => {
    const response = await httpRequest({
       url: '/users/' + id,
@@ -12,6 +13,19 @@ const updateUser = async (id, payload) => {
    });
    return response;
 };
+
+const updateCurrentUser = async (payload) => {
+   const response = await httpRequest({
+      url: '/users/current',
+      method: 'put',
+      data: payload,
+      headers: {
+         'Content-Type': 'multipart/form-data',
+      },
+   });
+   return response;
+};
+
 const updateCart = async (payload) => {
    const response = await httpRequest({
       url: '/users/cart',
@@ -51,4 +65,5 @@ export {
    updateCart,
    removeCartItem,
    updateCurrentCart,
+   updateCurrentUser
 };

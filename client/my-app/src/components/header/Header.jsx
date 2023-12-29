@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import logo from '../../assets/img/logo.png';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from 'app/reducers/userReducer';
 
 export default function Header() {
    const { userInfo } = useSelector((state) => state.user);
+   const [showProfile, setShowProfile] = useState(false);
+   const dispatch = useDispatch();
+   const profileRef = useRef();
+
+   useEffect(() => {
+      const handleClickoutOptions = (e) => {
+         if (!profileRef?.current?.contains(e.target)) setShowProfile(false);
+      };
+
+      document.addEventListener('click', handleClickoutOptions);
+
+      return () => {
+         document.removeEventListener('click', handleClickoutOptions);
+      };
+   }, []);
+
    return (
       <div className="wrapper">
          <div className="py-[35px] flex justify-between">
@@ -58,22 +75,44 @@ export default function Header() {
                         </Link>
                      </li>
                      {userInfo && (
-                        <li className="ml-[20px] border-l flex-1 h-full flex justify-center items-center">
-                           <Link
-                              to={
-                                 userInfo?.role === 229
-                                    ? '/admin/dashboard'
-                                    : '/account'
-                              }
-                              className="flex items-center"
-                           >
-                              <img
-                                 className="w-[35px] rounded-full"
-                                 src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-                                 alt=""
-                              />
-                              <span>Profile</span>
-                           </Link>
+                        <li
+                           ref={profileRef}
+                           className="ml-[20px] border-l flex-1 h-full flex justify-center items-center relative cursor-pointer"
+                           onClick={() => setShowProfile((prev) => !prev)}
+                        >
+                           <img
+                              className="w-[35px] rounded-full"
+                              src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                              alt=""
+                           />
+                           <span>Profile</span>
+                           {showProfile && (
+                              <div
+                                 className="absolute flex flex-col border top-full left-0 bg-slate-100 z-50 w-[200px]"
+                                 onClick={(e) => e.stopPropagation()}
+                              >
+                                 <Link
+                                    to={'/member/personal'}
+                                    className="px-3 py-2 cursor-pointer"
+                                 >
+                                    Personal
+                                 </Link>
+                                 {userInfo.role === 229 && (
+                                    <Link
+                                       to={'/admin/dashboard'}
+                                       className="px-3 py-2 cursor-pointer"
+                                    >
+                                       Admin workspace
+                                    </Link>
+                                 )}
+                                 <div
+                                    className="px-3 py-2 cursor-pointer"
+                                    onClick={() => dispatch(logout())}
+                                 >
+                                    Logout
+                                 </div>
+                              </div>
+                           )}
                         </li>
                      )}
                   </ul>

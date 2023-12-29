@@ -16,6 +16,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import QuickView from './components/QuickView/QuickView';
+import Member from 'pages/clients/Member';
+import NotFound from 'pages/notfound/NotFound';
+import MemberLayout from 'components/layouts/MemberLayout/MemberLayout';
 
 function App() {
    const { isLogged } = useSelector((state) => state.user);
@@ -55,6 +58,17 @@ function App() {
                      </ProtectedRoute>
                   }
                />
+               <Route
+                  path="/member/*"
+                  element={
+                     <MemberLayout>
+                        <Routes>
+                           <Route path="/personal" element={<Member />} />
+                           <Route path="/*" element={<NotFound />} />
+                        </Routes>
+                     </MemberLayout>
+                  }
+               ></Route>
             </Routes>
          </Router>
          <QuickView />

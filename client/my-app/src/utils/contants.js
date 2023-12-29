@@ -1,7 +1,7 @@
+import { HeartOutlined, ShoppingCartOutlined, ShoppingOutlined } from '@ant-design/icons'
 import {
    AiOutlineDashboard,
    AiOutlineShop,
-   AiOutlineShopping,
    AiOutlineShoppingCart,
    AiOutlineUnorderedList,
    AiOutlineUser,
@@ -149,6 +149,37 @@ export const adminSidebars = [
             parent: 4,
          },
       ],
+   },
+]
+
+export const memberSidebars = [
+   {
+      id: 1,
+      title: 'Personal',
+      path: '/member/personal',
+      icon: <AiOutlineUser />,
+      type: 'normal',
+   },
+   {
+      id: 2,
+      title: 'My Cart',
+      path: '/member/my-cart',
+      icon: <ShoppingOutlined />,
+      type: 'normal',
+   },
+   {
+      id: 3,
+      title: 'My Wishlist',
+      path: '/member/my-wishlist',
+      icon: <HeartOutlined />,
+      type: 'normal',
+   },
+   {
+      id: 4,
+      title: 'Order Histories',
+      path: '/member/order-histories',
+      icon: <ShoppingCartOutlined />,
+      type: 'normal',
    },
 ]
 

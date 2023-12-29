@@ -233,17 +233,31 @@ class userController {
     try {
       const { _id } = req.user;
       // Lấy trường role ra khỏi request
-      const { role, ...userData } = req.body;
+      const { role, avatar, ...userData } = req.body;
+
+      const file = req.file?.path;
 
       if (Object.keys(userData).length <= 0) throw new Error("Missing inputs");
 
-      const user = await User.findByIdAndUpdate(_id, userData, {
-        new: true,
-      }).select("-password -role -refreshToken");
+      const user = await User.findByIdAndUpdate(
+        _id,
+        { ...userData, avatar: file },
+        {
+          new: true,
+        }
+      ).select("-password -role -refreshToken");
 
       res.json({
         success: user ? true : false,
-        user,
+        message: user
+          ? "Update infomation success!"
+          : "Update infomation fail!",
+        data: {
+          email: user?.email,
+          first_name: user?.first_name,
+          last_name: user?.last_name,
+          mobile: user?.mobile,
+        },
       });
     } catch (error) {
       next(error);

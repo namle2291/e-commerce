@@ -7,7 +7,7 @@ import NotFound from '../pages/notfound/NotFound';
 import ProductDetail from '../pages/clients/ProductDetail';
 import Login from '../pages/clients/Login';
 import VerifyEmail from '../pages/clients/VerifyEmail';
-import Account from '../pages/clients/Account';
+import Member from '../pages/clients/Member';
 import ResetPassword from '../pages/clients/ResetPassword';
 import ProductCategory from '../pages/clients/ProductCategory';
 import CategoryManager from '../pages/admin/CategoryManager';
@@ -16,10 +16,10 @@ import AddProduct from '../pages/admin/Product/AddProduct';
 import ProductDeleted from '../pages/admin/Product/ProductDeleted';
 import OrderManager from '../pages/admin/OrderManager';
 import UserManager from '../pages/admin/UserManager';
-
 import Dashboard from '../pages/admin/Dashboard';
 import UpdateProduct from '../pages/admin/Product/UpdateProduct';
 import Cart from '../pages/clients/Cart';
+import { MemberLayout } from 'components/layouts/MemberLayout/MemberLayout';
 
 const publicRouter = [
    {
@@ -46,11 +46,6 @@ const publicRouter = [
       path: '/reset-password/:token',
       layout: null,
       element: ResetPassword,
-   },
-   {
-      path: '/account',
-      layout: DefaultLayout,
-      element: Account,
    },
    {
       path: '/cart',
