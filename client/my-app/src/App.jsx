@@ -61,12 +61,14 @@ function App() {
                <Route
                   path="/member/*"
                   element={
-                     <MemberLayout>
-                        <Routes>
-                           <Route path="/personal" element={<Member />} />
-                           <Route path="/*" element={<NotFound />} />
-                        </Routes>
-                     </MemberLayout>
+                     <ProtectedRoute isLogged={isLogged}>
+                        <MemberLayout>
+                           <Routes>
+                              <Route path="/personal" element={<Member />} />
+                              <Route path="/*" element={<NotFound />} />
+                           </Routes>
+                        </MemberLayout>
+                     </ProtectedRoute>
                   }
                ></Route>
             </Routes>

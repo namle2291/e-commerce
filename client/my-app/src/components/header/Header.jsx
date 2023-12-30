@@ -77,18 +77,20 @@ export default function Header() {
                      {userInfo && (
                         <li
                            ref={profileRef}
-                           className="ml-[20px] border-l flex-1 h-full flex justify-center items-center relative cursor-pointer"
+                           className="ml-[20px] border-l pl-[5px] flex-1 h-full flex gap-2 justify-center items-center relative cursor-pointer"
                            onClick={() => setShowProfile((prev) => !prev)}
                         >
-                           <img
-                              className="w-[35px] rounded-full"
-                              src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-                              alt=""
-                           />
+                           <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
+                              <img
+                                 className="w-full h-full object-cover"
+                                 src={userInfo?.avatar}
+                                 alt="avatar"
+                              />
+                           </div>
                            <span>Profile</span>
                            {showProfile && (
                               <div
-                                 className="absolute flex flex-col border top-full left-0 bg-slate-100 z-50 w-[200px]"
+                                 className="absolute flex flex-col border top-full left-0 bg-slate-50 z-50 w-[200px]"
                                  onClick={(e) => e.stopPropagation()}
                               >
                                  <Link

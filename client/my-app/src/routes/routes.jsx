@@ -10,7 +10,7 @@ import VerifyEmail from '../pages/clients/VerifyEmail';
 import Member from '../pages/clients/Member';
 import ResetPassword from '../pages/clients/ResetPassword';
 import ProductCategory from '../pages/clients/ProductCategory';
-import CategoryManager from '../pages/admin/CategoryManager';
+import CategoryManager from '../pages/admin/Category/CategoryManager';
 import ProductManager from '../pages/admin/Product/ProductManager';
 import AddProduct from '../pages/admin/Product/AddProduct';
 import ProductDeleted from '../pages/admin/Product/ProductDeleted';

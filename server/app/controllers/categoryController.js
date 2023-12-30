@@ -5,7 +5,7 @@ const categoryData = require("../../data/category");
 class categoryController {
   async getAll(req, res, next) {
     try {
-      const query = Category.find().select("_id title brand thumb");
+      const query = Category.find();
 
       if (req.query.page && req.query.limit) {
         let page = +req.query.page || 1; // thêm dấu + convert sang number
@@ -28,11 +28,17 @@ class categoryController {
     try {
       if (!req.body.title) throw new Error("Missing inputs!");
 
+      if (req.file) {
+        req.body.thumb = req.file?.path;
+      }
+
       const category = await Category.create(req.body);
 
       res.json({
-        success: true,
-        category,
+        success: category ? true : false,
+        message: category
+          ? "Create category success!"
+          : "Create category success!",
       });
     } catch (error) {
       next(error);
@@ -44,13 +50,20 @@ class categoryController {
 
       if (!req.body.title) throw new Error("Missing inputs!");
 
+      if (req.file) {
+        req.body.thumb = req.file?.path;
+      }
+
       const category = await Category.findByIdAndUpdate(cid, req.body, {
         new: true,
       });
 
       res.json({
-        success: true,
+        success: category ? true : false,
         category,
+        message: category
+          ? `Category ${category.title} updated!`
+          : `Update fail!`,
       });
     } catch (error) {
       next(error);

@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import InputField from '../../../components/Input/InputField';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { geCategories } from '../../../apis/categoryApi';
+import { getCategories } from '../../../apis/categoryApi';
 import { Select, Spin } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -58,7 +58,7 @@ function AddProduct() {
    }, []);
 
    const fetchCategory = async () => {
-      const res = await geCategories();
+      const res = await getCategories();
       if (res.success) {
          setCategories(res.data);
       }
