@@ -34,6 +34,7 @@ const updateCart = async (payload) => {
    });
    return response;
 };
+
 const updateCurrentCart = async (payload) => {
    const response = await httpRequest({
       url: '/users/cart/update',
@@ -42,6 +43,7 @@ const updateCurrentCart = async (payload) => {
    });
    return response;
 };
+
 const removeCartItem = async (payload) => {
    const response = await httpRequest({
       url: '/users/cart/remove',
@@ -58,6 +60,15 @@ const deleteUser = async (id) => {
    return response;
 };
 
+const addToWishList = async (payload) => {
+   const response = await httpRequest({
+      url: '/users/wishlist',
+      method: 'put',
+      data: payload,
+   });
+   return response;
+};
+
 export {
    getUsers,
    updateUser,
@@ -65,5 +76,6 @@ export {
    updateCart,
    removeCartItem,
    updateCurrentCart,
-   updateCurrentUser
+   updateCurrentUser,
+   addToWishList
 };

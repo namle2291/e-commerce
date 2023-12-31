@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from 'react';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCartItem, updateCurrentCart } from '../../apis/userApi';
 import { getCurrent, updateCart } from '../../app/reducers/userReducer';
@@ -63,9 +62,6 @@ function Cart() {
       <div className="mb-5">
          {contextHolder}
          <div>
-            <Breadcrumb category="YOUR CART" />
-         </div>
-         <div className="wrapper">
             {currentCart?.length > 0 ? (
                <>
                   <div className="border">
@@ -118,7 +114,7 @@ function Cart() {
                </>
             ) : (
                <>
-                  <p className="text-center text-gray-500">No items in cart!</p>
+                  <p className="text-center text-gray-500">No products in cart!</p>
                </>
             )}
          </div>

@@ -6,8 +6,8 @@ import { memberSidebars } from '../../utils/contants';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 
-const activedStyle = 'bg-slate-50';
-const NotActivedStyle = 'hover:bg-slate-50 transition-all';
+const activedStyle = 'bg-slate-200';
+const NotActivedStyle = 'hover:bg-slate-200 transition-all';
 
 function MemberSideBar() {
    const { userInfo } = useSelector((state) => state.user);

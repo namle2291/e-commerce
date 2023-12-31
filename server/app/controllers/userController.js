@@ -221,7 +221,8 @@ class userController {
 
     const user = await User.findById(_id)
       .select("-password -refreshToken")
-      .populate("cart.product");
+      .populate("cart.product")
+      .populate("wishlist.product");
 
     res.json({
       success: user ? true : false,
@@ -488,6 +489,43 @@ class userController {
       }
     } catch (error) {
       next(error);
+    }
+  }
+  async addToWishList(req, res) {
+    const { pid } = req.body;
+
+    const { _id } = req.user;
+
+    if (!pid) throw new Error("Product id not found!");
+
+    const user = await User.findById(_id);
+
+    const existsWishList = user?.wishlist?.find(
+      (el) => el.product.toString() === pid
+    );
+
+    if (existsWishList) {
+      const response = await User.findByIdAndUpdate(
+        _id,
+        {
+          $pull: { wishlist: { product: pid } },
+        },
+        { new: true }
+      );
+      res.json({
+        success: response ? true : false,
+      });
+    } else {
+      const response = await User.findByIdAndUpdate(
+        _id,
+        {
+          $push: { wishlist: { product: pid } },
+        },
+        { new: true }
+      );
+      res.json({
+        success: response ? true : false,
+      });
     }
   }
   async updateCart(req, res, next) {

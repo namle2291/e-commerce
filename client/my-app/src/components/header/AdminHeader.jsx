@@ -49,7 +49,17 @@ export default function AdminHeader() {
             {userInfo && (
                <div className="flex items-center gap-1">
                   <span className="text-[20px]">
-                     <AiOutlineUser />
+                     {userInfo?.avatar ? (
+                        <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
+                           <img
+                              className="w-full h-full object-cover"
+                              src={userInfo?.avatar}
+                              alt="avatar"
+                           />
+                        </div>
+                     ) : (
+                        <AiOutlineUser />
+                     )}
                   </span>
                   <span>
                      {userInfo?.first_name + ' ' + userInfo?.last_name}

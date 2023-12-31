@@ -59,7 +59,7 @@ export default function Header() {
                <div className="flex items-center pl-[20px] min-h-[40px] border-l">
                   <ul className="flex items-center justify-between h-full w-full">
                      <li className="h-full">
-                        <Link to="/cart" className="">
+                        <Link to="/member/my-cart" className="">
                            <span className="mr-[8px]">
                               <i
                                  className="fa fa-shopping-bag text-[20px] text-main_color"

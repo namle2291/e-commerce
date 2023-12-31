@@ -5,8 +5,8 @@ import { FaCaretDown, FaCaretLeft } from 'react-icons/fa';
 import { adminSidebars } from '../../utils/contants';
 import clsx from 'clsx';
 
-const activedStyle = 'bg-slate-50';
-const NotActivedStyle = 'hover:bg-slate-50 transition-all';
+const activedStyle = 'bg-slate-200';
+const NotActivedStyle = 'hover:bg-slate-200 transition-all';
 
 function AdminSideBar() {
    const [actived, setActived] = useState([]);

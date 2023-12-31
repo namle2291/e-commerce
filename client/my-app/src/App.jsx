@@ -19,63 +19,67 @@ import QuickView from './components/QuickView/QuickView';
 import Member from 'pages/clients/Member';
 import NotFound from 'pages/notfound/NotFound';
 import MemberLayout from 'components/layouts/MemberLayout/MemberLayout';
+import Cart from 'pages/clients/Cart';
+import WishList from 'pages/clients/WishList';
 
 function App() {
-   const { isLogged } = useSelector((state) => state.user);
-   return (
-      <div className="font-popin relative">
-         <ToastContainer />
-         <Router>
-            <Routes>
-               {publicRouter &&
-                  publicRouter.map((item, index) => {
-                     let Element = item.element;
-                     let Layout = item.layout;
+  const { isLogged } = useSelector((state) => state.user);
+  return (
+    <div className="font-popin relative">
+      <ToastContainer />
+      <Router>
+        <Routes>
+          {publicRouter &&
+            publicRouter.map((item, index) => {
+              let Element = item.element;
+              let Layout = item.layout;
 
-                     if (Layout) {
-                        Layout = item.layout;
-                     } else {
-                        Layout = Fragment;
-                     }
+              if (Layout) {
+                Layout = item.layout;
+              } else {
+                Layout = Fragment;
+              }
 
-                     return (
-                        <Route
-                           path={item.path}
-                           key={index}
-                           element={
-                              <Layout>
-                                 <Element />
-                              </Layout>
-                           }
-                        />
-                     );
-                  })}
-               <Route
-                  path="admin/*"
+              return (
+                <Route
+                  path={item.path}
+                  key={index}
                   element={
-                     <ProtectedRoute isLogged={isLogged}>
-                        <AdminLayout />
-                     </ProtectedRoute>
+                    <Layout>
+                      <Element />
+                    </Layout>
                   }
-               />
-               <Route
-                  path="/member/*"
-                  element={
-                     <ProtectedRoute isLogged={isLogged}>
-                        <MemberLayout>
-                           <Routes>
-                              <Route path="/personal" element={<Member />} />
-                              <Route path="/*" element={<NotFound />} />
-                           </Routes>
-                        </MemberLayout>
-                     </ProtectedRoute>
-                  }
-               ></Route>
-            </Routes>
-         </Router>
-         <QuickView />
-      </div>
-   );
+                />
+              );
+            })}
+          <Route
+            path="admin/*"
+            element={
+              <ProtectedRoute isLogged={isLogged}>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/member/*"
+            element={
+              <ProtectedRoute isLogged={isLogged}>
+                <MemberLayout>
+                  <Routes>
+                    <Route path="/personal" element={<Member />} />
+                    <Route path="/my-cart" element={<Cart />} />
+                    <Route path="/my-wishlist" element={<WishList />} />
+                    <Route path="/*" element={<NotFound />} />
+                  </Routes>
+                </MemberLayout>
+              </ProtectedRoute>
+            }
+          ></Route>
+        </Routes>
+      </Router>
+      <QuickView />
+    </div>
+  );
 }
 
 export default memo(App);

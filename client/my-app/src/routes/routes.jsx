@@ -48,11 +48,6 @@ const publicRouter = [
       element: ResetPassword,
    },
    {
-      path: '/cart',
-      layout: DefaultLayout,
-      element: Cart,
-   },
-   {
       path: '/product/:pid',
       layout: DefaultLayout,
       element: ProductDetail,

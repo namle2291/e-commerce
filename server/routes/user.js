@@ -17,11 +17,14 @@ router.put(
   uploadCLD.single("avatar"),
   userController.updateCurrentUser
 );
+// Cart
 router.get("/current", verifyAccessToken, userController.getCurrentUser);
 router.put("/address", verifyAccessToken, userController.updateAddress);
 router.put("/cart", verifyAccessToken, userController.addToCart);
 router.put("/cart/remove", verifyAccessToken, userController.removeCart);
 router.put("/cart/update", verifyAccessToken, userController.updateCart);
+// WishList
+router.put("/wishlist", verifyAccessToken, userController.addToWishList);
 // Reset password
 router.get("/refresh-token", userController.refreshToken);
 router.post("/forgot-password", userController.forgotPassword);
