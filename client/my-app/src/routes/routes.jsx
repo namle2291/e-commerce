@@ -7,7 +7,6 @@ import NotFound from '../pages/notfound/NotFound';
 import ProductDetail from '../pages/clients/ProductDetail';
 import Login from '../pages/clients/Login';
 import VerifyEmail from '../pages/clients/VerifyEmail';
-import Member from '../pages/clients/Member';
 import ResetPassword from '../pages/clients/ResetPassword';
 import ProductCategory from '../pages/clients/ProductCategory';
 import CategoryManager from '../pages/admin/Category/CategoryManager';
@@ -18,8 +17,6 @@ import OrderManager from '../pages/admin/OrderManager';
 import UserManager from '../pages/admin/UserManager';
 import Dashboard from '../pages/admin/Dashboard';
 import UpdateProduct from '../pages/admin/Product/UpdateProduct';
-import Cart from '../pages/clients/Cart';
-import { MemberLayout } from 'components/layouts/MemberLayout/MemberLayout';
 
 const publicRouter = [
    {

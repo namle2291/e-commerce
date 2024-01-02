@@ -55,7 +55,7 @@ const userSchema = new Schema(
       },
     ],
     address: {
-      type: Array,
+      type: String,
     },
     isBlocked: {
       type: Boolean,

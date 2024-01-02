@@ -21,6 +21,7 @@ import NotFound from 'pages/notfound/NotFound';
 import MemberLayout from 'components/layouts/MemberLayout/MemberLayout';
 import Cart from 'pages/clients/Cart';
 import WishList from 'pages/clients/WishList';
+import Checkout from 'pages/clients/Checkout';
 
 function App() {
   const { isLogged } = useSelector((state) => state.user);
@@ -74,7 +75,8 @@ function App() {
                 </MemberLayout>
               </ProtectedRoute>
             }
-          ></Route>
+          />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </Router>
       <QuickView />

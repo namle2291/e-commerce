@@ -8,50 +8,23 @@ class orderController {
       // Lấy ra id user
       const { _id } = req.user;
 
-      const { payment_intent, coupon } = req.body;
+      const { products, total, address } = req.body;
 
-      if (!payment_intent) throw new Error("Missing inputs!");
+      const order = await Order.create({
+        products,
+        total,
+        orderBy: _id,
+      });
 
-      // Tìm user và lấy cart
-      const userCart = await User.findById(_id)
-        .select("cart")
-        .populate("cart.product", "title price");
-
-      if (userCart.cart.length > 0) {
-        // Tính tổng tiền
-        let total = userCart?.cart?.reduce((sum, el) => {
-          return sum + el.product.price * el.quantity;
-        }, 0);
-
-        // Tính giảm giá nếu có
-        if (coupon) {
-          const findCoupon = await Coupon.findById(coupon);
-          total = total - (total * findCoupon.discount) / 100;
-        }
-
-        const order = await Order.create({
-          products: userCart.cart,
-          payment_intent,
-          total,
-          coupon,
-          orderBy: _id,
-        });
-
-        if (order) {
-          // Cập nhật lại trường cart thành rỗng
-          await User.findByIdAndUpdate(_id, { cart: [] });
-        }
-
-        res.json({
-          success: true,
-          order,
-        });
-      } else {
-        res.json({
-          success: false,
-          message: "No products in cart!",
-        });
+      if (order) {
+        // Cập nhật lại trường cart thành rỗng
+        await User.findByIdAndUpdate(_id, { address, cart: [] });
       }
+
+      res.json({
+        success: order ? true : false,
+        order,
+      });
     } catch (error) {
       next(error);
     }
