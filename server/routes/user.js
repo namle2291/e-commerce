@@ -19,6 +19,7 @@ router.put(
 );
 // Cart
 router.get("/current", verifyAccessToken, userController.getCurrentUser);
+router.get("/order-histories", verifyAccessToken, userController.getOrderHistories);
 router.put("/address", verifyAccessToken, userController.updateAddress);
 router.put("/cart", verifyAccessToken, userController.addToCart);
 router.put("/cart/remove", verifyAccessToken, userController.removeCart);

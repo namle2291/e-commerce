@@ -22,6 +22,7 @@ import MemberLayout from 'components/layouts/MemberLayout/MemberLayout';
 import Cart from 'pages/clients/Cart';
 import WishList from 'pages/clients/WishList';
 import Checkout from 'pages/clients/Checkout';
+import OrderHistory from 'pages/clients/OrderHistory';
 
 function App() {
   const { isLogged } = useSelector((state) => state.user);
@@ -70,6 +71,7 @@ function App() {
                     <Route path="/personal" element={<Member />} />
                     <Route path="/my-cart" element={<Cart />} />
                     <Route path="/my-wishlist" element={<WishList />} />
+                    <Route path="/order-histories" element={<OrderHistory />} />
                     <Route path="/*" element={<NotFound />} />
                   </Routes>
                 </MemberLayout>

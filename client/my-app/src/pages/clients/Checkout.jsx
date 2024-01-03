@@ -109,7 +109,7 @@ function Checkout() {
                 <PayPalButton
                   setIsSuccess={setIsSuccess}
                   amount={
-                    +formatPrice(
+                    +Math.round(
                       currentCart?.reduce((sum, el) => {
                         return el.quantity * el.price + sum;
                       }, 0) / 24300,
@@ -117,7 +117,7 @@ function Checkout() {
                   }
                   payload={{
                     products: currentCart,
-                    total: +formatPrice(
+                    total: +Math.round(
                       currentCart?.reduce((sum, el) => {
                         return el.quantity * el.price + sum;
                       }, 0) / 24300,

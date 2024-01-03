@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Order = require("../models/Order");
 const Product = require("../models/Product");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../../utils/sendMail");
@@ -227,6 +228,18 @@ class userController {
     res.json({
       success: user ? true : false,
       result: user ? user : "User not found!!!",
+    });
+  }
+  async getOrderHistories(req, res) {
+    const { _id } = req.user;
+
+    const order = await Order.find({ orderBy: _id }).populate(
+      "products.product"
+    );
+
+    res.json({
+      success: order ? true : false,
+      data: order ? order : "Orders not found!!!",
     });
   }
   // Cập nhật user hiện tại

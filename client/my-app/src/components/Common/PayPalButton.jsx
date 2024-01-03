@@ -44,6 +44,7 @@ function Button({ total, setIsSuccess, payload }) {
 }
 
 function PayPalButton({ amount, setIsSuccess, payload }) {
+  console.group(amount, payload);
   return (
     <PayPalScriptProvider options={paypalScriptOptions}>
       <Button total={amount} setIsSuccess={setIsSuccess} payload={payload} />
